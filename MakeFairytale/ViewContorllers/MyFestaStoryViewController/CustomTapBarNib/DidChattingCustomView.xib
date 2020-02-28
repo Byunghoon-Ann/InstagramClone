@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DidChattingCustomView" customModule="MakeFairytale" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DidChattingCustomCell" rowHeight="88" id="Hg3-OU-O8f" customClass="DidChattingCustomCell" customModule="MakeFairytale" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="88"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hg3-OU-O8f" id="5ah-Iv-13b">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="88"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="t4a-aW-esE">
+                        <rect key="frame" x="20" y="11" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="Aov-7L-BlD"/>
+                            <constraint firstAttribute="height" constant="50" id="bfV-KD-TvV"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="성함" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="75y-H7-Cve">
+                        <rect key="frame" x="17" y="62" width="56" height="16"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="마지막 메세지" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CAN-lD-qVI">
+                        <rect key="frame" x="84" y="11" width="71" height="37"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="37" id="nF1-X0-tNc"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="시간" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLL-mu-cA7">
+                        <rect key="frame" x="84" y="56" width="113" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="0Hy-op-jvD"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="75y-H7-Cve" firstAttribute="top" secondItem="t4a-aW-esE" secondAttribute="bottom" constant="1" id="2MP-w6-zyH"/>
+                    <constraint firstItem="PLL-mu-cA7" firstAttribute="top" secondItem="CAN-lD-qVI" secondAttribute="bottom" constant="8" id="2N1-CX-q73"/>
+                    <constraint firstItem="75y-H7-Cve" firstAttribute="centerX" secondItem="t4a-aW-esE" secondAttribute="centerX" id="31C-nW-IL3"/>
+                    <constraint firstItem="t4a-aW-esE" firstAttribute="top" secondItem="5ah-Iv-13b" secondAttribute="top" constant="11" id="5Ay-FY-O9d"/>
+                    <constraint firstItem="75y-H7-Cve" firstAttribute="width" secondItem="t4a-aW-esE" secondAttribute="width" constant="6" id="5VN-VB-5ao"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CAN-lD-qVI" secondAttribute="trailing" constant="217" id="9L4-3v-b1E"/>
+                    <constraint firstAttribute="bottom" secondItem="PLL-mu-cA7" secondAttribute="bottom" constant="11" id="Ml5-9b-tCh"/>
+                    <constraint firstItem="CAN-lD-qVI" firstAttribute="top" secondItem="5ah-Iv-13b" secondAttribute="top" constant="11" id="OTZ-bG-YwA"/>
+                    <constraint firstAttribute="trailing" secondItem="PLL-mu-cA7" secondAttribute="trailing" constant="217" id="f8R-d3-vVv"/>
+                    <constraint firstItem="t4a-aW-esE" firstAttribute="leading" secondItem="5ah-Iv-13b" secondAttribute="leading" constant="20" id="lmd-Nc-nyR"/>
+                    <constraint firstItem="CAN-lD-qVI" firstAttribute="leading" secondItem="t4a-aW-esE" secondAttribute="trailing" constant="14" id="pGD-RA-xsF"/>
+                    <constraint firstItem="PLL-mu-cA7" firstAttribute="leading" secondItem="75y-H7-Cve" secondAttribute="trailing" constant="11" id="tsv-jd-iF2"/>
+                    <constraint firstAttribute="bottom" secondItem="75y-H7-Cve" secondAttribute="bottom" constant="10" id="zSr-Rt-PKU"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lastMessage" destination="CAN-lD-qVI" id="bhO-A8-dOm"/>
+                <outlet property="nickNameLabel" destination="75y-H7-Cve" id="ke4-NT-qe4"/>
+                <outlet property="profileImageview" destination="t4a-aW-esE" id="sZp-Tx-YKe"/>
+                <outlet property="timeStamps" destination="PLL-mu-cA7" id="NKK-Yq-gZM"/>
+            </connections>
+            <point key="canvasLocation" x="115.94202898550725" y="-163.39285714285714"/>
+        </tableViewCell>
+    </objects>
+</document>
