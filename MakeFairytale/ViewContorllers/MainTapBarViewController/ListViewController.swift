@@ -100,7 +100,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       userProfileImageView.layer.cornerRadius = userProfileImageView.frame.height/2
    }
    
-   @IBAction func logoutBtn(_ sender: UIButton) {
+   @IBAction func sideBarButton(_ sender: UIButton) {
       if alertBadgeImageView.isHidden == false {
          alertBadgeImageView.isHidden = true
          appDelegate.checkNotificationCheck = false

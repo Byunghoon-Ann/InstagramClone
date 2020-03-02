@@ -276,7 +276,6 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        
         if selectedAssetIndex.count >= 1, commentInputText.text.count >= 1 {
             setPostingButton.isUserInteractionEnabled = true
             setPostingButton.alpha = 1.0

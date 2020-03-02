@@ -66,6 +66,10 @@ class SearchViewController : UIViewController ,UISearchBarDelegate{
         searchCollectionView.reloadData()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.becomeFirstResponder()
     }

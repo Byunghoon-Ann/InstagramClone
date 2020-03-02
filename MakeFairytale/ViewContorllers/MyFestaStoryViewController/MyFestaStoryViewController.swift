@@ -5,19 +5,17 @@
 //  Created by ByungHoon Ann on 2019/10/15.
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
-//스토리보드를를 덜 사용한 실험파일
-
 //MARK: 코드 출처 : 이동건의 이유있는 코드 https://baked-corn.tistory.com/111 에서 발췌 & 수정
 
 import UIKit
 import SDWebImage
 import Firebase
-//fileprivate let currentUID = Auth.auth().currentUser?.uid
+
 fileprivate let databaseRef = Database.database().reference()
 fileprivate let firestoreRef = Firestore.firestore()
 
 class MyFestaStoryViewController: UIViewController, MyFestaStoryMenuViewDelegate,
-MyViewsDelegate,MyPostTableViewDelegate,DidChattingCustomViewDelegate{
+MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     
     @IBOutlet weak var FakeBarButton: UIButton!
     @IBOutlet weak var myProfileImage: UIImageView!

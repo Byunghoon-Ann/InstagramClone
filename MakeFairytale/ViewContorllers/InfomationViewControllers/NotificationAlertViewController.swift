@@ -54,6 +54,7 @@ class NotificationAlertViewController: UIViewController {
         super.viewWillAppear(animated)
         loadAlerts{
             if !self.alertsDatas.isEmpty {
+                print(3)
             self.alertsDatas.sort { firstData, secondData in
                 let firstDate = self.dateFomatter.date(from: firstData.alertDate) ?? self.today
                 let secondDate = self.dateFomatter.date(from: secondData.alertDate) ?? self.today
@@ -116,19 +117,31 @@ extension NotificationAlertViewController {
                     let alertDate = alertData["date"] as? String ?? ""
                     let userUID = alertData["uid"] as? String ?? ""
                     
-                    firestoreRef.collection("user").document(userUID).getDocument{ userData, error in
-                        guard let userData = userData?.data() else { return }
-                        let profileImageURL = userData["profileImageURL"] as? String ?? ""
-                        
-                        self.alertsDatas.append(NotificationData(userName: nickName,
-                                                                 userThumbnail: profileImageURL,
-                                                                 userUID: userUID,
-                                                                 alertDate: alertDate,
-                                                                 alertContent: alertComment))
-                        if snapshot.count == self.alertsDatas.count {
+                    firestoreRef
+                        .collection("user")
+                        .document(userUID)
+                        .getDocument{ userData, error in
+                            guard let userData = userData?.data() else {
+                                self.alertsDatas.append(NotificationData(userName: nickName,
+                                                                         userThumbnail: "",
+                                                                         userUID: userUID,
+                                                                         alertDate: alertDate,
+                                                                         alertContent: alertComment))
+                                return }
+                            let profileImageURL = userData["profileImageURL"] as? String ?? ""
+                            
+                            self.alertsDatas.append(NotificationData(userName: nickName,
+                                                                     userThumbnail: profileImageURL,
+                                                                     userUID: userUID,
+                                                                     alertDate: alertDate,
+                                                                     alertContent: alertComment))
                             print(snapshot.count,self.alertsDatas.count)
-                            completion()
-                        }
+                            
+                            if snapshot.count == self.alertsDatas.count {
+                                print(snapshot.count,self.alertsDatas.count)
+                                print("com")
+                                completion()
+                            }
                     }
                 }
         }
