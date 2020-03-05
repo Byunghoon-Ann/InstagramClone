@@ -19,10 +19,9 @@
 
 #include <vector>
 
-#include "Firestore/core/src/firebase/firestore/core/query.h"
-#include "Firestore/core/src/firebase/firestore/core/view_snapshot.h"
+#include "Firestore/core/src/firebase/firestore/core/core_fwd.h"
 #include "Firestore/core/src/firebase/firestore/model/types.h"
-#include "Firestore/core/src/firebase/firestore/util/status.h"
+#include "Firestore/core/src/firebase/firestore/util/status_fwd.h"
 
 namespace firebase {
 namespace firestore {
@@ -30,16 +29,18 @@ namespace core {
 
 /**
  * Interface implemented by `EventManager` to handle notifications from
- * `FSTSyncEngine`.
+ * `SyncEngine`.
  */
 class SyncEngineCallback {
  public:
+  virtual ~SyncEngineCallback() = default;
+
   /** Handles a change in online state. */
   virtual void HandleOnlineStateChange(model::OnlineState online_state) = 0;
   /** Handles new view snapshots. */
   virtual void OnViewSnapshots(std::vector<core::ViewSnapshot>&& snapshots) = 0;
   /** Handles the failure of a query. */
-  virtual void OnError(const core::Query& query, util::Status error) = 0;
+  virtual void OnError(const core::Query& query, const util::Status& error) = 0;
 };
 
 }  // namespace core

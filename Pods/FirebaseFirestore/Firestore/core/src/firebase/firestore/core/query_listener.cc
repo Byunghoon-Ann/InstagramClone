@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,19 +32,47 @@ using model::OnlineState;
 using model::TargetId;
 using util::Status;
 
+std::shared_ptr<QueryListener> QueryListener::Create(
+    Query query, ListenOptions options, ViewSnapshotSharedListener&& listener) {
+  return std::make_shared<QueryListener>(std::move(query), std::move(options),
+                                         std::move(listener));
+}
+
+std::shared_ptr<QueryListener> QueryListener::Create(
+    Query query, ViewSnapshotSharedListener&& listener) {
+  return Create(std::move(query), ListenOptions::DefaultOptions(),
+                std::move(listener));
+}
+
+std::shared_ptr<QueryListener> QueryListener::Create(
+    Query query,
+    ListenOptions options,
+    util::StatusOrCallback<ViewSnapshot>&& listener) {
+  auto event_listener =
+      EventListener<ViewSnapshot>::Create(std::move(listener));
+  return Create(std::move(query), std::move(options),
+                std::move(event_listener));
+}
+
+std::shared_ptr<QueryListener> QueryListener::Create(
+    Query query, util::StatusOrCallback<ViewSnapshot>&& listener) {
+  return Create(std::move(query), ListenOptions::DefaultOptions(),
+                std::move(listener));
+}
+
 QueryListener::QueryListener(Query query,
                              ListenOptions options,
-                             ViewSnapshot::SharedListener&& listener)
+                             ViewSnapshotSharedListener&& listener)
     : query_(std::move(query)),
       options_(std::move(options)),
       listener_(std::move(listener)) {
 }
 
-void QueryListener::OnViewSnapshot(ViewSnapshot snapshot) {
+bool QueryListener::OnViewSnapshot(ViewSnapshot snapshot) {
   HARD_ASSERT(
       !snapshot.document_changes().empty() || snapshot.sync_state_changed(),
       "We got a new snapshot with no changes?");
-
+  bool raised_event = false;
   if (!options_.include_document_metadata_changes()) {
     // Remove the metadata-only changes.
     std::vector<DocumentViewChange> changes;
@@ -67,24 +95,33 @@ void QueryListener::OnViewSnapshot(ViewSnapshot snapshot) {
   if (!raised_initial_event_) {
     if (ShouldRaiseInitialEvent(snapshot, online_state_)) {
       RaiseInitialEvent(snapshot);
+      raised_event = true;
     }
   } else if (ShouldRaiseEvent(snapshot)) {
     listener_->OnEvent(snapshot);
+    raised_event = true;
   }
 
   snapshot_ = std::move(snapshot);
+  return raised_event;
 }
 
 void QueryListener::OnError(Status error) {
   listener_->OnEvent(std::move(error));
 }
 
-void QueryListener::OnOnlineStateChanged(OnlineState online_state) {
+/**
+ * Returns whether a snaphsot was raised.
+ */
+bool QueryListener::OnOnlineStateChanged(OnlineState online_state) {
   online_state_ = online_state;
+  bool raised_event = false;
   if (snapshot_.has_value() && !raised_initial_event_ &&
       ShouldRaiseInitialEvent(snapshot_.value(), online_state)) {
     RaiseInitialEvent(snapshot_.value());
+    raised_event = true;
   }
+  return raised_event;
 }
 
 bool QueryListener::ShouldRaiseInitialEvent(const ViewSnapshot& snapshot,
@@ -130,7 +167,8 @@ bool QueryListener::ShouldRaiseEvent(const ViewSnapshot& snapshot) const {
   }
 
   // Generally we should have hit one of the cases above, but it's possible to
-  // get here if there were only metadata docChanges and they got stripped out.
+  // get here if there were only metadata document changes and they got stripped
+  // out.
   return false;
 }
 
