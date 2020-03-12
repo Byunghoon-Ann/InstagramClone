@@ -136,46 +136,28 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     }
     
     @IBAction func repleButton(_ sender: UIButton ) {
-        self.label.isHidden = true
         guard let post = post else { return }
-        guard let reple = repleTextField.text else {return }
-        let repleDate = dateFomatter.string(from: date)
         if let myData = appDelegate.myProfile {
-            firestoreRef
-                .collection("AllPost")
-                .document(post.urlkey)
-                .collection("repleList")
-                .addDocument(data: ["uid":myData.uid,
-                                    "profileImageURL":myData.profileImageURL,
-                                    "reple":reple,
-                                    "nickName":myData.nickName,
-                                    "repleDate":repleDate])
-            self.notificationAlert(myData.nickName,
-                                   repleDate,
-                                   myData.uid,
-                                   post.userUID,
-                                    "님이 게시물에 댓글을 남기셨습니다.",
-                                   postKey)
-            
-            self.alertContentsCenter("reple",
-                                     post.userUID)
-            
-            LoadFile.shread.loadPostRepleDatas(uid: post.userUID,
-                                               postDate: post.postDate,
-                                               imageURL: post.userPostImage) {
-                                                self.repleData.removeAll()
-                                                self.repleData = LoadFile.shread.repleDatas
-                                                self.repleData.sort { firstData, secondData in
-                                                    let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.date
-                                                    let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.date
-                                                    if dateFirstData > dateSecondData {
-                                                        return true
-                                                    }else {
-                                                        return false
+            uploadReple(myData) {
+                self.label.isHidden = true
+                LoadFile.shread.loadPostRepleDatas(uid: post.userUID,
+                                                   postDate: post.postDate,
+                                                   imageURL: post.userPostImage) {
+                                                    
+                                                    self.repleData = LoadFile.shread.repleDatas
+                                                    self.repleData.sort { firstData, secondData in
+                                                        let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.date
+                                                        let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.date
+                                                        if dateFirstData > dateSecondData {
+                                                            return true
+                                                        }else {
+                                                            return false
+                                                        }
                                                     }
-                                                }
-                                                self.hideRepleList.reloadData()
+                                                    self.hideRepleList.reloadData()
+                }
             }
+            
         }
     }
     
@@ -351,6 +333,39 @@ extension ViewPostingController {
         }
     }
     
+    func uploadReple(_ myData: MyProfile,completion: @escaping () -> Void) {
+        guard let reple = repleTextField.text else {return }
+        guard let post = post else { return }
+        let repleDate = dateFomatter.string(from: date)
+        
+        if !reple.isEmpty {
+            self.repleData.removeAll()
+            firestoreRef
+                .collection("AllPost")
+                .document(post.urlkey)
+                .collection("repleList")
+                .addDocument(data: ["uid":myData.uid,
+                                    "profileImageURL":myData.profileImageURL,
+                                    "reple":reple,
+                                    "nickName":myData.nickName,
+                                    "repleDate":repleDate]) { error in
+                                        if let error = error {
+                                            print(error.localizedDescription)
+                                        }
+                                        self.notificationAlert(myData.nickName,
+                                                               repleDate,
+                                                               myData.uid,
+                                                               post.userUID,
+                                                               "님이 게시물에 댓글을 남기셨습니다.",
+                                                               self.postKey)
+                                        
+                                        self.alertContentsCenter("reple",
+                                                                 post.userUID)
+                                        completion()
+            }
+        }
+    }
+
     func checkViewCount() {
         DispatchQueue.main.async {
             guard let post = self.post else { return  }
