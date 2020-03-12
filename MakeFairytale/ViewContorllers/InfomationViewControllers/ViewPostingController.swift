@@ -136,6 +136,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     }
     
     @IBAction func repleButton(_ sender: UIButton ) {
+        self.label.isHidden = true
         guard let post = post else { return }
         guard let reple = repleTextField.text else {return }
         let repleDate = dateFomatter.string(from: date)
@@ -159,13 +160,22 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
             self.alertContentsCenter("reple",
                                      post.userUID)
             
-            self.repleData.insert(RepleData(uid: myData.uid,
-                                            userThumbnail: myData.profileImageURL,
-                                            userReple: reple,
-                                            nickName: myData.nickName,
-                                            repleDate: repleDate),
-                                  at: 0)
-            self.hideRepleList.reloadData()
+            LoadFile.shread.loadPostRepleDatas(uid: post.userUID,
+                                               postDate: post.postDate,
+                                               imageURL: post.userPostImage) {
+                                                self.repleData.removeAll()
+                                                self.repleData = LoadFile.shread.repleDatas
+                                                self.repleData.sort { firstData, secondData in
+                                                    let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.date
+                                                    let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.date
+                                                    if dateFirstData > dateSecondData {
+                                                        return true
+                                                    }else {
+                                                        return false
+                                                    }
+                                                }
+                                                self.hideRepleList.reloadData()
+            }
         }
     }
     
@@ -177,7 +187,6 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
                          post,
                          goodMark,
                          currentUID) {
-                            
                             if sender.isSelected {
                                 self.likeCountLabel.text = "\(post.likeCount + 1) 좋아요"
                             }else {
@@ -285,6 +294,7 @@ extension ViewPostingController {
             LoadFile.shread.loadPostRepleDatas(uid: postData.userUID,
                                                postDate: postData.postDate,
                                                imageURL: postData.userPostImage) {
+                                                
                                                 self.repleData = LoadFile.shread.repleDatas
                                                 
                                                 self.repleData.sort { firstData, secondData in
@@ -308,8 +318,6 @@ extension ViewPostingController {
                                                         self.label.centerYAnchor.constraint(equalTo: self.hideRepleList.centerYAnchor).isActive = true
                                                     }
                                                     
-                                                    self.scrollContentViewNSLayoutConstraint.constant = self.scrollContentViewNSLayoutConstraint.constant + (cell.frame.height * CGFloat(self.repleData.count))
-                                                    
                                                     self.repleListHeightNSLayoutConstraint.constant = cell.frame.height * CGFloat(self.repleData.count)
                                                     print(self.repleListHeightNSLayoutConstraint.constant)
                                                     self.hideRepleList.reloadData()
@@ -328,8 +336,6 @@ extension ViewPostingController {
             }
             UIView.animate(withDuration: 1, delay: 0, options: .transitionFlipFromTop, animations: {
                 self.hideRepleList.isHidden = true
-                
-                self.scrollContentViewNSLayoutConstraint.constant = self.scrollContentViewNSLayoutConstraint.constant - cell.frame.height * CGFloat(self.repleData.count)
                 
                 self.repleListHeightNSLayoutConstraint.constant = 50
                 self.scrollView.layoutIfNeeded()
