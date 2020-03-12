@@ -1114,8 +1114,8 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
+                                                    <constraint firstAttribute="height" constant="71" id="0Ns-JJ-AKN"/>
                                                     <constraint firstAttribute="width" constant="399" id="2Yb-CP-yOt"/>
-                                                    <constraint firstAttribute="height" constant="71" id="wsZ-YW-Gnn"/>
                                                 </constraints>
                                             </tableView>
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" pagingEnabled="YES" delaysContentTouches="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HcT-md-LTI">
@@ -1175,7 +1175,7 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="tQ3-ib-Aac" secondAttribute="trailing" constant="202" id="0ev-aj-gcP"/>
                                             <constraint firstItem="66A-5y-GXh" firstAttribute="leading" secondItem="nK0-uD-Fcu" secondAttribute="leading" constant="56" id="1Uq-Pj-M7x"/>
-                                            <constraint firstAttribute="height" constant="750" id="8Kw-za-nux"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="750" id="8Kw-za-nux"/>
                                             <constraint firstItem="zXv-WS-l8m" firstAttribute="leading" secondItem="nK0-uD-Fcu" secondAttribute="leading" constant="8" id="DL2-rT-AlY"/>
                                             <constraint firstItem="bHD-nt-4cF" firstAttribute="leading" secondItem="nK0-uD-Fcu" secondAttribute="leading" constant="8" id="Ed6-dp-PHU"/>
                                             <constraint firstItem="Rl5-wp-I1d" firstAttribute="leading" secondItem="nK0-uD-Fcu" secondAttribute="leading" constant="8" id="ExI-8I-K61"/>
@@ -1286,7 +1286,7 @@
                         <outlet property="postDateLabel" destination="G9h-OA-6ls" id="qrz-5e-CWo"/>
                         <outlet property="postScrollView" destination="HcT-md-LTI" id="QKU-0J-oia"/>
                         <outlet property="profileImageView" destination="zXv-WS-l8m" id="0yD-hT-ByR"/>
-                        <outlet property="repleListHeightNSLayoutConstraint" destination="wsZ-YW-Gnn" id="mi6-hY-zGb"/>
+                        <outlet property="repleListHeightNSLayoutConstraint" destination="0Ns-JJ-AKN" id="dJr-vo-kEI"/>
                         <outlet property="repleTextField" destination="ppu-j1-dYo" id="ocK-vP-vr8"/>
                         <outlet property="scrollContentViewNSLayoutConstraint" destination="8Kw-za-nux" id="4ns-c9-h2v"/>
                         <outlet property="scrollView" destination="nRC-hH-N22" id="rJA-5M-zN3"/>
