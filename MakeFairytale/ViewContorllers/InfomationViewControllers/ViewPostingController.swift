@@ -75,7 +75,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
         customRepleFunc()
         hideRepleList.delegate = self
         hideRepleList.dataSource = self
-        
+       
         let nibName = UINib(nibName: "ViewPostingRepleCell",bundle: nil)
         hideRepleList.register(nibName, forCellReuseIdentifier: "ViewPostingRepleCell")
     }
@@ -137,41 +137,35 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     
     @IBAction func repleButton(_ sender: UIButton ) {
         guard let post = post else { return }
-        guard let currentUID = currentUID else { return }
-        guard let myProfile = appDelegate.myProfile else { return }
         guard let reple = repleTextField.text else {return }
         let repleDate = dateFomatter.string(from: date)
-        firestoreRef
-            .collection("AllPost")
-            .order(by: post.userUID)
-            .getDocuments { snapshot,error in
-                guard let snapshot = snapshot?.documents else { return }
-                for i in snapshot {
-                    guard let data = i.data() as? [String:[String:Any]] else { return }
-                    for (_,j) in data {
-                        guard let postImage = j["postImageURL"] as? [String] else { return }
-                        if postImage[0] == post.userPostImage[0] {
-                            let urlKey = i.documentID
-                            firestoreRef
-                                .collection("AllPost")
-                                .document(urlKey)
-                                .collection("repleList")
-                                .addDocument(data: ["uid":currentUID,
-                                                    "profileImageURL": myProfile.profileImageURL,
-                                                    "reple":reple,
-                                                    "nickName":myProfile.nickName,
-                                                    "repleDate":repleDate])
-                            
-                            self.notificationAlert(myProfile.nickName,
-                                                   repleDate,
-                                                   myProfile.uid,
-                                                   post.userUID,
-                                                   "님이 게시물에 댓글을 남기셨습니다.",
-                                                   post.urlkey)
-                            self.alertContentsCenter("reple", post.userUID)
-                        }
-                    }
-                }
+        if let myData = appDelegate.myProfile {
+            firestoreRef
+                .collection("AllPost")
+                .document(post.urlkey)
+                .collection("repleList")
+                .addDocument(data: ["uid":myData.uid,
+                                    "profileImageURL":myData.profileImageURL,
+                                    "reple":reple,
+                                    "nickName":myData.nickName,
+                                    "repleDate":repleDate])
+            self.notificationAlert(myData.nickName,
+                                   repleDate,
+                                   myData.uid,
+                                   post.userUID,
+                                    "님이 게시물에 댓글을 남기셨습니다.",
+                                   postKey)
+            
+            self.alertContentsCenter("reple",
+                                     post.userUID)
+            
+            self.repleData.insert(RepleData(uid: myData.uid,
+                                            userThumbnail: myData.profileImageURL,
+                                            userReple: reple,
+                                            nickName: myData.nickName,
+                                            repleDate: repleDate),
+                                  at: 0)
+            self.hideRepleList.reloadData()
         }
     }
     
@@ -187,8 +181,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
                             if sender.isSelected {
                                 self.likeCountLabel.text = "\(post.likeCount + 1) 좋아요"
                             }else {
-                                
-                                    self.likeCountLabel.text = "\(post.likeCount - 1) 좋아요"
+                                self.likeCountLabel.text = "\(post.likeCount - 1) 좋아요"
                             }
         }
     }
