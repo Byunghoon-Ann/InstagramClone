@@ -12,7 +12,7 @@ class ListFollwingCell: UICollectionViewCell {
     
     @IBOutlet weak var follwingUserName : UILabel!
     @IBOutlet weak var follwingUserProfileImage: UIImageView!
-    
+   
     var followingData: FollowData? {
         didSet {
             guard let follwingData = followingData else { return }

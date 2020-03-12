@@ -1,13 +1,11 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '10.0'
+# platform :ios, '9.0'
 
 target 'MakeFairytale' do
   # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
+  #use_frameworks!
+  use_modular_headers!
 
-  # 라이브러리 경고 제거
-  inhibit_all_warnings!
-  
   # Pods for MakeFairytale
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
@@ -22,4 +20,5 @@ target 'MakeFairytale' do
   pod 'SnapKit', '~> 5.0.0'
   pod 'ObjectMapper', '~> 3.4'
   pod 'SideMenu'
+
 end

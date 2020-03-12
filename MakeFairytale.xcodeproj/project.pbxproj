@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CF047583B8CCA10CD65F13CF /* Pods_MakeFairytale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F057000AEF0610A7BC667794 /* Pods_MakeFairytale.framework */; };
+		803AAC79D0927FAD475E61D4 /* Pods_MakeFairytale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D255EE11020E8A3F693A28 /* Pods_MakeFairytale.framework */; };
 		F60012A323F16115003DFA12 /* PhotoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60012A223F16115003DFA12 /* PhotoAsset.swift */; };
 		F60B8713236059F800110F31 /* MyPostTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B8711236059F700110F31 /* MyPostTableView.swift */; };
 		F60B8714236059F800110F31 /* MyPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F60B8712236059F700110F31 /* MyPostTableViewCell.xib */; };
@@ -76,9 +76,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D73F39EEF4063C2ADA7C6BE7 /* Pods-MakeFairytale.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.release.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.release.xcconfig"; sourceTree = "<group>"; };
-		D91EC6B034D3380DDCBCA7F1 /* Pods-MakeFairytale.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.debug.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.debug.xcconfig"; sourceTree = "<group>"; };
-		F057000AEF0610A7BC667794 /* Pods_MakeFairytale.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MakeFairytale.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		04FE1EA64C6C95D4B61575BE /* Pods-MakeFairytale.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.release.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.release.xcconfig"; sourceTree = "<group>"; };
+		16D255EE11020E8A3F693A28 /* Pods_MakeFairytale.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MakeFairytale.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DFBADBA6365F00D39AD13BC /* Pods-MakeFairytale.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.debug.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.debug.xcconfig"; sourceTree = "<group>"; };
 		F60012A223F16115003DFA12 /* PhotoAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAsset.swift; sourceTree = "<group>"; };
 		F60B8711236059F700110F31 /* MyPostTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableView.swift; sourceTree = "<group>"; };
 		F60B8712236059F700110F31 /* MyPostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPostTableViewCell.xib; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF047583B8CCA10CD65F13CF /* Pods_MakeFairytale.framework in Frameworks */,
+				803AAC79D0927FAD475E61D4 /* Pods_MakeFairytale.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,18 +163,10 @@
 		2C3732AB4D0E8129CCAA3202 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D91EC6B034D3380DDCBCA7F1 /* Pods-MakeFairytale.debug.xcconfig */,
-				D73F39EEF4063C2ADA7C6BE7 /* Pods-MakeFairytale.release.xcconfig */,
+				1DFBADBA6365F00D39AD13BC /* Pods-MakeFairytale.debug.xcconfig */,
+				04FE1EA64C6C95D4B61575BE /* Pods-MakeFairytale.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		54B6ED4C47BE4EE2D2E64135 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F057000AEF0610A7BC667794 /* Pods_MakeFairytale.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F60B8717236060B100110F31 /* MyFestaStoryViewController */ = {
@@ -343,7 +335,7 @@
 				F6F1F3E1232F7DAC00959262 /* MakeFairytale */,
 				F6F1F3E0232F7DAC00959262 /* Products */,
 				2C3732AB4D0E8129CCAA3202 /* Pods */,
-				54B6ED4C47BE4EE2D2E64135 /* Frameworks */,
+				F9DDC38B27C5E48FB95EC2B8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -372,6 +364,14 @@
 			path = MakeFairytale;
 			sourceTree = "<group>";
 		};
+		F9DDC38B27C5E48FB95EC2B8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				16D255EE11020E8A3F693A28 /* Pods_MakeFairytale.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -379,11 +379,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F6F1F3F1232F7DAD00959262 /* Build configuration list for PBXNativeTarget "MakeFairytale" */;
 			buildPhases = (
-				E7B6CD4C5EC47C86E32E679E /* [CP] Check Pods Manifest.lock */,
+				A24C7E05FD35A98EC2041290 /* [CP] Check Pods Manifest.lock */,
 				F6F1F3DB232F7DAC00959262 /* Sources */,
 				F6F1F3DC232F7DAC00959262 /* Frameworks */,
 				F6F1F3DD232F7DAC00959262 /* Resources */,
-				478B6FA8EE66926E732F4106 /* [CP] Embed Pods Frameworks */,
+				FBC9540B5FA194F6C1907D53 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -449,24 +449,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		478B6FA8EE66926E732F4106 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E7B6CD4C5EC47C86E32E679E /* [CP] Check Pods Manifest.lock */ = {
+		A24C7E05FD35A98EC2041290 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -486,6 +469,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FBC9540B5FA194F6C1907D53 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -692,7 +692,7 @@
 		};
 		F6F1F3F2232F7DAD00959262 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D91EC6B034D3380DDCBCA7F1 /* Pods-MakeFairytale.debug.xcconfig */;
+			baseConfigurationReference = 1DFBADBA6365F00D39AD13BC /* Pods-MakeFairytale.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -713,7 +713,7 @@
 		};
 		F6F1F3F3232F7DAD00959262 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D73F39EEF4063C2ADA7C6BE7 /* Pods-MakeFairytale.release.xcconfig */;
+			baseConfigurationReference = 04FE1EA64C6C95D4B61575BE /* Pods-MakeFairytale.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
