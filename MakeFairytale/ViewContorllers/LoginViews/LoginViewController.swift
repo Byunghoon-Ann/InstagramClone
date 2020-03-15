@@ -5,16 +5,13 @@
 //  Created by ByungHoon Ann on 02/10/2019.
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
-
-
-//로그인 뷰(회원가입버튼,비밀번호 찾기 포함)
-//리펙토링 + UI디자인, 기능 안정성 개선 필요
-import Foundation
 import Firebase
+import UIKit
 
 fileprivate let ref = Database.database().reference()
 
-class LoginViewController : UIViewController{
+class LoginViewController: UIViewController{
+
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var emailTextField : UITextField!
@@ -43,7 +40,6 @@ class LoginViewController : UIViewController{
         super.viewDidAppear(animated)
         
         if Auth.auth().currentUser != nil {
-            
             let startView = self.storyboard?.instantiateViewController(withIdentifier: "tab") as! UITabBarController
             Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { (timer) in
                 guard let currentUID = Auth.auth().currentUser?.uid else { return }
@@ -61,22 +57,15 @@ class LoginViewController : UIViewController{
     
     //MARK:로그인 버튼 함수
     @IBAction func loginBtn(_ sender : UIButton) {
-        guard let email = emailTextField.text else { return }
-        guard let password = passwordTextField.text else { return }
-        
+        let email = emailTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
         Auth
             .auth()
             .signIn(withEmail: email,
-                    password: password) { user, error in
-                        guard let currentUID = user?.user.uid else { return }
-                        
-                        if user != nil {
-                            self.activityIndicatorView.startAnimating()
-                            guard let startView = self.storyboard?.instantiateViewController(withIdentifier: "tab") as? UITabBarController else { return }
-                            self.navigationController?.pushViewController(startView, animated: true)
-                            self.appDelegate.currentUID = currentUID
-                            self.activityIndicatorView.startAnimating()
-                        }else {
+                    password: password) { [weak self] authResult, error in
+                        guard let self = self else { return }
+                        if let error = error {
+                            print("error = \(error.localizedDescription)")
                             let alert = UIAlertController(title: "정보 불일치",
                                                           message: "이메일 혹은 비밀번호가 일치하지 않거나 존재하지 않습니다", preferredStyle: .alert)
                             let okaction = UIAlertAction(title: "확인",
@@ -84,8 +73,18 @@ class LoginViewController : UIViewController{
                             alert.addAction(okaction)
                             self.present(alert,animated: true)
                         }
+                        
+                        if let user =  authResult?.user {
+                            let uid = user.uid
+                            self.activityIndicatorView.startAnimating()
+                            guard let startView = self.storyboard?.instantiateViewController(withIdentifier: "tab") as? UITabBarController else { return }
+                            self.navigationController?.pushViewController(startView, animated: true)
+                            self.appDelegate.currentUID = uid
+                            self.activityIndicatorView.stopAnimating()
+                        }
         }
     }
+        
     
     //MARK:회원가입 화면 이동 BUtton
     @IBAction func newSignBtn (_ sender : UIButton) {
@@ -152,8 +151,7 @@ extension LoginViewController : UITextFieldDelegate {
     
     //MARK:리턴키를 누르면 키보드화면 비활성화
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        emailTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
+        textField.resignFirstResponder()
         return true
     }
 }
