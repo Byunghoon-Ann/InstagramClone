@@ -7,7 +7,8 @@
 //
 //회원가입 뷰
 //리펙토링 + UI디자인 기능 안정성 개선 필요
-import Foundation
+
+import UIKit
 import Firebase
 
 class NewSignInViewController : UIViewController {
@@ -20,8 +21,8 @@ class NewSignInViewController : UIViewController {
     @IBOutlet weak var checkPasswordSignField: UITextField! //패스워드 재확인 필드
    
     var pickerController = UIImagePickerController()
-    var selectProfile : UIImage?
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let tapgestur = UITapGestureRecognizer(target: self, action: #selector(selectProfileImg))
@@ -37,13 +38,13 @@ class NewSignInViewController : UIViewController {
         view.addGestureRecognizer(tap)
     }
     
+    @objc func dismisskeyboard() {
+        view.endEditing(true)
+    }
+    
     //빈사람 클릭시 사진선택 화면 띄우기 제스쳐 설쩡
     @objc func selectProfileImg() {
         selectimg(pickerController)
-    }
-    
-    @objc func dismisskeyboard() {
-        view.endEditing(true)
     }
     
     func selectimg(_ imagePickerController: UIImagePickerController) {
@@ -99,7 +100,7 @@ class NewSignInViewController : UIViewController {
                                      completion: { download,error in
                                         
                             if error != nil { return }
-                            //프로필이미지 URL다운로드
+                        
                             storageRef
                                 .downloadURL { url,error in
                                     
@@ -126,12 +127,9 @@ class NewSignInViewController : UIViewController {
                                             self.navigationController?.pushViewController(startView, animated: true)
                                             if let error = error   {  print("\(error.localizedDescription)")}
                                     }
-                                        }
+                            }
                             })
                     }
-                    
-                    
-                    
                 } else {
                     //이메일 양식이 틀렸을 경우
                     self.activityIndicatorView.isHidden = true
@@ -158,7 +156,7 @@ extension NewSignInViewController : UIImagePickerControllerDelegate,UINavigation
         
     }
     
-    //카메라 앨범 선택 함수
+  //카메라 앨범 선택 함수
     func presentPicker(_ source : UIImagePickerController.SourceType, ImagePicker : UIImagePickerController) {
         guard UIImagePickerController.isSourceTypeAvailable(source) == true else {
             return
@@ -167,6 +165,7 @@ extension NewSignInViewController : UIImagePickerControllerDelegate,UINavigation
         ImagePicker.allowsEditing = true
         ImagePicker.sourceType = source
         present(ImagePicker,animated:  true)
+        
     }
 }
 

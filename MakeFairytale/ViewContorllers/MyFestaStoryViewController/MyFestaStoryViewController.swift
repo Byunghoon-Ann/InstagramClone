@@ -6,10 +6,11 @@
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
 //MARK: 코드 출처 : 이동건의 이유있는 코드 https://baked-corn.tistory.com/111 에서 발췌 & 수정
-
+import Foundation
 import UIKit
 import SDWebImage
 import Firebase
+import MobileCoreServices
 
 fileprivate let databaseRef = Database.database().reference()
 fileprivate let firestoreRef = Firestore.firestore()
@@ -65,7 +66,6 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         super.viewDidLoad()
         setupCustomTabBar()
         setupPageCollectionView()
-       
         myProfileName.text = yourName
         thirdMyView.tableViews.reloadData()
         pageCollectionView.reloadData()

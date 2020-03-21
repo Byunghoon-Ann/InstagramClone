@@ -26,6 +26,9 @@ class NotificationAlertTableCell: UITableViewCell {
         didSet {
             guard let alertData = alertsData else { return }
             alertDate.text = postingDateCalculation(alertData.alertDate)
+            if alertData.userThumbnail == "" {
+                userThumbnail.image = UIImage(named: "userSelected@40x40")
+            }
             userThumbnail.sd_setImage(with: URL(string: alertData.userThumbnail))
             alertContents.text = alertData.alertContent
         }

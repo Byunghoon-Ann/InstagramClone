@@ -54,7 +54,6 @@ class NotificationAlertViewController: UIViewController {
         super.viewWillAppear(animated)
         loadAlerts{
             if !self.alertsDatas.isEmpty {
-                print(3)
             self.alertsDatas.sort { firstData, secondData in
                 let firstDate = self.dateFomatter.date(from: firstData.alertDate) ?? self.today
                 let secondDate = self.dateFomatter.date(from: secondData.alertDate) ?? self.today
@@ -135,11 +134,7 @@ extension NotificationAlertViewController {
                                                                      userUID: userUID,
                                                                      alertDate: alertDate,
                                                                      alertContent: alertComment))
-                            print(snapshot.count,self.alertsDatas.count)
-                            
                             if snapshot.count == self.alertsDatas.count {
-                                print(snapshot.count,self.alertsDatas.count)
-                                print("com")
                                 completion()
                             }
                     }

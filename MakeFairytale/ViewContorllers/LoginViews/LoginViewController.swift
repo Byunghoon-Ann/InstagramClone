@@ -22,6 +22,8 @@ class LoginViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge], completionHandler: {didAllow,Error in })
+
         
         emailTextField.delegate = self
         passwordTextField.delegate = self

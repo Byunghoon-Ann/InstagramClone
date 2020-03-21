@@ -16,7 +16,7 @@ target 'MakeFairytale' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Messaging'
   pod 'Kingfisher', '~> 5.9'
-  pod 'SDWebImage', '~> 5.0'
+  pod 'SDWebImage', :modular_headers => true
   pod 'SnapKit', '~> 5.0.0'
   pod 'ObjectMapper', '~> 3.4'
   pod 'SideMenu'

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		803AAC79D0927FAD475E61D4 /* Pods_MakeFairytale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D255EE11020E8A3F693A28 /* Pods_MakeFairytale.framework */; };
+		E9B25DFD89BE75E4F857C246 /* Pods_MakeFairytale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A876D2EDC6ABE51FFB504628 /* Pods_MakeFairytale.framework */; };
 		F60012A323F16115003DFA12 /* PhotoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60012A223F16115003DFA12 /* PhotoAsset.swift */; };
 		F60B8713236059F800110F31 /* MyPostTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B8711236059F700110F31 /* MyPostTableView.swift */; };
 		F60B8714236059F800110F31 /* MyPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F60B8712236059F700110F31 /* MyPostTableViewCell.xib */; };
@@ -77,8 +77,8 @@
 
 /* Begin PBXFileReference section */
 		04FE1EA64C6C95D4B61575BE /* Pods-MakeFairytale.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.release.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.release.xcconfig"; sourceTree = "<group>"; };
-		16D255EE11020E8A3F693A28 /* Pods_MakeFairytale.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MakeFairytale.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFBADBA6365F00D39AD13BC /* Pods-MakeFairytale.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.debug.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.debug.xcconfig"; sourceTree = "<group>"; };
+		A876D2EDC6ABE51FFB504628 /* Pods_MakeFairytale.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MakeFairytale.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F60012A223F16115003DFA12 /* PhotoAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAsset.swift; sourceTree = "<group>"; };
 		F60B8711236059F700110F31 /* MyPostTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableView.swift; sourceTree = "<group>"; };
 		F60B8712236059F700110F31 /* MyPostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPostTableViewCell.xib; sourceTree = "<group>"; };
@@ -137,10 +137,11 @@
 		F6BE19702371687200253278 /* DidChattingCustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DidChattingCustomView.xib; sourceTree = "<group>"; };
 		F6BE19732371695800253278 /* DidChattingCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidChattingCustomCell.swift; sourceTree = "<group>"; };
 		F6C2B9BD23F979E9001B20C0 /* PlusCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusCommentCell.swift; sourceTree = "<group>"; };
+		F6C53510241A67C500820A97 /* FBLPromises.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FBLPromises.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6D5BE4C234F2BB300970043 /* FeedCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionCell.swift; sourceTree = "<group>"; };
 		F6D5BE4D234F2BB300970043 /* FeedCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedCollectionCell.xib; sourceTree = "<group>"; };
 		F6DE31CF236AF06200039BF1 /* DidChatMembersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidChatMembersList.swift; sourceTree = "<group>"; };
-		F6F1F3DF232F7DAC00959262 /* MakeFairytale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MakeFairytale.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6F1F3DF232F7DAC00959262 /* FestaGram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FestaGram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6F1F3E2232F7DAC00959262 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6F1F3E7232F7DAC00959262 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F6F1F3E9232F7DAD00959262 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -153,7 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				803AAC79D0927FAD475E61D4 /* Pods_MakeFairytale.framework in Frameworks */,
+				E9B25DFD89BE75E4F857C246 /* Pods_MakeFairytale.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,7 +343,7 @@
 		F6F1F3E0232F7DAC00959262 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F6F1F3DF232F7DAC00959262 /* MakeFairytale.app */,
+				F6F1F3DF232F7DAC00959262 /* FestaGram.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -367,7 +368,8 @@
 		F9DDC38B27C5E48FB95EC2B8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				16D255EE11020E8A3F693A28 /* Pods_MakeFairytale.framework */,
+				F6C53510241A67C500820A97 /* FBLPromises.framework */,
+				A876D2EDC6ABE51FFB504628 /* Pods_MakeFairytale.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -383,7 +385,7 @@
 				F6F1F3DB232F7DAC00959262 /* Sources */,
 				F6F1F3DC232F7DAC00959262 /* Frameworks */,
 				F6F1F3DD232F7DAC00959262 /* Resources */,
-				FBC9540B5FA194F6C1907D53 /* [CP] Embed Pods Frameworks */,
+				613753D68CD8C4E024E2C373 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -391,7 +393,7 @@
 			);
 			name = MakeFairytale;
 			productName = MakeFairytale;
-			productReference = F6F1F3DF232F7DAC00959262 /* MakeFairytale.app */;
+			productReference = F6F1F3DF232F7DAC00959262 /* FestaGram.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -449,6 +451,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		613753D68CD8C4E024E2C373 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A24C7E05FD35A98EC2041290 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -469,23 +488,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FBC9540B5FA194F6C1907D53 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -704,7 +706,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kjsx.MakeFairytale;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = FestaGram;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -725,7 +727,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kjsx.MakeFairytale;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = FestaGram;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

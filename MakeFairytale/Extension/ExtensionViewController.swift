@@ -46,6 +46,7 @@ extension UIViewController {
                           _ currentUID: String,
                           completion : @escaping () -> Void) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+       
         guard let myName = appDelegate.myProfile?.nickName else { return }
         let myMessage = "님의 게시물에 좋아요를 누르셨습니다."
         let yourMessage = "께서 게시물에 좋아요를 누르셨습니다."
@@ -146,8 +147,6 @@ extension UIViewController {
                                                                myCancel,
                                                                urlKey)
                                         
-                                        self.alertContentsCenter("like",
-                                                                 post.userUID)
                                         
                                         if post.userUID != currentUID {
                                             self.notificationAlert(myName,
@@ -238,8 +237,7 @@ extension UIViewController {
         }
     }
     
-    func moveDetailViewPostView(_ view: MyViews,
-                                _ path: Int) {
+    func moveDetailViewPostView(_ view: MyViews, _ path: Int) {
         let i = IndexPath(row:path, section: 0)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "ViewPostingController") as? ViewPostingController else { return }
@@ -250,7 +248,20 @@ extension UIViewController {
         }
         navigationController?.pushViewController(vc, animated: true)
     }
-    
 }
+
+
+extension UIViewController: UNUserNotificationCenterDelegate {
+   public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("notificationcenter will Present \(notification)")
+        completionHandler([.alert, .sound,.badge])
+    }
+
+    public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("notificationcenter did Present \(response)")
+        completionHandler()
+    }
+}
+
 
 

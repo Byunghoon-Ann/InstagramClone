@@ -25,7 +25,7 @@ class SearchViewController : UIViewController ,UISearchBarDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         searchCollectionView.isHidden = true
         searchBar.searchTextField.backgroundColor = .white
         searchBar.barTintColor = .systemOrange

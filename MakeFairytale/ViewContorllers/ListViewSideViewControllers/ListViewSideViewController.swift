@@ -27,18 +27,17 @@ class ListViewSideViewController: UIViewController {
         alertImageViews[0].layer.cornerRadius = alertImageViews[0].frame.height/2
         alertImageViews[1].layer.cornerRadius = alertImageViews[1].frame.height/2
 
-        let currentUID = appDelegate.currentUID ?? ""
-        LoadFile.shread.snapshotListenerCheckEvent(currentUID,
-                                                   alertImageViews[0],
-                                                   ["like","follow","reple"])
-        LoadFile.shread.snapshotListenerCheckEvent(currentUID,
-                                                   alertImageViews[1],
-                                                   ["chatting"])
+       
     }
-    //알림 0 대화 2
-    func checknotificationCenter() {
-        let currentUID = appDelegate.currentUID ?? ""
-        LoadFile.shread.snapshotListenerCheckEvent(currentUID, alertImageViews[0],["like","follow","chatting","reple"])
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if appDelegate.sideViewBadgeCheck == true {
+            alertImageViews[0].isHidden = false
+        }
+        if appDelegate.chattingCheck == true {
+            alertImageViews[1].isHidden = false
+        }
+        
     }
     
     @objc func myAlertLists(_ sender: UIButton) {
@@ -62,15 +61,8 @@ class ListViewSideViewController: UIViewController {
     
     func myAlertList() {
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "NotificationAlertViewController") as? NotificationAlertViewController else { return }
-        let currentUID = appDelegate.currentUID ?? ""
-        Firestore
-            .firestore()
-            .collection("user")
-            .document(currentUID)
-            .updateData(["like":false,
-                         "follow":false,
-                         "reple":false])
-         
+        appDelegate.sideViewBadgeCheck = false
+        alertImageViews[0].isHidden = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -83,12 +75,8 @@ class ListViewSideViewController: UIViewController {
     //MARK:SideBar 3 : move ChattingViewList
     func testChattingViewMove() {
         guard let tabVC = storyboard?.instantiateViewController(withIdentifier: "tab2") as? UITabBarController else { return }
-        let currentUID = appDelegate.currentUID ?? ""
-        Firestore
-            .firestore()
-            .collection("user")
-            .document(currentUID)
-            .updateData(["chatting":false])
+        appDelegate.chattingCheck = false
+        alertImageViews[1].isHidden = true
         navigationController?.pushViewController(tabVC, animated: false)
     }
     

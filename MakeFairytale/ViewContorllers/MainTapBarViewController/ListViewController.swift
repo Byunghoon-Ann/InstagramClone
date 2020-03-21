@@ -8,8 +8,8 @@
 //로그인 후 나타나는 뷰 페뷱이나 인스타처럼 팔로우한 사람들과 본인이 작성한 글들이 나타난다.
 //noti넣을곳넣기
 //MARK: TapBarIndex = 0, ViewController
-import Foundation
 import UIKit
+import UserNotifications
 import Firebase
 import SDWebImage
 import MobileCoreServices
@@ -54,9 +54,14 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       label.textAlignment = .center
       return label
    }()
-
+   
    override func viewDidLoad() {
       super.viewDidLoad()
+      UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge], completionHandler: {didAllow,Error in
+         print(didAllow)
+      })
+      
+      UNUserNotificationCenter.current().delegate = self
       loadFesta(userProfileImageView,
                 userProfileName,
                 postLoadingIndicatior,
@@ -64,7 +69,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
                 date,
                 dateFomatter)
       
-     initRefresh(refresh)
+      initRefresh(refresh)
       
       let nibName = UINib(nibName: "FeedCollectionCell" , bundle: nil)
       postTableView.register(nibName, forCellReuseIdentifier: "feedcell")
@@ -84,11 +89,11 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       firstAlertLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
       firstAlertLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
    }
-  
+   
    //MARK: viewWillAppear
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
-        checknotificationCenter()
+      checknotificationCenter()
    }
    
    override func viewDidLayoutSubviews() {

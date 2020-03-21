@@ -38,7 +38,7 @@ extension UITableViewCell {
                 return "\(h)시간 전"
             }else if  y == 0, m == 0, d >= 1{
                 return "\(d)일 전"
-            }else if y == 0, m >= 1, d >= 30 {
+            }else if y == 0, m >= 1 {
                 return "\(m)개월 전"
             }else if y >= 1, m >= 12 {
                 return "\(y)년 전"

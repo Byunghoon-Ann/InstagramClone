@@ -30,35 +30,112 @@ class LoadFile {
     func snapshotListenerCheckEvent(_ uid: String,
                                     _ badge: UIImageView,
                                     _ contents: [String]) {
-        
         firestoreRef
             .collection("user")
             .document(uid)
             .addSnapshotListener(includeMetadataChanges: true) { snapshot, error in
                 if let error = error { print(error.localizedDescription)}
-            
-                guard let snapshot = snapshot else {return}
-                guard let userData = snapshot.data() else {return }
+             
+                guard let userData = snapshot?.data() else { return }
                 let likeCheck = userData["like"] as? Bool ?? false
                 let followCheck = userData["follow"] as? Bool ?? false
                 let repleCheck = userData["reple"] as? Bool ?? false
                 let chatCheck = userData["chatting"] as? Bool ?? false
                 let postCheck = userData["newPost"] as? Bool ?? false
+                
                 for i in 0..<contents.count {
-                    if contents[i] == "like" || contents[i] == "follow" || contents[i] == "reple" {
-                        if likeCheck == true || followCheck == true || repleCheck == true {
-                            badge.isHidden = false
-                        } else {
-                            badge.isHidden = true
+                    if contents[i] == "like" {
+                        if likeCheck == true {
+                            let center = UNUserNotificationCenter.current()
+                            let content = UNMutableNotificationContent()
+                            content.body = "누군가 당신의 게시글에 좋아요를 눌렀습니다."
+                            content.badge = 1
+                            content.title = "좋아요"
+                            content.sound = UNNotificationSound.default
+                            content.categoryIdentifier = "like-message"
+                            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                            let requeset = UNNotificationRequest(identifier: "like", content: content, trigger: trigger)
+                            center.add(requeset) { error in
+                                if let error = error { print("error : \(error)") }
+                                firestoreRef.collection("user").document(uid).updateData(["like":false])
+                                self.appDelegate.sideViewBadgeCheck = true
+                            }
+                            DispatchQueue.main.async {
+                                badge.isHidden = false
+                            }
+                        }
+                    } else if contents[i] == "follow" {
+                        if followCheck == true {
+                            let center = UNUserNotificationCenter.current()
+                            let content = UNMutableNotificationContent()
+                            content.body = "누군가 당신을 팔로우합니다."
+                            content.title = "팔로우"
+                            content.sound = UNNotificationSound.default
+                            content.categoryIdentifier = "follow-message"
+                            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                            let requeset = UNNotificationRequest(identifier: "follow", content: content, trigger: trigger)
+                            center.add(requeset) { error in
+                                if let error = error { print("error : \(error)")}
+                                firestoreRef.collection("user").document(uid).updateData(["follow":false])
+                                self.appDelegate.sideViewBadgeCheck = true
+                            }
+                            DispatchQueue.main.async {
+                                badge.isHidden = false
+                            }
+                        }
+                    } else if contents[i] == "reple" {
+                        if repleCheck == true {
+                            let center = UNUserNotificationCenter.current()
+                            let content = UNMutableNotificationContent()
+                            content.body = "누군가 당신의 글에 댓글을 남겼습니다."
+                            content.title = "댓글"
+                            content.sound = UNNotificationSound.default
+                            content.categoryIdentifier = "reple-message"
+                            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                            let requeset = UNNotificationRequest(identifier: "reple", content: content, trigger: trigger)
+                            center.add(requeset) { error in
+                                if let error = error { print("error : \(error)")}
+                                firestoreRef.collection("user").document(uid).updateData(["reple":false])
+                                self.appDelegate.sideViewBadgeCheck = true
+                            }
+                            DispatchQueue.main.async {
+                                badge.isHidden = false
+                            }
                         }
                     } else if contents[i] == "chatting" {
                         if chatCheck == true {
-                            badge.isHidden = false
-                        }else {
-                            badge.isHidden = true
+                            let center = UNUserNotificationCenter.current()
+                            let content = UNMutableNotificationContent()
+                            content.body = "누군가 당신에게 메세지를 보냈습니다."
+                            content.title = "대화"
+                            content.sound = UNNotificationSound.default
+                            content.categoryIdentifier = "chatting-message"
+                            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                            let requeset = UNNotificationRequest(identifier: "chatting", content: content, trigger: trigger)
+                            center.add(requeset) { error in
+                                if let error = error { print("error : \(error)") }
+                                firestoreRef.collection("user").document(uid).updateData(["chatting":false])
+                                self.appDelegate.chattingCheck = true
+                            }
+                            DispatchQueue.main.async {
+                                badge.isHidden = false
+                            }
                         }
                     } else if contents[i] == "newPost" {
                         if postCheck == true {
+                            let center = UNUserNotificationCenter.current()
+                            let content = UNMutableNotificationContent()
+                            content.body = "팔로우 중 한명이 새로운 게시글을 올렸습니다."
+                            content.title = "새 글"
+                            content.sound = UNNotificationSound.default
+                            content.categoryIdentifier = "newPost-message"
+                            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                            let requeset = UNNotificationRequest(identifier: "newPost", content: content, trigger: trigger)
+                            center.add(requeset) { error in
+                                if let error = error { print("error : \(error)")}
+                                firestoreRef.collection("user").document(uid).updateData(["newPost":false])
+                                self.appDelegate.sideViewBadgeCheck = true
+                            }
                             self.appDelegate.checkNotificationCheck  = true
                         } else {
                             self.appDelegate.checkNotificationCheck  = false

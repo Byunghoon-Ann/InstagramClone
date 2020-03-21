@@ -54,7 +54,7 @@ extension MyFestaStoryViewController {
                             
                             if snapshot.isEmpty {
                                 followButton.isSelected = true
-                                
+                                self.appDelegate.otherUID = currentUID
                                 firestoreFollowRef
                                     .document(currentUID)
                                     .collection("FollowList")

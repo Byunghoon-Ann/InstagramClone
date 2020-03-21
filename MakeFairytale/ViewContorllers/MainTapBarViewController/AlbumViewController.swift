@@ -87,6 +87,7 @@ class AlbumViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         commentInputText.delegate = self
         follows = LoadFile.shread.followString
         let tapEndEditing = UITapGestureRecognizer(target: self, action: #selector(selectProfileImg))

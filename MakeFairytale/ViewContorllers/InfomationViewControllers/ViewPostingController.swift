@@ -139,6 +139,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
         guard let post = post else { return }
         if let myData = appDelegate.myProfile {
             uploadReple(myData) {
+                self.appDelegate.otherUID = currentUID
                 self.label.isHidden = true
                 LoadFile.shread.loadPostRepleDatas(uid: post.userUID,
                                                    postDate: post.postDate,

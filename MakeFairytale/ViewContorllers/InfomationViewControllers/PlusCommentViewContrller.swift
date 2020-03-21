@@ -118,7 +118,7 @@ class PlusCommentViewContrller : UIViewController {
                                     "reple":reple,
                                     "nickName":myData.nickName,
                                     "repleDate":repleDate])
-            
+            self.appDelegate.otherUID = currentUID
             self.notificationAlert(myData.nickName,
                                    repleDate,
                                    myData.uid,
@@ -176,6 +176,7 @@ class PlusCommentViewContrller : UIViewController {
                                                                             repleDate: repleDate ))
                                         }
                                         if snapshot.count == self.repleData.count {
+                                            
                                         completion()
                                         }
                                 }
