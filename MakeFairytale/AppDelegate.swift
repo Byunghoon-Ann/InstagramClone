@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var sideViewBadgeCheck = false
     var chattingCheck = false
     var listFeedVC : ListViewController? = nil
-    var mySideView : MyListFeedSideBar? = nil
     var checkNotificationCheck = false
     var myProfile : MyProfile?
     var post: [Posts] = [] //전체 포스팅 데이터

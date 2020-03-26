@@ -9,7 +9,6 @@
 import UIKit
 
 extension UITableViewCell {
-    
     func actionControlOption(_ festaData: Posts,
                              _ pageControl: UIPageControl) {
         pageControl.numberOfPages = festaData.userPostImage.count

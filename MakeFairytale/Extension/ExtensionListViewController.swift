@@ -11,7 +11,6 @@ import Firebase
 fileprivate let firestoreRef = Firestore.firestore()
 
 extension ListViewController {
-    
     //MARK:- Feed로드
     func loadFesta(_ profileImageView: UIImageView,
                    _ userNameLabel: UILabel,
@@ -40,7 +39,6 @@ extension ListViewController {
                                 return false
                             }
                         }
-                        
                         self.loadProfile {
                             guard let myProfileData = self.myProfileData else { return }
                             profileImageView.sd_setImage(with: URL(string: myProfileData.profileImageURL))
@@ -71,7 +69,6 @@ extension ListViewController {
             .collection("user")
             .document("\(currentUID)")
             .getDocument() { snapshot,error in
-                
                 if let error = error {
                     print("\(error.localizedDescription)")
                 } else {
@@ -83,11 +80,9 @@ extension ListViewController {
                                                    email: email,
                                                    nickName: nickName,
                                                    uid: currentUID)
-                    
                     self.appDelegate.myProfile = self.myProfileData
                     completion()
                 }
-                
         }
     }
     
@@ -140,6 +135,7 @@ extension ListViewController {
             topViewHideCheck = true
             UIView.animate(withDuration: 0.2 ,animations: {
                 self.topView.alpha = 0.0
+                self.leftTopButton.alpha = 0.0
             }) { _ in
                 UIView.animate(withDuration: 0.25) {
                     self.tableViewNSLayoutConstraint.constant = 0
@@ -154,6 +150,7 @@ extension ListViewController {
             guard let topViewHeight = appDelegate.topViewHeight else { return }
             UIView.animate(withDuration: 0.2, delay: 0, options: .transitionFlipFromTop, animations: {
                 self.topView.alpha = 1.0
+                self.leftTopButton.alpha = 1.0
             }) { _ in
                 UIView.animate(withDuration: 0.25 ,animations: {
                     self.tableViewNSLayoutConstraint.constant = CGFloat(topViewHeight)
@@ -173,4 +170,60 @@ extension ListViewController {
         }
     }
     
+    func dropDownButtonSet(){
+        view.addSubview(leftTopButton)
+        leftTopButton.delegate = self
+        leftTopButton.translatesAutoresizingMaskIntoConstraints = false
+        leftTopButton.trailingAnchor.constraint(equalTo: topUIView.trailingAnchor,constant: -30).isActive = true
+        leftTopButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        leftTopButton.centerYAnchor.constraint(equalTo: topUIView.centerYAnchor).isActive = true
+        leftTopButton.setImage(UIImage(named: "icon-small"), for: .normal)
+    }
+    
+    func didSelectedDropDownView(_ path: Int) {
+        switch path {
+        case 0:
+            guard let vc = storyboard?.instantiateViewController(withIdentifier: "NotificationAlertViewController") as? NotificationAlertViewController else { return }
+            appDelegate.sideViewBadgeCheck = false
+            navigationController?.pushViewController(vc, animated: true)
+        case 1:
+            guard let vc = storyboard?.instantiateViewController(withIdentifier: "MyStoryViewController") as? MyStoryViewController else { return }
+            navigationController?.pushViewController(vc, animated: true)
+        case 2:
+            guard let tabVC = storyboard?.instantiateViewController(withIdentifier: "tab2") as? UITabBarController else { return }
+            appDelegate.chattingCheck = false
+            navigationController?.pushViewController(tabVC, animated: false)
+        case 3:
+            guard let vc = storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else  { return }
+            let alert = UIAlertController(title: "안내",
+                                          message: "로그아웃 하시겠습니까?",
+                                          preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "아니요",
+                                             style: .cancel)
+            let logoutAction = UIAlertAction(title: "네",
+                                             style: .default) { _ in
+                                                do {
+                                                    try Auth.auth().signOut()
+                                                    print("로그아웃 되었습니다")
+                                                } catch let error {
+                                                    print("error: \(error.localizedDescription)")
+                                                }
+                                                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            alert.addAction(cancelAction)
+            alert.addAction(logoutAction)
+            self.present(alert,animated: true)
+        default:
+            print("error selected")
+        }
+    }
+    
+    func dropdownButtonIsSelected(_ isSelected: Bool) {
+        if isSelected == true {
+            alertBadgeImageView.isHidden = true
+        }
+    }
 }
+
+
+

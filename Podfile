@@ -3,11 +3,11 @@
 
 target 'MakeFairytale' do
   # Comment the next line if you don't want to use dynamic frameworks
-  #use_frameworks!
-  use_modular_headers!
+  use_frameworks!
 
   # Pods for MakeFairytale
-  pod 'Firebase/Database'
+
+pod 'Firebase/Database'
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
   pod 'Firebase/Analytics'
@@ -15,10 +15,9 @@ target 'MakeFairytale' do
   pod 'FirebaseUI/Storage'
   pod 'Firebase/Firestore'
   pod 'Firebase/Messaging'
-  pod 'Kingfisher', '~> 5.9'
   pod 'SDWebImage', :modular_headers => true
+  pod 'Kingfisher', '~> 5.9'
   pod 'SnapKit', '~> 5.0.0'
-  pod 'ObjectMapper', '~> 3.4'
-  pod 'SideMenu'
+  pod 'ObjectMapper', '~> 3.5'
 
 end

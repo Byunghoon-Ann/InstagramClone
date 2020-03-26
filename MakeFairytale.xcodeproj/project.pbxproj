@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E9B25DFD89BE75E4F857C246 /* Pods_MakeFairytale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A876D2EDC6ABE51FFB504628 /* Pods_MakeFairytale.framework */; };
+		07B0F2E6F01416B948BAA0D1 /* Pods_MakeFairytale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2424C191EECD499EB79B923 /* Pods_MakeFairytale.framework */; };
 		F60012A323F16115003DFA12 /* PhotoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60012A223F16115003DFA12 /* PhotoAsset.swift */; };
 		F60B8713236059F800110F31 /* MyPostTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B8711236059F700110F31 /* MyPostTableView.swift */; };
 		F60B8714236059F800110F31 /* MyPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F60B8712236059F700110F31 /* MyPostTableViewCell.xib */; };
@@ -39,8 +39,6 @@
 		F6424A8823F2AF3E00FEA09E /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6424A8723F2AF3E00FEA09E /* NotificationData.swift */; };
 		F643614023EDDC25004D26D4 /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F643613F23EDDC24004D26D4 /* ExtensionViewController.swift */; };
 		F643614223EEC4CF004D26D4 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F643614123EEC4CF004D26D4 /* Mode.swift */; };
-		F64F66272382901900945C38 /* ListViewSideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64F66262382901900945C38 /* ListViewSideViewController.swift */; };
-		F64F6629238296BF00945C38 /* MyListFeedSideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64F6628238296BF00945C38 /* MyListFeedSideBar.swift */; };
 		F6709FF223448E7D00BFF3FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6709FF123448E7D00BFF3FA /* GoogleService-Info.plist */; };
 		F6709FF423448F3800BFF3FA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6709FF323448F3800BFF3FA /* LoginViewController.swift */; };
 		F6709FF62344913A00BFF3FA /* NewSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6709FF52344913A00BFF3FA /* NewSignInViewController.swift */; };
@@ -65,6 +63,9 @@
 		F6BE19712371687200253278 /* DidChattingCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BE196F2371687200253278 /* DidChattingCustomView.swift */; };
 		F6BE19722371687200253278 /* DidChattingCustomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6BE19702371687200253278 /* DidChattingCustomView.xib */; };
 		F6BE19742371695800253278 /* DidChattingCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BE19732371695800253278 /* DidChattingCustomCell.swift */; };
+		F6BF5F03242B707C00819424 /* DropDownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BF5F02242B707C00819424 /* DropDownButton.swift */; };
+		F6BF5F05242B709100819424 /* DropDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BF5F04242B709100819424 /* DropDownView.swift */; };
+		F6BF5F07242B70EB00819424 /* DropDownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6BF5F06242B70EB00819424 /* DropDownCell.xib */; };
 		F6C2B9BE23F979E9001B20C0 /* PlusCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2B9BD23F979E9001B20C0 /* PlusCommentCell.swift */; };
 		F6D5BE4E234F2BB300970043 /* FeedCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D5BE4C234F2BB300970043 /* FeedCollectionCell.swift */; };
 		F6D5BE4F234F2BB300970043 /* FeedCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D5BE4D234F2BB300970043 /* FeedCollectionCell.xib */; };
@@ -76,9 +77,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		04FE1EA64C6C95D4B61575BE /* Pods-MakeFairytale.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.release.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.release.xcconfig"; sourceTree = "<group>"; };
-		1DFBADBA6365F00D39AD13BC /* Pods-MakeFairytale.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.debug.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.debug.xcconfig"; sourceTree = "<group>"; };
-		A876D2EDC6ABE51FFB504628 /* Pods_MakeFairytale.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MakeFairytale.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		244D3BAC20A0DD40295555FC /* Pods-MakeFairytale.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.debug.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.debug.xcconfig"; sourceTree = "<group>"; };
+		3D187DFB2FE117BB9DFAE127 /* Pods-MakeFairytale.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.release.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.release.xcconfig"; sourceTree = "<group>"; };
+		B2424C191EECD499EB79B923 /* Pods_MakeFairytale.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MakeFairytale.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F60012A223F16115003DFA12 /* PhotoAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAsset.swift; sourceTree = "<group>"; };
 		F60B8711236059F700110F31 /* MyPostTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableView.swift; sourceTree = "<group>"; };
 		F60B8712236059F700110F31 /* MyPostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPostTableViewCell.xib; sourceTree = "<group>"; };
@@ -110,8 +111,6 @@
 		F6424A8723F2AF3E00FEA09E /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		F643613F23EDDC24004D26D4 /* ExtensionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
 		F643614123EEC4CF004D26D4 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
-		F64F66262382901900945C38 /* ListViewSideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewSideViewController.swift; sourceTree = "<group>"; };
-		F64F6628238296BF00945C38 /* MyListFeedSideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListFeedSideBar.swift; sourceTree = "<group>"; };
 		F6709FF123448E7D00BFF3FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F6709FF323448F3800BFF3FA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F6709FF52344913A00BFF3FA /* NewSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignInViewController.swift; sourceTree = "<group>"; };
@@ -136,6 +135,9 @@
 		F6BE196F2371687200253278 /* DidChattingCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidChattingCustomView.swift; sourceTree = "<group>"; };
 		F6BE19702371687200253278 /* DidChattingCustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DidChattingCustomView.xib; sourceTree = "<group>"; };
 		F6BE19732371695800253278 /* DidChattingCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidChattingCustomCell.swift; sourceTree = "<group>"; };
+		F6BF5F02242B707C00819424 /* DropDownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownButton.swift; sourceTree = "<group>"; };
+		F6BF5F04242B709100819424 /* DropDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownView.swift; sourceTree = "<group>"; };
+		F6BF5F06242B70EB00819424 /* DropDownCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DropDownCell.xib; sourceTree = "<group>"; };
 		F6C2B9BD23F979E9001B20C0 /* PlusCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusCommentCell.swift; sourceTree = "<group>"; };
 		F6C53510241A67C500820A97 /* FBLPromises.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FBLPromises.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6D5BE4C234F2BB300970043 /* FeedCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionCell.swift; sourceTree = "<group>"; };
@@ -154,7 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9B25DFD89BE75E4F857C246 /* Pods_MakeFairytale.framework in Frameworks */,
+				07B0F2E6F01416B948BAA0D1 /* Pods_MakeFairytale.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,8 +166,8 @@
 		2C3732AB4D0E8129CCAA3202 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1DFBADBA6365F00D39AD13BC /* Pods-MakeFairytale.debug.xcconfig */,
-				04FE1EA64C6C95D4B61575BE /* Pods-MakeFairytale.release.xcconfig */,
+				244D3BAC20A0DD40295555FC /* Pods-MakeFairytale.debug.xcconfig */,
+				3D187DFB2FE117BB9DFAE127 /* Pods-MakeFairytale.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -202,11 +204,12 @@
 			children = (
 				F62B3C5523EC1C02007ED262 /* ListFollwingCell.swift */,
 				F6D5BE4C234F2BB300970043 /* FeedCollectionCell.swift */,
-				F6D5BE4D234F2BB300970043 /* FeedCollectionCell.xib */,
 				F62B3C5923EC25AD007ED262 /* SearchCell.swift */,
 				F62B3C5B23EC25D7007ED262 /* MyAlbumCollectionCell.swift */,
 				F62B3C5D23EC2607007ED262 /* MarkViewCell.swift */,
 				F6C2B9BD23F979E9001B20C0 /* PlusCommentCell.swift */,
+				F6BF5F02242B707C00819424 /* DropDownButton.swift */,
+				F6BF5F04242B709100819424 /* DropDownView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -220,15 +223,6 @@
 				F643613F23EDDC24004D26D4 /* ExtensionViewController.swift */,
 			);
 			path = Extension;
-			sourceTree = "<group>";
-		};
-		F64F662523828F6500945C38 /* ListViewSideViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				F64F66262382901900945C38 /* ListViewSideViewController.swift */,
-				F64F6628238296BF00945C38 /* MyListFeedSideBar.swift */,
-			);
-			path = ListViewSideViewControllers;
 			sourceTree = "<group>";
 		};
 		F67463DB23F54C670082F5F6 /* ChatViews */ = {
@@ -245,7 +239,6 @@
 		F6BB882323489C8300A9924B /* ViewContorllers */ = {
 			isa = PBXGroup;
 			children = (
-				F64F662523828F6500945C38 /* ListViewSideViewControllers */,
 				F6BE1977237181E900253278 /* LoginViews */,
 				F6BE1976237181D600253278 /* MainTapBarViewController */,
 				F6E1F52223A15F670004D7E2 /* InfomationViewControllers */,
@@ -295,6 +288,15 @@
 				F6AC6003236845390053BA89 /* ChattingRoomViewController.swift */,
 			);
 			path = ChattingViewControllers;
+			sourceTree = "<group>";
+		};
+		F6BF5F08242C95D200819424 /* NibFiles */ = {
+			isa = PBXGroup;
+			children = (
+				F6D5BE4D234F2BB300970043 /* FeedCollectionCell.xib */,
+				F6BF5F06242B70EB00819424 /* DropDownCell.xib */,
+			);
+			path = NibFiles;
 			sourceTree = "<group>";
 		};
 		F6E1F52123A15F360004D7E2 /* MainModel */ = {
@@ -356,6 +358,7 @@
 				F6E1F52123A15F360004D7E2 /* MainModel */,
 				F6BB882323489C8300A9924B /* ViewContorllers */,
 				F62B3C5423EC1BD6007ED262 /* Views */,
+				F6BF5F08242C95D200819424 /* NibFiles */,
 				F6F1F3E6232F7DAC00959262 /* Main.storyboard */,
 				F6F1F3E9232F7DAD00959262 /* Assets.xcassets */,
 				F6F1F3EB232F7DAD00959262 /* LaunchScreen.storyboard */,
@@ -369,7 +372,7 @@
 			isa = PBXGroup;
 			children = (
 				F6C53510241A67C500820A97 /* FBLPromises.framework */,
-				A876D2EDC6ABE51FFB504628 /* Pods_MakeFairytale.framework */,
+				B2424C191EECD499EB79B923 /* Pods_MakeFairytale.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -381,11 +384,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F6F1F3F1232F7DAD00959262 /* Build configuration list for PBXNativeTarget "MakeFairytale" */;
 			buildPhases = (
-				A24C7E05FD35A98EC2041290 /* [CP] Check Pods Manifest.lock */,
+				3320A9BB0CF5D4D1C860DF09 /* [CP] Check Pods Manifest.lock */,
 				F6F1F3DB232F7DAC00959262 /* Sources */,
 				F6F1F3DC232F7DAC00959262 /* Frameworks */,
 				F6F1F3DD232F7DAC00959262 /* Resources */,
-				613753D68CD8C4E024E2C373 /* [CP] Embed Pods Frameworks */,
+				584D98881DB83D4726141082 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -438,6 +441,7 @@
 				F6F1F3ED232F7DAD00959262 /* LaunchScreen.storyboard in Resources */,
 				F62A16E023C38E5500D5434B /* ViewPostingRepleCell.xib in Resources */,
 				F6BE19722371687200253278 /* DidChattingCustomView.xib in Resources */,
+				F6BF5F07242B70EB00819424 /* DropDownCell.xib in Resources */,
 				F6390146235718E700ACA7A3 /* MyViewsCollectionCell.xib in Resources */,
 				F627EF312355D4FA00508ED3 /* MyFestaStoryViewCell.xib in Resources */,
 				F60B8714236059F800110F31 /* MyPostTableViewCell.xib in Resources */,
@@ -451,24 +455,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		613753D68CD8C4E024E2C373 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A24C7E05FD35A98EC2041290 /* [CP] Check Pods Manifest.lock */ = {
+		3320A9BB0CF5D4D1C860DF09 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -490,6 +477,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		584D98881DB83D4726141082 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -503,11 +507,11 @@
 				F67463D423F53E100082F5F6 /* ExtensionMyFestaStoryViewController.swift in Sources */,
 				F627EF2D2355BF1300508ED3 /* MyFestaStoryViewController.swift in Sources */,
 				F63B60A623FAF56800B6559D /* DidChatMembersCell.swift in Sources */,
-				F64F66272382901900945C38 /* ListViewSideViewController.swift in Sources */,
 				F6709FF423448F3800BFF3FA /* LoginViewController.swift in Sources */,
 				F6709FFA2345E6DB00BFF3FA /* PlusCommentViewContrller.swift in Sources */,
 				F6424A8823F2AF3E00FEA09E /* NotificationData.swift in Sources */,
 				F67463D623F54AE00082F5F6 /* MyMessageCell.swift in Sources */,
+				F6BF5F05242B709100819424 /* DropDownView.swift in Sources */,
 				F6BE19712371687200253278 /* DidChattingCustomView.swift in Sources */,
 				F671246A2356405100D3C1AD /* MyFestaStoryMenuView.swift in Sources */,
 				F670A01423466C0800BFF3FA /* MyStoryViewController.swift in Sources */,
@@ -515,6 +519,7 @@
 				F6904D6123515EBA0044EDE5 /* LoadFile.swift in Sources */,
 				F60EF53623F6AFD60041EA86 /* ExtensionTableViewCell.swift in Sources */,
 				F632F8A923E345A700591D3C /* MyProfile.swift in Sources */,
+				F6BF5F03242B707C00819424 /* DropDownButton.swift in Sources */,
 				F643614023EDDC25004D26D4 /* ExtensionViewController.swift in Sources */,
 				F6709FF62344913A00BFF3FA /* NewSignInViewController.swift in Sources */,
 				F6C2B9BE23F979E9001B20C0 /* PlusCommentCell.swift in Sources */,
@@ -534,7 +539,6 @@
 				F632F8AF23E3465100591D3C /* MyData.swift in Sources */,
 				F62B3C6023EC267C007ED262 /* ViewPostingRepleCell.swift in Sources */,
 				F643614223EEC4CF004D26D4 /* Mode.swift in Sources */,
-				F64F6629238296BF00945C38 /* MyListFeedSideBar.swift in Sources */,
 				F694C06823F5307200EA79BB /* MyViewsCollectionCell.swift in Sources */,
 				F67463D823F54AFE0082F5F6 /* YourMessageCell.swift in Sources */,
 				F62B3C5623EC1C02007ED262 /* ListFollwingCell.swift in Sources */,
@@ -694,7 +698,7 @@
 		};
 		F6F1F3F2232F7DAD00959262 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1DFBADBA6365F00D39AD13BC /* Pods-MakeFairytale.debug.xcconfig */;
+			baseConfigurationReference = 244D3BAC20A0DD40295555FC /* Pods-MakeFairytale.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -715,7 +719,7 @@
 		};
 		F6F1F3F3232F7DAD00959262 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 04FE1EA64C6C95D4B61575BE /* Pods-MakeFairytale.release.xcconfig */;
+			baseConfigurationReference = 3D187DFB2FE117BB9DFAE127 /* Pods-MakeFairytale.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";

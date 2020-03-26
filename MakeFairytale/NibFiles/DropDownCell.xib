@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DropDownCell" rowHeight="50" id="LFL-dh-08n" customClass="DropDownCell" customModule="FestaGram" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LFL-dh-08n" id="bES-ZN-0zn">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x86-85-oFS">
+                        <rect key="frame" x="8" y="7" width="10" height="10"/>
+                        <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="10" id="51O-5E-qEO"/>
+                            <constraint firstAttribute="width" constant="10" id="KVu-in-IQM"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="x86-85-oFS" firstAttribute="leading" secondItem="bES-ZN-0zn" secondAttribute="leading" constant="8" id="Ds7-k5-rrS"/>
+                    <constraint firstAttribute="trailing" secondItem="x86-85-oFS" secondAttribute="trailing" constant="82" id="S0J-fe-dTo"/>
+                    <constraint firstItem="x86-85-oFS" firstAttribute="top" secondItem="bES-ZN-0zn" secondAttribute="top" constant="7" id="pgF-Ci-8vR"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="buttonBedge" destination="x86-85-oFS" id="Tcj-i0-KiY"/>
+            </connections>
+            <point key="canvasLocation" x="-495.6521739130435" y="-28.125"/>
+        </tableViewCell>
+    </objects>
+</document>

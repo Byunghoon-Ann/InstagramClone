@@ -13,11 +13,11 @@ import UserNotifications
 import Firebase
 import SDWebImage
 import MobileCoreServices
-
 fileprivate let firestoreRef = Firestore.firestore()
 
-final class ListViewController : UIViewController, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-   
+final class ListViewController : UIViewController, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, DropDownButtonDelegate {
+
+   @IBOutlet weak var topUIView: UIView!
    @IBOutlet weak var topView: UIView!
    @IBOutlet weak var tableViewNSLayoutConstraint: NSLayoutConstraint!
    @IBOutlet weak var alertBadgeImageView: UIImageView!
@@ -29,6 +29,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
    
    let appDelegate = UIApplication.shared.delegate as! AppDelegate
    let date = Date()
+   var leftTopButton = DropDownButton()
    var goodMarkURLKey : String = ""
    var festaData : [Posts] = [] // 포스팅 데이터
    var following : [FollowData] = [] //팔로잉 리스트
@@ -81,7 +82,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       follwingCollectionView.delegate = self
       follwingCollectionView.dataSource = self
       appDelegate.topViewHeight = Double(topView.frame.height)
-      
+      dropDownButtonSet()
       topViewHideSwipeGesture(postTableView)
       
       view.addSubview(firstAlertLabel)
@@ -95,7 +96,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       super.viewWillAppear(animated)
       checknotificationCenter()
    }
-   
+
    override func viewDidLayoutSubviews() {
       super.viewDidLayoutSubviews()
       let layout = UICollectionViewFlowLayout()
@@ -103,13 +104,6 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       follwingCollectionView.collectionViewLayout = layout
       alertBadgeImageView.layer.cornerRadius = alertBadgeImageView.frame.height/2
       userProfileImageView.layer.cornerRadius = userProfileImageView.frame.height/2
-   }
-   
-   @IBAction func sideBarButton(_ sender: UIButton) {
-      if alertBadgeImageView.isHidden == false {
-         alertBadgeImageView.isHidden = true
-         appDelegate.checkNotificationCheck = false
-      }
    }
    
    @IBAction func clickCameraButton(_ sender: Any) {
@@ -229,7 +223,6 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
                                self.festaData[indexPath.row],
                                cell.goodBtn,
                                currentUID) {
-                                 
                                  if cell.goodBtn.isSelected == true {
                                     self.festaData[indexPath.row].goodMark = true
                                     self.festaData[indexPath.row].likeCount += 1
@@ -260,10 +253,8 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
                                           vc.post = self.festaData[indexPath.row]
                                           self.navigationController?.pushViewController(vc, animated: true)
       }
-      
       let deleteAction = UIAlertAction(title: "삭제",
                                        style: .default) { _ in
-                                          
                                           let deleteAlert = UIAlertController(title: "안내",
                                                                               message: "게시물을 삭제하시겠습니까?",
                                                                               preferredStyle: .alert)
@@ -307,7 +298,6 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
                                                                           self.postTableView,
                                                                           self.festaData)
       }
-      
       if self.festaData[indexPath.row].userUID == appDelegate.currentUID {
          alert.addAction(deleteAction)
       }
@@ -315,7 +305,6 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       if festaData[indexPath.row].userUID != appDelegate.currentUID {
          alert.addAction(messageAlert)
       }
-      
       alert.addAction(detailAction)
       alert.addAction(cancel)
       self.present(alert,animated: true)
