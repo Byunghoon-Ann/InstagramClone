@@ -24,6 +24,7 @@ class ChattingListViewController : UIViewController {
         label.font = .boldSystemFont(ofSize: 20)
         label.textAlignment = .center
         label.textColor = .black
+        label.backgroundColor = .white
         label.text = "페스타 찾기에서 친구를 추가해 대화를 나눠보세요!"
         return label
     }()
@@ -34,7 +35,7 @@ class ChattingListViewController : UIViewController {
         alertLabel.isHidden = true
         alertLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         alertLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        
+        tableView.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ChattingListViewCell.self, forCellReuseIdentifier: "ChattingCell")
@@ -94,7 +95,7 @@ extension ChattingListViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard userData.count > 0 else { return  UITableViewCell() }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ChattingCell",for: indexPath) as? ChattingListViewCell else {return UITableViewCell() }
-        
+        cell.backgroundColor = .white
         let imageView = cell.imageview
         
         imageView.snp.makeConstraints { (m) in
@@ -104,12 +105,19 @@ extension ChattingListViewController: UITableViewDataSource, UITableViewDelegate
         }
         
         DispatchQueue.main.async {
-            imageView.sd_setImage(with: URL(string: self.userData[indexPath.row].userThumbnail))
-            imageView.layer.cornerRadius = imageView.frame.size.width/2
-            imageView.clipsToBounds = true
+            
+            if self.userData[indexPath.row].userThumbnail.isEmpty || self.userData[indexPath.row].userThumbnail == "https://firebasestorage.googleapis.com/v0/b/festargram.appspot.com/o/ProfileImage%2FGa1gCzr889XNZMl21BudVge3m422?alt=media&token=f57776f4-e12f-4342-b6eb-8b343aa49a23" {
+                imageView.image = UIImage(named: "userSelected@40x40")
+            }else {
+                print(self.userData[indexPath.row].userThumbnail)
+                imageView.sd_setImage(with: URL(string: self.userData[indexPath.row].userThumbnail))
+            }
+            imageView.layer.cornerRadius = imageView.frame.height/2
         }
         
         let label = cell.label
+        label.backgroundColor = .white
+        label.textColor = .black
         label.snp.makeConstraints { (m) in
             m.centerY.equalTo(cell)
             m.left.equalTo(imageView.snp.right).offset(30)

@@ -30,6 +30,7 @@
                     <constraint firstItem="x86-85-oFS" firstAttribute="top" secondItem="bES-ZN-0zn" secondAttribute="top" constant="7" id="pgF-Ci-8vR"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="buttonBedge" destination="x86-85-oFS" id="Tcj-i0-KiY"/>
             </connections>

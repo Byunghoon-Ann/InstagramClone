@@ -26,7 +26,7 @@ class MarkViewController : UIViewController {
         label.font = .boldSystemFont(ofSize: 20)
         label.numberOfLines = 3
         label.textColor = .black
-        label.backgroundColor = .clear
+        label.backgroundColor = .white
         label.text = "좋아요 한 게시물이 없습니다.\n 많은 페스타들의 게시물을 둘러보시고 \n 좋아요를 눌러주세요! "
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -36,6 +36,8 @@ class MarkViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initRefresh()
+        view.backgroundColor = .white
+        tableView.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
         self.view.addSubview(alertLabel)
@@ -65,6 +67,11 @@ extension MarkViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard goodPost.count > 0 else { return UITableViewCell() }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MarkViewCell") as? MarkViewCell else { return UITableViewCell() }
+        cell.backgroundColor = .white
+        cell.userName.backgroundColor = .white
+        cell.userName.textColor = .black
+        cell.userComment.textColor = .black
+        cell.userComment.backgroundColor = .white
         cell.profileImageView.sd_setImage(with: URL(string: goodPost[indexPath.row].userProfileImage))
         cell.userName.text = goodPost[indexPath.row].userName
         cell.userComment.text = goodPost[indexPath.row].userComment

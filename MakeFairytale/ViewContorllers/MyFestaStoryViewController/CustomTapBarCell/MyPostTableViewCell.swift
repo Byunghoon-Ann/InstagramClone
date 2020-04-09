@@ -25,6 +25,7 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
     @IBOutlet weak var postDateLabel: UILabel!
     @IBOutlet weak var scrollContentView: UIView!
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let calendar = Calendar(identifier: .gregorian)
     var today = Date()
     lazy var dateFomatter: DateFormatter = {
@@ -36,17 +37,20 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
     
     var postData: Posts? {
         didSet {
+            
             guard let postData = postData else { return }
+            guard let myProfile = appDelegate.myProfile else { return }
             postUserProfileImg.sd_setImage(with: URL(string: postData.userProfileImage))
-            mySelfImgView.sd_setImage(with: URL(string: postData.userProfileImage))
+            mySelfImgView.sd_setImage(with: URL(string: myProfile.profileImageURL))
             postText.text = postData.userComment
             postUser.text = postData.userName
-            goodBtn.isSelected = postData.goodMark
             pageControl.numberOfPages = postData.userPostImage.count
             postDateLabel.text = postingDateCalculation(postData.postDate,dateFomatter,today,calendar)
             likeCountLabel.text = "\(postData.likeCount) 좋아요"
             viewCountLabel.text = "\(postData.viewCount) 조회"
             goodBtn.isSelected = postData.goodMark
+            goodBtn.setImage(UIImage(named: "likeBefore.png"), for: .normal)
+            goodBtn.setImage(UIImage(named: "likeAfter.png"), for: .selected)
             if postData.userPostImage.count == 1 {
                 pageControl.isHidden = true
             }

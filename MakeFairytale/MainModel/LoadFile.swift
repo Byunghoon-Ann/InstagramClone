@@ -8,7 +8,7 @@
 //MARK:- 팔로우, 포스트, 전체포스트(서치뷰용) 리스트 로드 함수 파일
 import Foundation
 import Firebase
-
+import UIKit
 fileprivate let firestoreRef = Firestore.firestore()
 
 class LoadFile {

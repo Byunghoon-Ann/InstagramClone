@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07B0F2E6F01416B948BAA0D1 /* Pods_MakeFairytale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2424C191EECD499EB79B923 /* Pods_MakeFairytale.framework */; };
+		79EAF85352A4B6024B161F26 /* libPods-MakeFairytale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D20DF11584CF59DD0CC0A5CB /* libPods-MakeFairytale.a */; };
 		F60012A323F16115003DFA12 /* PhotoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60012A223F16115003DFA12 /* PhotoAsset.swift */; };
 		F60B8713236059F800110F31 /* MyPostTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B8711236059F700110F31 /* MyPostTableView.swift */; };
 		F60B8714236059F800110F31 /* MyPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F60B8712236059F700110F31 /* MyPostTableViewCell.xib */; };
@@ -79,7 +79,7 @@
 /* Begin PBXFileReference section */
 		244D3BAC20A0DD40295555FC /* Pods-MakeFairytale.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.debug.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.debug.xcconfig"; sourceTree = "<group>"; };
 		3D187DFB2FE117BB9DFAE127 /* Pods-MakeFairytale.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.release.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.release.xcconfig"; sourceTree = "<group>"; };
-		B2424C191EECD499EB79B923 /* Pods_MakeFairytale.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MakeFairytale.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D20DF11584CF59DD0CC0A5CB /* libPods-MakeFairytale.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MakeFairytale.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F60012A223F16115003DFA12 /* PhotoAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAsset.swift; sourceTree = "<group>"; };
 		F60B8711236059F700110F31 /* MyPostTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableView.swift; sourceTree = "<group>"; };
 		F60B8712236059F700110F31 /* MyPostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPostTableViewCell.xib; sourceTree = "<group>"; };
@@ -156,7 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07B0F2E6F01416B948BAA0D1 /* Pods_MakeFairytale.framework in Frameworks */,
+				79EAF85352A4B6024B161F26 /* libPods-MakeFairytale.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,7 +372,7 @@
 			isa = PBXGroup;
 			children = (
 				F6C53510241A67C500820A97 /* FBLPromises.framework */,
-				B2424C191EECD499EB79B923 /* Pods_MakeFairytale.framework */,
+				D20DF11584CF59DD0CC0A5CB /* libPods-MakeFairytale.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -388,7 +388,7 @@
 				F6F1F3DB232F7DAC00959262 /* Sources */,
 				F6F1F3DC232F7DAC00959262 /* Frameworks */,
 				F6F1F3DD232F7DAC00959262 /* Resources */,
-				584D98881DB83D4726141082 /* [CP] Embed Pods Frameworks */,
+				AEE6FED5B79A3BEDBE07CCD7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -477,21 +477,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		584D98881DB83D4726141082 /* [CP] Embed Pods Frameworks */ = {
+		AEE6FED5B79A3BEDBE07CCD7 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

@@ -1,4 +1,4 @@
-framework module Pods_MakeFairytale {
+module Pods_MakeFairytale {
   umbrella header "Pods-MakeFairytale-umbrella.h"
 
   export *

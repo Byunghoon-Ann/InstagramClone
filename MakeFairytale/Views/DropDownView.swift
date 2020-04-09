@@ -23,8 +23,8 @@ class DropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        tableView.backgroundColor = .darkGray
-        self.backgroundColor = .darkGray
+        tableView.backgroundColor = .white
+        self.backgroundColor = .white
         self.layer.cornerRadius = 5
         tableView.delegate = self
         tableView.dataSource = self
@@ -70,6 +70,7 @@ class DropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
         
         cell.textLabel?.text = dropDownOptions[indexPath.row]
         cell.textLabel?.textAlignment = .center
+        cell.textLabel?.backgroundColor = .white
         cell.textLabel?.textColor = .black
         cell.textLabel?.font = .boldSystemFont(ofSize: 12)
         return cell
@@ -91,6 +92,7 @@ class DropDownCell: UITableViewCell {
     @IBOutlet weak var buttonBedge: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = .white
         buttonBedge.layer.cornerRadius = buttonBedge.frame.height/2
     }
 }

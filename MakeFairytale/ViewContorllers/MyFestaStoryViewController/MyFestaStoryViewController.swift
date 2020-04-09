@@ -72,13 +72,13 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if firstMyView.yourUID == "" {
+        if firstMyView.yourUID == "" || firstMyView
+            .yourUID == appDelegate.currentUID{
             checkFollowButton.isHidden = true
         }else {
             checkFollowButton.isHidden = false
         }
-         loadFollowCount()
-       // print(appDelegate.currentUID)
+        loadFollowCount()
         viewUserProfile {
             self.firstMyView.collectionView.reloadData()
         }
@@ -148,9 +148,9 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     //MARK: MydidChattingList DIdSelectDelegate
     func customMyChatDidselect(_ path: Int) {
         let i = IndexPath(row:path,section:0)
-        let yourUID = thirdMyView.yourUIDs[i.row]
+        let yourUID = thirdMyView.chatModel[i.row]
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "ChattingRoomViewController") as? ChattingRoomViewController else { return }
-        vc.yourUID = yourUID
+        vc.yourUID = thirdMyView.yourUIDs[i.row]
         print(yourUID)
         navigationController?.pushViewController(vc, animated: true)
     }

@@ -35,7 +35,6 @@ class MyStoryViewController : UIViewController,UITextFieldDelegate {
         userPassword.isSecureTextEntry = true
         
         let selectProfileImageGesture =  UITapGestureRecognizer(target: self, action: #selector(selectProfileImage))
-        profileImageView.clipsToBounds = true
         profileImageView.layer.cornerRadius = profileImageView.frame.height/2
         profileImageView.addGestureRecognizer(selectProfileImageGesture)
     }

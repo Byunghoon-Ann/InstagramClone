@@ -13,6 +13,7 @@ import UserNotifications
 import Firebase
 import SDWebImage
 import MobileCoreServices
+
 fileprivate let firestoreRef = Firestore.firestore()
 
 final class ListViewController : UIViewController, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, DropDownButtonDelegate {
@@ -76,9 +77,11 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       postTableView.register(nibName, forCellReuseIdentifier: "feedcell")
       postTableView.layer.borderWidth = 0.2
       postTableView.layer.borderColor = UIColor.lightGray.cgColor
+      alertBadgeImageView.isHidden = true
+      postTableView.backgroundColor = .white
+      view.backgroundColor = .white
       postTableView.dataSource = self
       postTableView.delegate = self
-      alertBadgeImageView.isHidden = true
       follwingCollectionView.delegate = self
       follwingCollectionView.dataSource = self
       appDelegate.topViewHeight = Double(topView.frame.height)

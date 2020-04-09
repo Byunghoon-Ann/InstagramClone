@@ -89,6 +89,7 @@ class AlbumViewController : UIViewController {
         super.viewDidLoad()
 
         commentInputText.delegate = self
+        commentInputText.backgroundColor = .white
         follows = LoadFile.shread.followString
         let tapEndEditing = UITapGestureRecognizer(target: self, action: #selector(selectProfileImg))
         postingContentView.addGestureRecognizer(tapEndEditing)
@@ -208,7 +209,8 @@ extension AlbumViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = MyAlbumView.dequeueReusableCell(withReuseIdentifier: "albumcell", for: indexPath) as? MyAlbumCollectionCell else { return UICollectionViewCell()}
+        guard let cell = MyAlbumView.dequeueReusableCell(withReuseIdentifier: "albumcell", for: indexPath) as?
+            MyAlbumCollectionCell else { return UICollectionViewCell()}
         guard let asset = fetchResult?[indexPath.row] else { return UICollectionViewCell() }
         OperationQueue.main.addOperation {
         self.imageManager.requestImage(for: asset,
@@ -354,7 +356,9 @@ extension AlbumViewController: PHPhotoLibraryChangeObserver {
         case .authorized:
             print("ok")
             self.requestImageCollection()
-            
+            DispatchQueue.main.async {
+                self.MyAlbumView.reloadData()
+            }
         case .denied:
             print("denied")
             

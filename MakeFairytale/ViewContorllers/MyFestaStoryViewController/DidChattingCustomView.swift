@@ -50,6 +50,7 @@ class DidChattingCustomView: UIView {
     var chatModel: [ChatModel] = []
     var tableViews: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        tableView.backgroundColor = .white
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -92,10 +93,11 @@ extension DidChattingCustomView : UITableViewDelegate,UITableViewDataSource {
         guard let cell = tableViews.dequeueReusableCell(withIdentifier: "DidChattingCustomCell") as? DidChattingCustomCell else { return UITableViewCell() }
         var yourUID = ""
         let currentUID = appDelegate.currentUID ?? ""
-        
+        cell.backgroundColor = .white
         for i in chatModel[indexPath.row].users {
             if i.key != currentUID {
                 yourUID = i.key
+                yourUIDs.append(yourUID)
                 //self.yourUIDs.append(yourUid)
             }
         }

@@ -34,11 +34,10 @@ extension UIViewController {
             imageView.frame = CGRect(x: xPosition, y: 0, width: scrollFrame.width, height: scrollFrame.height)
             imageView.sd_setImage(with: URL(string: festaData.userPostImage[i]))
             scrollview.contentSize.width = scrollFrame.width * CGFloat(1 + i)
-            
             scrollview.addSubview(imageView)
         }
     }
-    
+
     //MARK:- 좋아요 func
     func likeButtonAction(_ checkDate: String,
                           _ post: Posts,

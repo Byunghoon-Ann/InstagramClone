@@ -12,7 +12,6 @@ import SDWebImage
 fileprivate let firestoreRef = Firestore.firestore()
 fileprivate let currentUID = Auth.auth().currentUser?.uid
 class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
-    
     @IBOutlet weak var postImageScrollView: UIScrollView!
     @IBOutlet weak var likeCountLabel: UILabel!
     @IBOutlet weak var postingDateLabel: UILabel!
@@ -56,6 +55,7 @@ class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
             likeCountLabel.text = "\(festaData.likeCount) 좋아요"
             goodBtn.isSelected = festaData.goodMark
             actionControlOption(festaData, pageControl)
+            
         }
     }
     
@@ -77,7 +77,6 @@ class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         pageControl.currentPage = Int(floor(scrollView.contentOffset.x / UIScreen.main.bounds.width))
     }
-    
 }
 
 

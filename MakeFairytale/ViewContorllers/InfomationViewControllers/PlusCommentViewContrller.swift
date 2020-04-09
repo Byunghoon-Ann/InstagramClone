@@ -28,6 +28,7 @@ class PlusCommentViewContrller : UIViewController {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .black
+        label.backgroundColor = .white
         label.font = .boldSystemFont(ofSize: 16)
         label.text = "댓글이 아직 없습니다"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -52,6 +53,13 @@ class PlusCommentViewContrller : UIViewController {
         super.viewDidLoad()
         customAlertLabel()
         dataControl()
+        checkUIBtn.backgroundColor = .white
+        plusCommentTextField.textColor = .black
+        plusCommentTextField.backgroundColor = .white
+        profileComment.backgroundColor = .white
+        profileComment.textColor = .black
+    
+        checkUIBtn.setTitleColor(.black, for: .normal)
         commentTableView.dataSource = self
         commentTableView.delegate = self
         
@@ -197,7 +205,11 @@ extension PlusCommentViewContrller : UITableViewDataSource {
         guard let cell = commentTableView.dequeueReusableCell(withIdentifier: "pluscommentcell") as? PlusCommentCell else { return  UITableViewCell()}
         cell.contentView.layer.borderWidth = 0.1
         cell.contentView.layer.borderColor = UIColor.lightGray.cgColor
-        
+        cell.userName.backgroundColor = .white
+        cell.userName.textColor = .black
+        cell.backgroundColor = .white
+        cell.postUser.backgroundColor = .white
+        cell.postUser.textColor = .black
         cell.userThumbnail.layer.cornerRadius = cell.userThumbnail.frame.height/2
         cell.postUser.text = repleData[indexPath.row].userReple
         cell.userName.text = repleData[indexPath.row].nickName

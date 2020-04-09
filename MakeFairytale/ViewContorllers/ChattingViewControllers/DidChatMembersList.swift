@@ -18,14 +18,15 @@ class DidChatMembersList : UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var firstAlertLabel : UILabel = {
-       let label = UILabel()
-       label.translatesAutoresizingMaskIntoConstraints = false
-       label.numberOfLines = 0
-       label.font = .boldSystemFont(ofSize: 20)
-       label.textColor = .black
-       label.text = "대화한 기록이 없습니다. \n팔로우한 친구와 대화를 나눠보세요!"
-       label.textAlignment = .center
-       return label
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .black
+        label.backgroundColor = .white
+        label.text = "대화한 기록이 없습니다. \n팔로우한 친구와 대화를 나눠보세요!"
+        label.textAlignment = .center
+        return label
     }()
     var chatModel: [ChatModel] = []
     var yourUIDs : [String] = []
@@ -33,6 +34,9 @@ class DidChatMembersList : UIViewController {
     
     override func viewDidLoad() {
         view.addSubview(firstAlertLabel)
+        tableView.backgroundColor = .white
+        view.backgroundColor = .white
+        
         firstAlertLabel.isHidden = true
         firstAlertLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         firstAlertLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -89,6 +93,7 @@ extension DidChatMembersList:  UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DidChatMembersCell",for: indexPath) as? DidChatMembersCell else { return UITableViewCell()}
+        cell.backgroundColor = .white
         var yourUID : String?
         let currentUID = appDelegate.currentUID ?? ""
         for i in chatModel[indexPath.row].users {
