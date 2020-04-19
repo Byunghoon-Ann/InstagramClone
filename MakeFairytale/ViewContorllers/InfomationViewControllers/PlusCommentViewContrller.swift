@@ -9,7 +9,7 @@
 //댓글창 ListViewController에서 댓글 선택시 보여준다
 //맨 위는 해당 댓글의 계정주 그밑에는 단 사람 순서대로 나열, 뷰 맨 아래에 사용자가 댓글을 남길수 있고 남기면
 //맨 마지막에 댓글이 달린다.
-import Foundation
+
 import UIKit
 import Firebase
 fileprivate let currentUID = Auth.auth().currentUser?.uid
@@ -202,7 +202,8 @@ extension PlusCommentViewContrller : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = commentTableView.dequeueReusableCell(withIdentifier: "pluscommentcell") as? PlusCommentCell else { return  UITableViewCell()}
+        guard indexPath.row < repleData.count else { return UITableViewCell() }
+        let cell:PlusCommentCell = tableView.dequeueCell(indexPath: indexPath)
         cell.contentView.layer.borderWidth = 0.1
         cell.contentView.layer.borderColor = UIColor.lightGray.cgColor
         cell.userName.backgroundColor = .white
@@ -243,7 +244,8 @@ extension PlusCommentViewContrller {
     }
     
     func dataControl() {
-        loadPostRepleData {
+        loadPostRepleData { [weak self] in
+            guard let self = self else { return }
             if self.repleData.isEmpty {
                 self.commentTableView.isHidden = true
                 self.alertLabel.isHidden  = false

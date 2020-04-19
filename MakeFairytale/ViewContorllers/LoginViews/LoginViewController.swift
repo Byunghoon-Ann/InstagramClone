@@ -11,7 +11,6 @@ import UIKit
 fileprivate let ref = Database.database().reference()
 
 class LoginViewController: UIViewController{
-
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var emailTextField : UITextField!
@@ -24,7 +23,6 @@ class LoginViewController: UIViewController{
         super.viewDidLoad()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge], completionHandler: {didAllow,Error in })
 
-        
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
@@ -32,15 +30,12 @@ class LoginViewController: UIViewController{
         emailTextField.layer.cornerRadius = 15
         passwordTextField.layer.borderWidth = 1
         passwordTextField.layer.cornerRadius = 15
-        emailTextField.clipsToBounds = true
-        passwordTextField.clipsToBounds = true
     }
     
     
     //MARK: 로그인 기록이 있을 경우 자동 로그인
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         if Auth.auth().currentUser != nil {
             let startView = self.storyboard?.instantiateViewController(withIdentifier: "tab") as! UITabBarController
             Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { (timer) in
@@ -135,7 +130,6 @@ class LoginViewController: UIViewController{
                                                     }
                                             }
             }
-            
             pwAlert.addAction(cancel)
             pwAlert.addAction(okAction)
             self.present(pwAlert,animated: true)

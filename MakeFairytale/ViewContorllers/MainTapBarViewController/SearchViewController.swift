@@ -31,7 +31,8 @@ class SearchViewController : UIViewController ,UISearchBarDelegate{
         searchBar.barTintColor = .systemOrange
         festaPostLoadIndicator.startAnimating()
         
-        LoadFile.shread.loadSearchFeedPost {
+        LoadFile.shread.loadSearchFeedPost { [weak self] in
+            guard let self = self else { return }
             self.searchImageArray = LoadFile.shread.posts
             self.searchImageArray.sort { firstItem, secondItem in
                 let firstDate = self.dateFomatter.date(from: firstItem.postDate) ?? self.today
@@ -87,8 +88,8 @@ extension SearchViewController : UICollectionViewDataSource ,UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let cell = searchCollectionView.dequeueReusableCell(withReuseIdentifier: "searchcell", for: indexPath) as? SearchCell else { return UICollectionViewCell()}
+        guard indexPath.item < filterData.count else { return UICollectionViewCell() }
+        let cell:SearchCell = collectionView.dequeueCell(indexPath: indexPath)
         if filterData.count == 0 {
             return cell
         } else {
@@ -99,7 +100,7 @@ extension SearchViewController : UICollectionViewDataSource ,UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let viewPostingVC = storyboard?.instantiateViewController(withIdentifier:"ViewPostingController") as? ViewPostingController else { return }
-        viewPostingVC.post = self.searchImageArray[indexPath.row]
+        viewPostingVC.post = searchImageArray[indexPath.row]
         navigationController?.pushViewController(viewPostingVC, animated: true)
     }
     

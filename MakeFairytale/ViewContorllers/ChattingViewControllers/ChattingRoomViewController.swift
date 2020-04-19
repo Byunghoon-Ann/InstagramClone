@@ -62,9 +62,7 @@ class ChattingRoomViewController : UIViewController {
         let createRoomInfo : Dictionary<String,Any> =  [
             "users":[currentUID:true,
                      yourUID:true] ]
-       // guard let chatRoomUID = chatRoomUID else { return }
         if self.chatRoomUID.isEmpty {
-            print("nil")
             self.sendButton.isEnabled = false
             Database
                 .database()
@@ -73,7 +71,6 @@ class ChattingRoomViewController : UIViewController {
                 .childByAutoId()
                 .setValue(createRoomInfo) { error,ref in
                     if error == nil {
-                        print("jjj")
                         self.checkChatRoom()
                         let value : Dictionary<String,Any> = [
                             "uid":currentUID,
@@ -188,7 +185,6 @@ class ChattingRoomViewController : UIViewController {
     //MARK:채팅기록 로드 함수
     func getMessageList() {
         guard let currentUID = appDelegate.currentUID else { return }
-   //     guard let chatRoomUID = chatRoomUID else { return }
         databaseRef = Database.database().reference().child("chatRooms").child("\(chatRoomUID)").child("comments")
         
         observe = databaseRef?.observe(.value) { snapshot in
@@ -278,8 +274,9 @@ extension ChattingRoomViewController : UITableViewDataSource,UITableViewDelegate
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let myData = appDelegate.myProfile else { return UITableViewCell() }
+        guard indexPath.row < comments.count else { return UITableViewCell() }
         if  comments[indexPath.row].uid  == appDelegate.currentUID {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell",for: indexPath) as? MyMessageCell else { return UITableViewCell() }
+            let cell:MyMessageCell = tableView.dequeueCell(indexPath: indexPath)
             
             cell.myMessageLabel.text = comments[indexPath.row].message
             cell.myThumbnail.sd_setImage(with: URL(string: myData.profileImageURL))
@@ -294,7 +291,7 @@ extension ChattingRoomViewController : UITableViewDataSource,UITableViewDelegate
                         position: indexPath.row)
             return cell
         }else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "YourMessageCell",for : indexPath) as? YourMessageCell else { return UITableViewCell()}
+            let cell:YourMessageCell = tableView.dequeueCell(indexPath: indexPath)
             
             guard let userData = self.userModel else { return UITableViewCell() }
             guard let imageUrl = userData.userThumbnail else { return UITableViewCell() }

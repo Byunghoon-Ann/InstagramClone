@@ -13,18 +13,19 @@ import AssetsLibrary
 
 fileprivate let fireStoreRef = Firestore.firestore()
 fileprivate let currentUID = Auth.auth().currentUser
+fileprivate let fireStorageRef = Storage.storage().reference(forURL: "gs://festargram.appspot.com").child("myPost")
 
 class AlbumViewController : UIViewController {
     
     @IBOutlet weak var sendingPostIndicator: UIActivityIndicatorView!
     @IBOutlet weak var selectedImg: UIImageView!
     @IBOutlet weak var commentInputText: UITextView!
-    @IBOutlet weak var MyAlbumView: UICollectionView!
     @IBOutlet weak var itemsSelectedButton: UIButton!
     @IBOutlet weak var alertImageCountLabel: UILabel!
     @IBOutlet weak var setPostingButton: UIButton!
     @IBOutlet weak var postingContentView: UIView!
-
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     let dates = Date()
     let dateFomatter: DateFormatter = {
         let fomatter = DateFormatter()
@@ -40,28 +41,19 @@ class AlbumViewController : UIViewController {
             case .view:
                 for (key, value) in dictionarySelectedIndecPath {
                     if value {
-                        MyAlbumView.deselectItem(at: key, animated: true)
+                        collectionView.deselectItem(at: key, animated: true)
                     }
                 }
                 setPostingButton.isUserInteractionEnabled = false
                 setPostingButton.alpha = 0.6
-                dictionarySelectedIndecPath.removeAll()
-                selectedImages.removeAll()
-                urlString.removeAll()
-                selectedAssetIndex.removeAll()
-                alertImageCountLabel.text = "선택 없음"
-                itemsSelectedButton.setTitle("선택", for: .normal)
-                MyAlbumView.allowsSelection = true
-                MyAlbumView.allowsMultipleSelection = false
+                alertImageCountLabel.isHidden = true
+                collectionView.allowsSelection = true
+                collectionView.allowsMultipleSelection = false
             case .select:
-                itemsSelectedButton.setTitle("취소", for: .normal)
-                MyAlbumView.allowsMultipleSelection = true
+                alertImageCountLabel.isHidden = false
+                collectionView.allowsMultipleSelection = true
             }
         }
-    }
-    
-    @objc func didSelectButtonClicked(_ sender: UIButton) {
-        mMode = mMode == .view ? .select : .view
     }
     
     var fetchOptions: PHFetchOptions = {
@@ -87,7 +79,6 @@ class AlbumViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         commentInputText.delegate = self
         commentInputText.backgroundColor = .white
         follows = LoadFile.shread.followString
@@ -95,7 +86,6 @@ class AlbumViewController : UIViewController {
         postingContentView.addGestureRecognizer(tapEndEditing)
         itemsSelectedButton.addTarget(self, action: #selector(didSelectButtonClicked(_:)), for: .touchUpInside)
         sendingPostIndicator.isHidden = true
-        MyAlbumView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,15 +93,30 @@ class AlbumViewController : UIViewController {
         mMode = .view
         PHPhotoLibrary.shared().register(self)
         phothAurhorizationStatus()
-        requestImageCollection()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
+    
     @objc func selectProfileImg(_ gesture: UITapGestureRecognizer) {
         commentInputText.resignFirstResponder()
+    }
+    
+    @objc func didSelectButtonClicked(_ sender: UIButton) {
+        switch sender.isSelected {
+        case true:
+            dictionarySelectedIndecPath.removeAll()
+            selectedImages.removeAll()
+            urlString.removeAll()
+            selectedAssetIndex.removeAll()
+            sender.isSelected = false
+            mMode = .view
+        case false:
+            sender.isSelected = true
+            mMode = .select
+        }
     }
     
     @IBAction func setPost(_ sender: Any) {
@@ -124,25 +129,23 @@ class AlbumViewController : UIViewController {
         sendingPostIndicator.isHidden = false
         sendingPostIndicator.startAnimating()
         
-        let storageRef = Storage.storage()
-            .reference(forURL: "gs://festargram.appspot.com")
-            .child("myPost")
+        let storageRef = fireStorageRef
             .child("\(currentUID.uid)")
             .child("postingText")
         
-        for i in 0..<self.selectedImages.count {
-            self.count += 1
-            guard let imageData = self.selectedImages[i].jpegData(compressionQuality: 0.5) else { return }
+        for i in 0..<selectedImages.count {
+            count += 1
+            guard let imageData = selectedImages[i].jpegData(compressionQuality: 0.5) else { return }
             self.images.append(imageData)
         }
         
-        if self.images.count == self.selectedImages.count  {
+        if self.images.count == selectedImages.count  {
             let postingTextAddress = "\(postingText.count)" + checkToday
             for j in 0 ..< self.images.count {
                 storageRef
                     .child(postingTextAddress)
                     .child("\(j)")
-                    .putData(self.images[j],metadata: nil) { mata,error in
+                    .putData(images[j], metadata: nil) { mata,error in
                         
                         if let error = error { print("\(error.localizedDescription)") }
                         
@@ -209,8 +212,8 @@ extension AlbumViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = MyAlbumView.dequeueReusableCell(withReuseIdentifier: "albumcell", for: indexPath) as?
-            MyAlbumCollectionCell else { return UICollectionViewCell()}
+        guard indexPath.item < fetchResult?.count ?? 0 else { return UICollectionViewCell() }
+        let cell: MyAlbumCollectionCell = collectionView.dequeueCell(indexPath: indexPath)
         guard let asset = fetchResult?[indexPath.row] else { return UICollectionViewCell() }
         OperationQueue.main.addOperation {
         self.imageManager.requestImage(for: asset,
@@ -356,9 +359,6 @@ extension AlbumViewController: PHPhotoLibraryChangeObserver {
         case .authorized:
             print("ok")
             self.requestImageCollection()
-            DispatchQueue.main.async {
-                self.MyAlbumView.reloadData()
-            }
         case .denied:
             print("denied")
             
@@ -370,7 +370,7 @@ extension AlbumViewController: PHPhotoLibraryChangeObserver {
                     print("사용자 허용")
                     self.requestImageCollection()
                     DispatchQueue.main.async {
-                        self.MyAlbumView.reloadData()
+                        self.collectionView.reloadData()
                     }
                 case .denied:
                     print("허용되지 않음")
@@ -389,21 +389,15 @@ extension AlbumViewController: PHPhotoLibraryChangeObserver {
         @unknown default:
             print("fatal error")
         }
-        
-        MyAlbumView.reloadData()
     }
     
     func requestImageCollection() {
-        let fetchOption = PHFetchOptions()
         let cameraRoll = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
-        fetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         for integer in 0 ..< cameraRoll.count {
             let collection = cameraRoll.object(at: integer)
-            self.fetchResult = PHAsset.fetchAssets(in: collection, options: fetchOption)
+            self.fetchResult = PHAsset.fetchAssets(in: collection, options: fetchOptions)
         }
-        DispatchQueue.main.async {
-            self.MyAlbumView.reloadData()
-        }
+        
         guard let fetchResult = fetchResult else { return }
         OperationQueue.main.addOperation {
             self.imageManager.requestImage(for: fetchResult.object(at: 0),

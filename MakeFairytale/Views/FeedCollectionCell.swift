@@ -32,8 +32,6 @@ class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
     var today = Date()
     lazy var dateFomatter: DateFormatter = {
         let dateFomatter = DateFormatter()
-        dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFomatter.locale = Locale(identifier: "kr_KR")
         return dateFomatter
     }()
     
@@ -55,7 +53,6 @@ class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
             likeCountLabel.text = "\(festaData.likeCount) 좋아요"
             goodBtn.isSelected = festaData.goodMark
             actionControlOption(festaData, pageControl)
-            
         }
     }
     
@@ -72,6 +69,16 @@ class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
         appDelegate.tableCellHeight = self.frame.height
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        viewCount.text = nil
+        postText.text = nil
+        postUser.text = nil
+        postingDateLabel.text = nil
+        postUserProfileImg.image = nil
+        likeCountLabel.text = nil
+        mySelfImgView.image = nil
+    }
     
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

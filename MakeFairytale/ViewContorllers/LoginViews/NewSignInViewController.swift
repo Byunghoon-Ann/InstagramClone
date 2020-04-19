@@ -153,7 +153,6 @@ extension NewSignInViewController : UIImagePickerControllerDelegate,UINavigation
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         firstProfileImg.image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         dismiss(animated: true)
-        
     }
     
   //카메라 앨범 선택 함수

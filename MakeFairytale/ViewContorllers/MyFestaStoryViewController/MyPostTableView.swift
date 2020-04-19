@@ -121,7 +121,8 @@ extension MyPostTableView : UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyPostTableViewCell") as? MyPostTableViewCell else { return UITableViewCell() }
+        let cell:MyPostTableViewCell = tableView.dequeueCell(indexPath: indexPath)
+        
         if !yourUID.isEmpty {
             cell.postData = yourData[indexPath.row]
             adScrollImageView(cell.scrollView, yourData[indexPath.row], true)

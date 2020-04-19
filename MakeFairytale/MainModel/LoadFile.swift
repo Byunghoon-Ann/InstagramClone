@@ -6,9 +6,9 @@
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
 //MARK:- 팔로우, 포스트, 전체포스트(서치뷰용) 리스트 로드 함수 파일
-import Foundation
 import Firebase
 import UIKit
+
 fileprivate let firestoreRef = Firestore.firestore()
 
 class LoadFile {
@@ -34,7 +34,7 @@ class LoadFile {
             .collection("user")
             .document(uid)
             .addSnapshotListener(includeMetadataChanges: true) { snapshot, error in
-                if let error = error { print(error.localizedDescription)}
+                if let error = error { print(error.localizedDescription) }
              
                 guard let userData = snapshot?.data() else { return }
                 let likeCheck = userData["like"] as? Bool ?? false

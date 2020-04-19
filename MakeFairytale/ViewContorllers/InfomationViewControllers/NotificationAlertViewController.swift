@@ -52,6 +52,8 @@ class NotificationAlertViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
         loadAlerts{
             if !self.alertsDatas.isEmpty {
             self.alertsDatas.sort { firstData, secondData in
@@ -82,8 +84,8 @@ extension NotificationAlertViewController: UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard alertsDatas.count > 0 else { return UITableViewCell() }
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationAlertTableCell") as? NotificationAlertTableCell else { return UITableViewCell() }
+        guard indexPath.row < alertsDatas.count else { return UITableViewCell() }
+        let cell:NotificationAlertTableCell = tableView.dequeueCell(indexPath: indexPath)
         cell.alertsData = alertsDatas[indexPath.row]
         return cell
     }

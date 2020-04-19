@@ -108,8 +108,8 @@ extension MyViews : UICollectionViewDataSource,UICollectionViewDelegate,UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyViewsCollectionCell", for: indexPath) as? MyViewsCollectionCell else { return UICollectionViewCell() }
-      
+        guard indexPath.item < myPosts.count else { return UICollectionViewCell() }
+        let cell:MyViewsCollectionCell = collectionView.dequeueCell(indexPath: indexPath)      
         cell.imageView.sd_setImage(with: URL(string: myPosts[indexPath.row].userPostImage[0]))
         return cell
     }

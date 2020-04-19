@@ -19,4 +19,11 @@ class MarkViewCell : UITableViewCell {
         userComment.sizeToFit()
         profileImageView.layer.cornerRadius = profileImageView.frame.height/2
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        userName.text = nil
+        userComment.text = nil
+        profileImageView.image = nil
+    }
 }

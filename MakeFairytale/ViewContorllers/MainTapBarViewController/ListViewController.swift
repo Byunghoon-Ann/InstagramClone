@@ -6,7 +6,6 @@
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
 //로그인 후 나타나는 뷰 페뷱이나 인스타처럼 팔로우한 사람들과 본인이 작성한 글들이 나타난다.
-//noti넣을곳넣기
 //MARK: TapBarIndex = 0, ViewController
 import UIKit
 import UserNotifications
@@ -73,8 +72,8 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       
       initRefresh(refresh)
       
-      let nibName = UINib(nibName: "FeedCollectionCell" , bundle: nil)
-      postTableView.register(nibName, forCellReuseIdentifier: "feedcell")
+      postTableView.registerCell(FeedCollectionCell.self)
+      
       postTableView.layer.borderWidth = 0.2
       postTableView.layer.borderColor = UIColor.lightGray.cgColor
       alertBadgeImageView.isHidden = true
@@ -151,12 +150,13 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
 extension ListViewController : UICollectionViewDataSource {
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+      guard following.count > 0 else { return 0 }
       return following.count
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-      guard following.count > 0 else { return UICollectionViewCell() }
-      guard let cell = self.follwingCollectionView.dequeueReusableCell(withReuseIdentifier: "follwingcell", for: indexPath) as? ListFollwingCell else { return UICollectionViewCell() }
+      guard indexPath.row < following.count else { return UICollectionViewCell() }
+      let cell:ListFollwingCell = follwingCollectionView.dequeueCell(indexPath: indexPath)
       cell.followingData = following[indexPath.row]
       return cell
    }
@@ -166,6 +166,7 @@ extension ListViewController : UICollectionViewDelegate,UICollectionViewDelegate
    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
       guard let currentUID = appDelegate.currentUID else { return }
       guard let vc = storyboard?.instantiateViewController(withIdentifier: "MyFestaStoryViewController") as? MyFestaStoryViewController else { return }
+      
       vc.firstMyView.myUID = currentUID
       vc.secondMyview.yourUID = following[indexPath.row].userUID
       vc.firstMyView.yourUID = following[indexPath.row].userUID
@@ -189,9 +190,10 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
    }
    
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      guard festaData.count > 0 else { return UITableViewCell() }
+      guard indexPath.row < festaData.count else { return UITableViewCell() }
       guard let myProfileData = myProfileData else { return UITableViewCell() }
-      guard let cell = postTableView.dequeueReusableCell(withIdentifier: "feedcell",for: indexPath) as? FeedCollectionCell else { return UITableViewCell() }
+      let cell: FeedCollectionCell = tableView.dequeueCell(indexPath: indexPath)
+     // guard let cell = postTableView.dequeueReusableCell(withIdentifier: "feedcell",for: indexPath) as? FeedCollectionCell else { return UITableViewCell() }
       
       cell.festaData = festaData[indexPath.row]
       cell.myProfile = myProfileData
@@ -221,7 +223,8 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       guard let indexPath = postTableView.indexPath(for: cell) else { return }
       let likeCheckDate = dateFomatter.string(from: self.date)
       
-      DispatchQueue.main.async {
+      DispatchQueue.main.async { [weak self] in
+         guard let self = self else {  return }
          self.likeButtonAction(likeCheckDate,
                                self.festaData[indexPath.row],
                                cell.goodBtn,
@@ -266,8 +269,8 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
                                                                      style: .cancel)
                                           
                                           let okAction = UIAlertAction(title: "확인",
-                                                                       style: .default) { _ in
-                                                                        
+                                                                       style: .default) { [weak self] _ in
+                                                                        guard let self = self else { return }
                                                                         let postURL = self.festaData[indexPath.row]
                                                                         for i in 0 ..< postURL.userPostImage.count {
                                                                            Storage

@@ -38,10 +38,10 @@ class ChattingListViewController : UIViewController {
         tableView.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(ChattingListViewCell.self, forCellReuseIdentifier: "ChattingCell")
+        tableView.register(ChattingListViewCell.self, forCellReuseIdentifier: "ChattingListViewCell")
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (m) in
-            m.top.equalTo(view).offset(view.frame.height/6)
+            m.top.equalTo(view).offset(view.frame.height/5)
             m.bottom.left.right.equalTo(view)
         }
         loadFollowList()
@@ -93,8 +93,8 @@ extension ChattingListViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard userData.count > 0 else { return  UITableViewCell() }
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ChattingCell",for: indexPath) as? ChattingListViewCell else {return UITableViewCell() }
+        guard indexPath.row < userData.count else { return  UITableViewCell() }
+        let cell:ChattingListViewCell = tableView.dequeueCell(indexPath: indexPath)
         cell.backgroundColor = .white
         let imageView = cell.imageview
         
@@ -105,7 +105,6 @@ extension ChattingListViewController: UITableViewDataSource, UITableViewDelegate
         }
         
         DispatchQueue.main.async {
-            
             if self.userData[indexPath.row].userThumbnail.isEmpty || self.userData[indexPath.row].userThumbnail == "https://firebasestorage.googleapis.com/v0/b/festargram.appspot.com/o/ProfileImage%2FGa1gCzr889XNZMl21BudVge3m422?alt=media&token=f57776f4-e12f-4342-b6eb-8b343aa49a23" {
                 imageView.image = UIImage(named: "userSelected@40x40")
             }else {

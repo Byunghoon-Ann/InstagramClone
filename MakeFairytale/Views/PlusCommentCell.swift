@@ -17,6 +17,12 @@ class PlusCommentCell : UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        postUser.text = nil
+        userName.text = nil
+        userThumbnail.image = nil
     }
 }

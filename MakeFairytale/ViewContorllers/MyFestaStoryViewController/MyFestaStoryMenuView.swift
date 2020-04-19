@@ -18,6 +18,9 @@ protocol MyFestaStoryMenuViewDelegate: class {
 class MyFestaStoryMenuView : UIView{
     
     weak var delegate: MyFestaStoryMenuViewDelegate?
+    
+    let texts = ["사진","게시글","대화 기록"]
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         self.backgroundColor = .white
@@ -84,8 +87,7 @@ extension MyFestaStoryMenuView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyFestaStoryViewCell", for: indexPath) as! MyFestaStoryViewCell
-        let texts = ["사진","게시글","대화 기록"]
+        let cell:MyFestaStoryViewCell = collectionView.dequeueCell(indexPath: indexPath)        
         cell.label.text = texts[indexPath.row]
         return cell
     }

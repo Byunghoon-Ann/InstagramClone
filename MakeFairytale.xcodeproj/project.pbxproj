@@ -12,13 +12,13 @@
 		F60B8713236059F800110F31 /* MyPostTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B8711236059F700110F31 /* MyPostTableView.swift */; };
 		F60B8714236059F800110F31 /* MyPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F60B8712236059F700110F31 /* MyPostTableViewCell.xib */; };
 		F60B871623605E3200110F31 /* MyPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B871523605E3200110F31 /* MyPostTableViewCell.swift */; };
-		F60EF53623F6AFD60041EA86 /* ExtensionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60EF53523F6AFD60041EA86 /* ExtensionTableViewCell.swift */; };
+		F60EF53623F6AFD60041EA86 /* UITableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60EF53523F6AFD60041EA86 /* UITableViewCellExtension.swift */; };
 		F623887F235B0CE3007E88D3 /* ViewPostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F623887E235B0CE3007E88D3 /* ViewPostingController.swift */; };
 		F627EF2D2355BF1300508ED3 /* MyFestaStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F627EF2C2355BF1300508ED3 /* MyFestaStoryViewController.swift */; };
 		F627EF312355D4FA00508ED3 /* MyFestaStoryViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F627EF2F2355D4FA00508ED3 /* MyFestaStoryViewCell.xib */; };
 		F62A16E023C38E5500D5434B /* ViewPostingRepleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F62A16DE23C38E5500D5434B /* ViewPostingRepleCell.xib */; };
 		F62B3C5623EC1C02007ED262 /* ListFollwingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62B3C5523EC1C02007ED262 /* ListFollwingCell.swift */; };
-		F62B3C5823EC2122007ED262 /* ExtensionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62B3C5723EC2122007ED262 /* ExtensionListViewController.swift */; };
+		F62B3C5823EC2122007ED262 /* ListViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62B3C5723EC2122007ED262 /* ListViewControllerExtension.swift */; };
 		F62B3C5A23EC25AD007ED262 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62B3C5923EC25AD007ED262 /* SearchCell.swift */; };
 		F62B3C5C23EC25D7007ED262 /* MyAlbumCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62B3C5B23EC25D7007ED262 /* MyAlbumCollectionCell.swift */; };
 		F62B3C5E23EC2607007ED262 /* MarkViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62B3C5D23EC2607007ED262 /* MarkViewCell.swift */; };
@@ -37,7 +37,7 @@
 		F6424A8423F2AAB900FEA09E /* NotificationAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6424A8323F2AAB900FEA09E /* NotificationAlertViewController.swift */; };
 		F6424A8623F2AC2900FEA09E /* NotificationAlertTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6424A8523F2AC2900FEA09E /* NotificationAlertTableCell.swift */; };
 		F6424A8823F2AF3E00FEA09E /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6424A8723F2AF3E00FEA09E /* NotificationData.swift */; };
-		F643614023EDDC25004D26D4 /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F643613F23EDDC24004D26D4 /* ExtensionViewController.swift */; };
+		F643614023EDDC25004D26D4 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F643613F23EDDC24004D26D4 /* UIViewControllerExtension.swift */; };
 		F643614223EEC4CF004D26D4 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F643614123EEC4CF004D26D4 /* Mode.swift */; };
 		F6709FF223448E7D00BFF3FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6709FF123448E7D00BFF3FA /* GoogleService-Info.plist */; };
 		F6709FF423448F3800BFF3FA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6709FF323448F3800BFF3FA /* LoginViewController.swift */; };
@@ -50,7 +50,7 @@
 		F670A01423466C0800BFF3FA /* MyStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F670A01323466C0800BFF3FA /* MyStoryViewController.swift */; };
 		F671246A2356405100D3C1AD /* MyFestaStoryMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67124692356405100D3C1AD /* MyFestaStoryMenuView.swift */; };
 		F671246E235644DA00D3C1AD /* MyFestaStoryPageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F671246C235644DA00D3C1AD /* MyFestaStoryPageCell.xib */; };
-		F67463D423F53E100082F5F6 /* ExtensionMyFestaStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463D323F53E100082F5F6 /* ExtensionMyFestaStoryViewController.swift */; };
+		F67463D423F53E100082F5F6 /* MyFestaStoryViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463D323F53E100082F5F6 /* MyFestaStoryViewControllerExtension.swift */; };
 		F67463D623F54AE00082F5F6 /* MyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463D523F54AE00082F5F6 /* MyMessageCell.swift */; };
 		F67463D823F54AFE0082F5F6 /* YourMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463D723F54AFE0082F5F6 /* YourMessageCell.swift */; };
 		F67463DA23F54C510082F5F6 /* ChattingListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463D923F54C510082F5F6 /* ChattingListViewCell.swift */; };
@@ -70,6 +70,12 @@
 		F6D5BE4E234F2BB300970043 /* FeedCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D5BE4C234F2BB300970043 /* FeedCollectionCell.swift */; };
 		F6D5BE4F234F2BB300970043 /* FeedCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D5BE4D234F2BB300970043 /* FeedCollectionCell.xib */; };
 		F6DE31D0236AF06200039BF1 /* DidChatMembersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DE31CF236AF06200039BF1 /* DidChatMembersList.swift */; };
+		F6E54F7F2449A72F00D7F9FD /* LocalCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54F7E2449A72F00D7F9FD /* LocalCollection.swift */; };
+		F6E54F812449A8A700D7F9FD /* FirebaseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54F802449A8A700D7F9FD /* FirebaseExtension.swift */; };
+		F6E54FAC244C4BFB00D7F9FD /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54FAB244C4BFB00D7F9FD /* Reusable.swift */; };
+		F6E54FAE244C4C3000D7F9FD /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54FAD244C4C3000D7F9FD /* UITableViewExtension.swift */; };
+		F6E54FB0244C511900D7F9FD /* UICollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54FAF244C511900D7F9FD /* UICollectionViewExtension.swift */; };
+		F6E54FB5244C622700D7F9FD /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54FB4244C622700D7F9FD /* DateFormatterExtension.swift */; };
 		F6F1F3E3232F7DAC00959262 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F1F3E2232F7DAC00959262 /* AppDelegate.swift */; };
 		F6F1F3E8232F7DAC00959262 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6F1F3E6232F7DAC00959262 /* Main.storyboard */; };
 		F6F1F3EA232F7DAD00959262 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6F1F3E9232F7DAD00959262 /* Assets.xcassets */; };
@@ -84,13 +90,13 @@
 		F60B8711236059F700110F31 /* MyPostTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableView.swift; sourceTree = "<group>"; };
 		F60B8712236059F700110F31 /* MyPostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPostTableViewCell.xib; sourceTree = "<group>"; };
 		F60B871523605E3200110F31 /* MyPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableViewCell.swift; sourceTree = "<group>"; };
-		F60EF53523F6AFD60041EA86 /* ExtensionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionTableViewCell.swift; sourceTree = "<group>"; };
+		F60EF53523F6AFD60041EA86 /* UITableViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellExtension.swift; sourceTree = "<group>"; };
 		F623887E235B0CE3007E88D3 /* ViewPostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPostingController.swift; sourceTree = "<group>"; };
 		F627EF2C2355BF1300508ED3 /* MyFestaStoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFestaStoryViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		F627EF2F2355D4FA00508ED3 /* MyFestaStoryViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyFestaStoryViewCell.xib; sourceTree = "<group>"; };
 		F62A16DE23C38E5500D5434B /* ViewPostingRepleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewPostingRepleCell.xib; sourceTree = "<group>"; };
 		F62B3C5523EC1C02007ED262 /* ListFollwingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFollwingCell.swift; sourceTree = "<group>"; };
-		F62B3C5723EC2122007ED262 /* ExtensionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionListViewController.swift; sourceTree = "<group>"; };
+		F62B3C5723EC2122007ED262 /* ListViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerExtension.swift; sourceTree = "<group>"; };
 		F62B3C5923EC25AD007ED262 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		F62B3C5B23EC25D7007ED262 /* MyAlbumCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAlbumCollectionCell.swift; sourceTree = "<group>"; };
 		F62B3C5D23EC2607007ED262 /* MarkViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkViewCell.swift; sourceTree = "<group>"; };
@@ -109,7 +115,7 @@
 		F6424A8323F2AAB900FEA09E /* NotificationAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAlertViewController.swift; sourceTree = "<group>"; };
 		F6424A8523F2AC2900FEA09E /* NotificationAlertTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAlertTableCell.swift; sourceTree = "<group>"; };
 		F6424A8723F2AF3E00FEA09E /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
-		F643613F23EDDC24004D26D4 /* ExtensionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
+		F643613F23EDDC24004D26D4 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		F643614123EEC4CF004D26D4 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		F6709FF123448E7D00BFF3FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F6709FF323448F3800BFF3FA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -122,7 +128,7 @@
 		F670A01323466C0800BFF3FA /* MyStoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoryViewController.swift; sourceTree = "<group>"; };
 		F67124692356405100D3C1AD /* MyFestaStoryMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFestaStoryMenuView.swift; sourceTree = "<group>"; };
 		F671246C235644DA00D3C1AD /* MyFestaStoryPageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyFestaStoryPageCell.xib; sourceTree = "<group>"; };
-		F67463D323F53E100082F5F6 /* ExtensionMyFestaStoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionMyFestaStoryViewController.swift; sourceTree = "<group>"; };
+		F67463D323F53E100082F5F6 /* MyFestaStoryViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFestaStoryViewControllerExtension.swift; sourceTree = "<group>"; };
 		F67463D523F54AE00082F5F6 /* MyMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMessageCell.swift; sourceTree = "<group>"; };
 		F67463D723F54AFE0082F5F6 /* YourMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourMessageCell.swift; sourceTree = "<group>"; };
 		F67463D923F54C510082F5F6 /* ChattingListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingListViewCell.swift; sourceTree = "<group>"; };
@@ -143,6 +149,12 @@
 		F6D5BE4C234F2BB300970043 /* FeedCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionCell.swift; sourceTree = "<group>"; };
 		F6D5BE4D234F2BB300970043 /* FeedCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedCollectionCell.xib; sourceTree = "<group>"; };
 		F6DE31CF236AF06200039BF1 /* DidChatMembersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidChatMembersList.swift; sourceTree = "<group>"; };
+		F6E54F7E2449A72F00D7F9FD /* LocalCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCollection.swift; sourceTree = "<group>"; };
+		F6E54F802449A8A700D7F9FD /* FirebaseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseExtension.swift; sourceTree = "<group>"; };
+		F6E54FAB244C4BFB00D7F9FD /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		F6E54FAD244C4C3000D7F9FD /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
+		F6E54FAF244C511900D7F9FD /* UICollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewExtension.swift; sourceTree = "<group>"; };
+		F6E54FB4244C622700D7F9FD /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		F6F1F3DF232F7DAC00959262 /* FestaGram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FestaGram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6F1F3E2232F7DAC00959262 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6F1F3E7232F7DAC00959262 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -207,6 +219,8 @@
 				F62B3C5923EC25AD007ED262 /* SearchCell.swift */,
 				F62B3C5B23EC25D7007ED262 /* MyAlbumCollectionCell.swift */,
 				F62B3C5D23EC2607007ED262 /* MarkViewCell.swift */,
+				F62B3C5F23EC267C007ED262 /* ViewPostingRepleCell.swift */,
+				F6424A8523F2AC2900FEA09E /* NotificationAlertTableCell.swift */,
 				F6C2B9BD23F979E9001B20C0 /* PlusCommentCell.swift */,
 				F6BF5F02242B707C00819424 /* DropDownButton.swift */,
 				F6BF5F04242B709100819424 /* DropDownView.swift */,
@@ -214,15 +228,19 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		F632F8B823E34AC900591D3C /* Extension */ = {
+		F632F8B823E34AC900591D3C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				F62B3C5723EC2122007ED262 /* ExtensionListViewController.swift */,
-				F60EF53523F6AFD60041EA86 /* ExtensionTableViewCell.swift */,
-				F67463D323F53E100082F5F6 /* ExtensionMyFestaStoryViewController.swift */,
-				F643613F23EDDC24004D26D4 /* ExtensionViewController.swift */,
+				F62B3C5723EC2122007ED262 /* ListViewControllerExtension.swift */,
+				F60EF53523F6AFD60041EA86 /* UITableViewCellExtension.swift */,
+				F6E54FAD244C4C3000D7F9FD /* UITableViewExtension.swift */,
+				F6E54FAF244C511900D7F9FD /* UICollectionViewExtension.swift */,
+				F67463D323F53E100082F5F6 /* MyFestaStoryViewControllerExtension.swift */,
+				F643613F23EDDC24004D26D4 /* UIViewControllerExtension.swift */,
+				F6E54F802449A8A700D7F9FD /* FirebaseExtension.swift */,
+				F6E54FB4244C622700D7F9FD /* DateFormatterExtension.swift */,
 			);
-			path = Extension;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		F67463DB23F54C670082F5F6 /* ChatViews */ = {
@@ -293,6 +311,7 @@
 		F6BF5F08242C95D200819424 /* NibFiles */ = {
 			isa = PBXGroup;
 			children = (
+				F62A16DE23C38E5500D5434B /* ViewPostingRepleCell.xib */,
 				F6D5BE4D234F2BB300970043 /* FeedCollectionCell.xib */,
 				F6BF5F06242B70EB00819424 /* DropDownCell.xib */,
 			);
@@ -323,13 +342,19 @@
 			isa = PBXGroup;
 			children = (
 				F623887E235B0CE3007E88D3 /* ViewPostingController.swift */,
-				F62B3C5F23EC267C007ED262 /* ViewPostingRepleCell.swift */,
-				F62A16DE23C38E5500D5434B /* ViewPostingRepleCell.xib */,
 				F6709FF92345E6DB00BFF3FA /* PlusCommentViewContrller.swift */,
 				F6424A8323F2AAB900FEA09E /* NotificationAlertViewController.swift */,
-				F6424A8523F2AC2900FEA09E /* NotificationAlertTableCell.swift */,
 			);
 			path = InfomationViewControllers;
+			sourceTree = "<group>";
+		};
+		F6E54FB3244C61BD00D7F9FD /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				F6E54FAB244C4BFB00D7F9FD /* Reusable.swift */,
+				F6E54F7E2449A72F00D7F9FD /* LocalCollection.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		F6F1F3D6232F7DAC00959262 = {
@@ -354,11 +379,12 @@
 			isa = PBXGroup;
 			children = (
 				F6F1F3E2232F7DAC00959262 /* AppDelegate.swift */,
-				F632F8B823E34AC900591D3C /* Extension */,
+				F6E54FB3244C61BD00D7F9FD /* Protocols */,
+				F632F8B823E34AC900591D3C /* Extensions */,
 				F6E1F52123A15F360004D7E2 /* MainModel */,
-				F6BB882323489C8300A9924B /* ViewContorllers */,
 				F62B3C5423EC1BD6007ED262 /* Views */,
 				F6BF5F08242C95D200819424 /* NibFiles */,
+				F6BB882323489C8300A9924B /* ViewContorllers */,
 				F6F1F3E6232F7DAC00959262 /* Main.storyboard */,
 				F6F1F3E9232F7DAD00959262 /* Assets.xcassets */,
 				F6F1F3EB232F7DAD00959262 /* LaunchScreen.storyboard */,
@@ -501,14 +527,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6E54F812449A8A700D7F9FD /* FirebaseExtension.swift in Sources */,
 				F60B871623605E3200110F31 /* MyPostTableViewCell.swift in Sources */,
+				F6E54FB5244C622700D7F9FD /* DateFormatterExtension.swift in Sources */,
 				F694C06623F3E73900EA79BB /* MyFestaStoryPageCell.swift in Sources */,
 				F60012A323F16115003DFA12 /* PhotoAsset.swift in Sources */,
-				F67463D423F53E100082F5F6 /* ExtensionMyFestaStoryViewController.swift in Sources */,
+				F67463D423F53E100082F5F6 /* MyFestaStoryViewControllerExtension.swift in Sources */,
 				F627EF2D2355BF1300508ED3 /* MyFestaStoryViewController.swift in Sources */,
 				F63B60A623FAF56800B6559D /* DidChatMembersCell.swift in Sources */,
 				F6709FF423448F3800BFF3FA /* LoginViewController.swift in Sources */,
 				F6709FFA2345E6DB00BFF3FA /* PlusCommentViewContrller.swift in Sources */,
+				F6E54F7F2449A72F00D7F9FD /* LocalCollection.swift in Sources */,
 				F6424A8823F2AF3E00FEA09E /* NotificationData.swift in Sources */,
 				F67463D623F54AE00082F5F6 /* MyMessageCell.swift in Sources */,
 				F6BF5F05242B709100819424 /* DropDownView.swift in Sources */,
@@ -517,23 +546,24 @@
 				F670A01423466C0800BFF3FA /* MyStoryViewController.swift in Sources */,
 				F6AC6004236845390053BA89 /* ChattingRoomViewController.swift in Sources */,
 				F6904D6123515EBA0044EDE5 /* LoadFile.swift in Sources */,
-				F60EF53623F6AFD60041EA86 /* ExtensionTableViewCell.swift in Sources */,
+				F60EF53623F6AFD60041EA86 /* UITableViewCellExtension.swift in Sources */,
 				F632F8A923E345A700591D3C /* MyProfile.swift in Sources */,
 				F6BF5F03242B707C00819424 /* DropDownButton.swift in Sources */,
-				F643614023EDDC25004D26D4 /* ExtensionViewController.swift in Sources */,
+				F643614023EDDC25004D26D4 /* UIViewControllerExtension.swift in Sources */,
 				F6709FF62344913A00BFF3FA /* NewSignInViewController.swift in Sources */,
 				F6C2B9BE23F979E9001B20C0 /* PlusCommentCell.swift in Sources */,
 				F670A00E23466BAA00BFF3FA /* SearchViewController.swift in Sources */,
 				F60B8713236059F800110F31 /* MyPostTableView.swift in Sources */,
 				F6D5BE4E234F2BB300970043 /* FeedCollectionCell.swift in Sources */,
 				F6F1F3E3232F7DAC00959262 /* AppDelegate.swift in Sources */,
+				F6E54FB0244C511900D7F9FD /* UICollectionViewExtension.swift in Sources */,
 				F6BE19742371695800253278 /* DidChattingCustomCell.swift in Sources */,
 				F63901422357154800ACA7A3 /* MyViews.swift in Sources */,
 				F670A01023466BC500BFF3FA /* AlbumViewController.swift in Sources */,
 				F632F8B323E3468E00591D3C /* FollowData.swift in Sources */,
 				F67463DA23F54C510082F5F6 /* ChattingListViewCell.swift in Sources */,
 				F6424A8423F2AAB900FEA09E /* NotificationAlertViewController.swift in Sources */,
-				F62B3C5823EC2122007ED262 /* ExtensionListViewController.swift in Sources */,
+				F62B3C5823EC2122007ED262 /* ListViewControllerExtension.swift in Sources */,
 				F62B3C5C23EC25D7007ED262 /* MyAlbumCollectionCell.swift in Sources */,
 				F62B3C5E23EC2607007ED262 /* MarkViewCell.swift in Sources */,
 				F632F8AF23E3465100591D3C /* MyData.swift in Sources */,
@@ -553,6 +583,8 @@
 				F62B3C5A23EC25AD007ED262 /* SearchCell.swift in Sources */,
 				F6709FF82345DD1200BFF3FA /* ListViewController.swift in Sources */,
 				F6AC60022368452C0053BA89 /* ChattingListViewController.swift in Sources */,
+				F6E54FAC244C4BFB00D7F9FD /* Reusable.swift in Sources */,
+				F6E54FAE244C4C3000D7F9FD /* UITableViewExtension.swift in Sources */,
 				F6424A8623F2AC2900FEA09E /* NotificationAlertTableCell.swift in Sources */,
 				F623887F235B0CE3007E88D3 /* ViewPostingController.swift in Sources */,
 			);

@@ -34,4 +34,12 @@ class DidChattingCustomCell : UITableViewCell {
         alertLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         alertLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        timeStamps.text = nil
+        nickNameLabel.text = nil
+        lastMessage.text = nil
+        profileImageview.image = nil
+    }
 }

@@ -21,15 +21,17 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     @IBOutlet weak var FakeBarButton: UIButton!
     @IBOutlet weak var myProfileImage: UIImageView!
     @IBOutlet weak var myProfileName: UILabel!
-    @IBOutlet var myPostFollowDataCount: [UILabel]!
     @IBOutlet var fixMyInfomation: UIButton!
     @IBOutlet weak var checkFollowButton: UIButton!
+    @IBOutlet weak var horizontalStackView: UIStackView!
+    @IBOutlet weak var guideCountLabelStackView: UIStackView!
     
-    var pageCollectionView: UICollectionView = {
+    lazy var pageCollectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.isPagingEnabled = true
         return collectionView
     }()
     
@@ -42,13 +44,13 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     
     var alertLabel : UILabel = {
         let label = UILabel()
-      label.translatesAutoresizingMaskIntoConstraints = false
-      label.numberOfLines = 2
-      label.font = .boldSystemFont(ofSize: 20)
-      label.textColor = .black
-      label.text =  "타인의 채팅기록은 조회할 수 없습니다."
-      label.textAlignment = .center
-      return label
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 2
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .black
+        label.text =  "타인의 채팅기록은 조회할 수 없습니다."
+        label.textAlignment = .center
+        return label
     }()
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -62,35 +64,36 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     var yourName: String = ""
     var followingCheck : [String] = []
     var followerCheck : [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        countLabelSetUp(horizontalStackView, false)
+        countLabelSetUp(guideCountLabelStackView, true)
         setupCustomTabBar()
         setupPageCollectionView()
         myProfileName.text = yourName
-        thirdMyView.tableViews.reloadData()
-        pageCollectionView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if firstMyView.yourUID == "" || firstMyView
             .yourUID == appDelegate.currentUID{
             checkFollowButton.isHidden = true
-        }else {
+        } else {
             checkFollowButton.isHidden = false
         }
         loadFollowCount()
-        viewUserProfile {
-            self.firstMyView.collectionView.reloadData()
+        viewUserProfile(FakeBarButton, fixMyInfomation,
+                        myProfileName, myProfileImage,
+                        horizontalStackView) {
+                     print("load Success")
         }
         myProfileImage.layer.cornerRadius = myProfileImage.bounds.height/2
         checkFollow()
     }
-    
+
     //FIXME: 수정필요
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-//        firstMyView.yourUID = ""
-//        secondMyview.yourUID = ""
     }
     
     //MARK: Following,UnFollow Button
@@ -115,19 +118,19 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         self.view.addSubview(customMenuBar)
         customMenuBar.delegate = self
         customMenuBar.translatesAutoresizingMaskIntoConstraints = false
-        customMenuBar.indicatorViewWidthConstraint.constant = self.view.frame.width / 3
+        customMenuBar.indicatorViewWidthConstraint.constant = view.frame.width / 3
         customMenuBar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         customMenuBar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        customMenuBar.topAnchor.constraint(equalTo: self.view.topAnchor,constant: self.view.frame.height / 4).isActive = true
+        customMenuBar.topAnchor.constraint(equalTo: fixMyInfomation.bottomAnchor,constant: 1).isActive = true
         customMenuBar.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     func setupPageCollectionView() {
         pageCollectionView.delegate = self
         pageCollectionView.dataSource = self
-        pageCollectionView.backgroundColor = .gray
         pageCollectionView.showsHorizontalScrollIndicator = false
-        pageCollectionView.register(UINib(nibName: "MyFestaStoryPageCell", bundle: nil), forCellWithReuseIdentifier: "MyFestaStoryPageCell")
+        pageCollectionView.registerCell(MyFestaStoryPageCell.self)
+        //pageCollectionView.register(UINib(nibName: "MyFestaStoryPageCell", bundle: nil), forCellWithReuseIdentifier: "MyFestaStoryPageCell")
         view.addSubview(pageCollectionView)
         
         pageCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
@@ -151,8 +154,24 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         let yourUID = thirdMyView.chatModel[i.row]
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "ChattingRoomViewController") as? ChattingRoomViewController else { return }
         vc.yourUID = thirdMyView.yourUIDs[i.row]
-        print(yourUID)
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func countLabelSetUp(_ stackView: UIStackView, _  guide: Bool) {
+        let guideText = ["게시물","팔로우","팔로잉"]
+        for i in 0..<3 {
+            let label = UILabel()
+            label.textAlignment = .center
+            label.font = .boldSystemFont(ofSize: 15)
+            label.textColor = .black
+            label.backgroundColor = .white
+            if guide == true {
+                label.text = guideText[i]
+            }else {
+                label.text = "0"
+            }
+            stackView.addArrangedSubview(label)
+        }
     }
 }
 
@@ -164,7 +183,7 @@ extension MyFestaStoryViewController: UICollectionViewDataSource,UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyFestaStoryPageCell", for: indexPath) as? MyFestaStoryPageCell
-            else { return UICollectionViewCell()}
+            else { return UICollectionViewCell() }
         customInsertContentView(cell,indexPath)
         return cell
     }
@@ -180,7 +199,7 @@ extension MyFestaStoryViewController: UICollectionViewDataSource,UICollectionVie
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let itemAt = Int(targetContentOffset.pointee.x / self.view.frame.width)
+        let itemAt = Int(targetContentOffset.pointee.x / view.frame.width)
         let indexPath = IndexPath(item: itemAt,section: 0)
         customMenuBar.customTabBarCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
     }
@@ -190,50 +209,47 @@ extension MyFestaStoryViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: pageCollectionView.frame.width, height: pageCollectionView.frame.height)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
 }
 
 extension MyFestaStoryViewController {
     func customInsertContentView(_ cell: UICollectionViewCell, _ indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            cell.addSubview(firstMyView)
-            firstMyView.translatesAutoresizingMaskIntoConstraints = false
-            firstMyView.delegate = self
-            firstMyView.isUserInteractionEnabled = true
-            firstMyView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
-            firstMyView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor).isActive = true
-            firstMyView.topAnchor.constraint(equalTo:cell.contentView.topAnchor).isActive = true
-            firstMyView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor ).isActive = true
-        } else if indexPath.row == 1 {
-            cell.addSubview(secondMyview)
-            secondMyview.translatesAutoresizingMaskIntoConstraints = false
-            secondMyview.delegate = self
-            secondMyview.isUserInteractionEnabled = true
-            secondMyview.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
-            secondMyview.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor).isActive = true
-            secondMyview.topAnchor.constraint(equalTo:cell.contentView.topAnchor).isActive = true
-            secondMyview.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor ).isActive = true
-        } else if indexPath.row == 2 {
+        firstMyView.delegate = self
+        secondMyview.delegate = self
+        thirdMyView.delegate = self
+        switch indexPath.row {
+        case 0:
+            setCustomCells(firstMyView, cell: cell)
+        case 1:
+            setCustomCells(secondMyview, cell: cell)
+        case 2:
+            setCustomCells(thirdMyView, cell: cell)
+        default:
+            print("Layout error!")
+        }
+    }
+    
+    func setCustomCells(_ view: UIView, cell: UICollectionViewCell) {
+        if let view = view as? DidChattingCustomView {
             if firstMyView.yourUID == "" {
+                view.isHidden = false
                 alertLabel.isHidden = true
                 cell.addSubview(thirdMyView)
-                thirdMyView.translatesAutoresizingMaskIntoConstraints = false
-                thirdMyView.delegate = self
-                thirdMyView.isUserInteractionEnabled = true
-                thirdMyView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
-                thirdMyView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor).isActive = true
-                thirdMyView.topAnchor.constraint(equalTo:cell.contentView.topAnchor).isActive = true
-                thirdMyView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor ).isActive = true
             } else {
+                view.isHidden = true
                 alertLabel.isHidden = false
                 cell.addSubview(alertLabel)
                 alertLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
                 alertLabel.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
             }
+        } else {
+            cell.addSubview(view)
         }
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isUserInteractionEnabled = true
+        view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
+        view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor).isActive = true
+        view.topAnchor.constraint(equalTo:cell.contentView.topAnchor).isActive = true
+        view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor ).isActive = true
     }
     
     func loadFollowCount() {
@@ -253,7 +269,9 @@ extension MyFestaStoryViewController {
                         let uid = data["uid"] as? String ?? ""
                         self.followingCheck.append(uid)
                     }
-                    self.myPostFollowDataCount[2].text = "\(self.followingCheck.count)"
+                    if let followCountLabel = self.horizontalStackView.arrangedSubviews[2] as? UILabel {
+                        followCountLabel.text = "\(snapshot.count)"
+                    }
             }
             
             firestoreRef
@@ -267,7 +285,9 @@ extension MyFestaStoryViewController {
                         let uid = data["uid"] as? String ?? ""
                         self.followerCheck.append(uid)
                     }
-                    self.myPostFollowDataCount[1].text = "\(self.followerCheck.count)"
+                    if let followCountLabel = self.horizontalStackView.arrangedSubviews[1] as? UILabel {
+                        followCountLabel.text = "\(snapshot.count)"
+                    }
             }
         } else {
             firestoreRef
@@ -282,7 +302,9 @@ extension MyFestaStoryViewController {
                         let uid = data["uid"] as? String ?? ""
                         self.followerCheck.append(uid)
                     }
-                    self.myPostFollowDataCount[1].text = "\(self.followerCheck.count)"
+                    if let followCountLabel = self.horizontalStackView.arrangedSubviews[1] as? UILabel {
+                        followCountLabel.text = "\(snapshot.count)"
+                    }
             }
             
             firestoreFollowRef
@@ -296,38 +318,46 @@ extension MyFestaStoryViewController {
                         let uid = data["uid"] as? String ?? ""
                         self.followingCheck.append(uid)
                     }
-                    self.myPostFollowDataCount[2].text = "\(self.followingCheck.count)"
+                    if let followCountLabel = self.horizontalStackView.arrangedSubviews[2] as? UILabel {
+                        followCountLabel.text = "\(snapshot.count)"
+                    }
             }
         }
     }
     
     //MARK:- 사용자 혹은 타인의 프로필 조회시 발생하는 구별기능
-    func viewUserProfile(completion : @escaping () -> Void) {
+    func viewUserProfile(_ backButton: UIButton, _ fixProfileButton: UIButton,
+                         _ profileName: UILabel, _ profileImageView: UIImageView,
+                         _ stackView: UIStackView,
+                         completion : @escaping () -> Void) {
         guard let currentUID = appDelegate.currentUID else { return }
-        FakeBarButton.isHidden = true
+        backButton.isHidden = true
         
         if !firstMyView.yourUID.isEmpty, !secondMyview.yourUID.isEmpty {
-            FakeBarButton.isHidden = false
-            fixMyInfomation.isUserInteractionEnabled = false
-            fixMyInfomation.isHidden = true
+            backButton.isHidden = false
+            fixProfileButton.isUserInteractionEnabled = false
+            fixProfileButton.isHidden = true
            
                 firestoreRef
                     .collection("user")
                     .document("\(firstMyView.yourUID)")
                     .getDocument() { userData, error in
-                        if let error = error { print("profileLoadError! \(error.localizedDescription)") }
+                        if let error = error {
+                            print("profileLoadError! \(error.localizedDescription)")
+                        }
+                        
                         guard let userData = userData?.data() else { return }
-                         let userThumbnail = userData["profileImageURL"] as? String ?? ""
-                         let nickName = userData["nickName"] as? String ?? ""
-            
-                        self.myProfileName.text = nickName
-                        self.myProfileImage.sd_setImage(with: URL(string: userThumbnail))
-                }
+                        
+                        let userThumbnail = userData["profileImageURL"] as? String ?? ""
+                        let nickName = userData["nickName"] as? String ?? ""
+                        
+                        profileName.text = nickName
+                        profileImageView.sd_setImage(with: URL(string: userThumbnail))
+            }
             
             firestoreRef.collection("AllPost").order(by: firstMyView.yourUID).getDocuments { (query, error) in
                 if let error = error {print("\(error.localizedDescription)") }
                 if query?.isEmpty == true {
-                    self.myPostFollowDataCount[0].text = "0"
                     completion()
                 } else {
                 guard let query = query?.documents else { return }
@@ -400,7 +430,9 @@ extension MyFestaStoryViewController {
                                             
                                             self.secondMyview.tableView.reloadData()
                                             self.firstMyView.collectionView.reloadData()
-                                            self.myPostFollowDataCount[0].text = "\(self.firstMyView.myPosts.count)"
+                                            if let mypostCountLabel = stackView.arrangedSubviews[0] as? UILabel {
+                                                mypostCountLabel.text = "\(query.count)"
+                                            }
                                             completion()
                                         }
                                         
@@ -433,26 +465,29 @@ extension MyFestaStoryViewController {
                     if let error = error {
                         print("\(error.localizedDescription)")
                     } else {
+                        guard let snapshot = snapshot?.data() else { return }
                         
-                        guard let snapshot = snapshot?.data() else {return}
                         let nickName = snapshot["nickName"] as? String ?? ""
                         let email = snapshot["email"] as? String ??  ""
                         let profileImage = snapshot["profileImageURL"] as? String  ?? ""
                         self.myData = MyProfile(profileImageURL: profileImage, email: email, nickName: nickName, uid: currentUID)
                         guard let myData = self.myData else { return }
-                        self.myProfileName.text = myData.nickName
-                        self.myProfileImage.sd_setImage(with: URL(string: myData.profileImageURL))
+                        profileName.text = myData.nickName
+                        profileImageView.sd_setImage(with: URL(string: myData.profileImageURL))
                         completion()
                     }
             }
-            self.myPostFollowDataCount[0].text = "\(self.firstMyView.myPosts.count)"
+            
+            if let followCountLabel = stackView.arrangedSubviews[0] as? UILabel {
+                followCountLabel.text = "\(appDelegate.myPost.count)"
+            }
         }
     }
     
     func checkFollow() {
         guard let currentUID = appDelegate.currentUID else { return }
         let secondUID = secondMyview.yourUID
-        if self.secondMyview.yourUID != "" {
+        if secondMyview.yourUID != "" {
             firestoreRef.collection("Follow")
                 .document("\(currentUID)")
                 .collection("FollowList")

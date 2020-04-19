@@ -29,4 +29,11 @@ class ViewPostingRepleCell : UITableViewCell {
         userProfileImageView.layer.cornerRadius = userProfileImageView.frame.height/2
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        userNameLabel.text = nil
+        repleTextLabel.text = nil
+        userProfileImageView.image = nil
+        repleDateLabel.text = nil
+    }
 }

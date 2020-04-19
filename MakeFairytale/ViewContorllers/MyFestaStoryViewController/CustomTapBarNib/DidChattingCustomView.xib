@@ -8,7 +8,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DidChattingCustomView" customModule="FestaGram" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DidChattingCustomCell" rowHeight="88" id="Hg3-OU-O8f" customClass="DidChattingCustomCell" customModule="FestaGram" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="DidChattingCustomCell" rowHeight="88" id="Hg3-OU-O8f" customClass="DidChattingCustomCell" customModule="FestaGram" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="88"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hg3-OU-O8f" id="5ah-Iv-13b">
@@ -47,6 +47,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="75y-H7-Cve" firstAttribute="top" secondItem="t4a-aW-esE" secondAttribute="bottom" constant="1" id="2MP-w6-zyH"/>
                     <constraint firstItem="PLL-mu-cA7" firstAttribute="top" secondItem="CAN-lD-qVI" secondAttribute="bottom" constant="8" id="2N1-CX-q73"/>

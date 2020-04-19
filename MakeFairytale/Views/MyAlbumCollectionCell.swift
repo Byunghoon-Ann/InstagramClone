@@ -27,6 +27,7 @@ class MyAlbumCollectionCell : UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        selectedImageView.image = nil
     }
     
     override var isHighlighted: Bool {

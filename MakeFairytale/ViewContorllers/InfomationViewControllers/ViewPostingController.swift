@@ -254,10 +254,10 @@ extension ViewPostingController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard repleData.count > 0 else {
+        guard indexPath.row < repleData.count else {
             label.isHidden = false
             return UITableViewCell() }
-        guard let cell = hideRepleList.dequeueReusableCell(withIdentifier: cellName) as? ViewPostingRepleCell else { return UITableViewCell() }
+        let cell:ViewPostingRepleCell = tableView.dequeueCell(indexPath: indexPath)
         cell.repleData = repleData[indexPath.row]
         return cell
     }

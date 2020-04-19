@@ -49,8 +49,6 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
             likeCountLabel.text = "\(postData.likeCount) 좋아요"
             viewCountLabel.text = "\(postData.viewCount) 조회"
             goodBtn.isSelected = postData.goodMark
-            goodBtn.setImage(UIImage(named: "likeBefore.png"), for: .normal)
-            goodBtn.setImage(UIImage(named: "likeAfter.png"), for: .selected)
             if postData.userPostImage.count == 1 {
                 pageControl.isHidden = true
             }
@@ -60,13 +58,25 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         pageControl.currentPage = 0
-        
+        goodBtn.setImage(UIImage(named: "likeBefore.png"), for: .normal)
+        goodBtn.setImage(UIImage(named: "likeAfter.png"), for: .selected)
         scrollView.delegate = self
         scrollContentView.isHidden = true
         postUserProfileImg.layer.cornerRadius = postUserProfileImg.frame.height/2
         mySelfImgView.layer.cornerRadius = mySelfImgView.frame.height/2
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        postText.text = nil
+        postUser.text = nil
+        viewCountLabel.text = nil
+        likeCountLabel.text = nil
+        postUserProfileImg.image = nil
+        likeCountLabel.text = nil
+        mySelfImgView.image = nil
+        postDateLabel.text = nil
+    }
     
     func actionControlOption(_ festaData: Posts) {
         pageControl.numberOfPages = festaData.userPostImage.count

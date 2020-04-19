@@ -58,7 +58,6 @@ class DidChatMembersList : UIViewController {
                 snapshot in
                 
                 self.chatModel.removeAll()
-                print(self.chatModel.count,4333)
                 if let snapshot = snapshot.children.allObjects as? [DataSnapshot]  {
                     if snapshot.count == 0 {
                         self.firstAlertLabel.isHidden = false
@@ -91,8 +90,8 @@ extension DidChatMembersList:  UITableViewDataSource,UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DidChatMembersCell",for: indexPath) as? DidChatMembersCell else { return UITableViewCell()}
+        guard chatModel.count > 0 else { return UITableViewCell() }
+        let cell:DidChatMembersCell = tableView.dequeueCell(indexPath: indexPath)
         cell.backgroundColor = .white
         var yourUID : String?
         let currentUID = appDelegate.currentUID ?? ""

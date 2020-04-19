@@ -65,8 +65,8 @@ extension MarkViewController: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard goodPost.count > 0 else { return UITableViewCell() }
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MarkViewCell") as? MarkViewCell else { return UITableViewCell() }
+        guard indexPath.row < goodPost.count else { return UITableViewCell() }
+        let cell:MarkViewCell = tableView.dequeueCell(indexPath:indexPath)
         cell.backgroundColor = .white
         cell.userName.backgroundColor = .white
         cell.userName.textColor = .black

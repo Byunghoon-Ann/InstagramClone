@@ -10,4 +10,9 @@ import UIKit
 
 class SearchCell : UICollectionViewCell {
     @IBOutlet weak var searchImageView: UIImageView!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        searchImageView.image = nil
+    }
 }

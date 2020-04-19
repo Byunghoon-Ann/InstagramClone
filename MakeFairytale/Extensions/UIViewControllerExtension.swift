@@ -11,7 +11,6 @@ import Firebase
 
 fileprivate let firestoreRef = Firestore.firestore()
 
-
 extension UIViewController {
     //MARK:-스크롤뷰 위의 복수의 이미지 뷰 생성 Func
     func adScrollImageView(_ scrollview: UIScrollView,
@@ -32,8 +31,8 @@ extension UIViewController {
                 imageView.contentMode = .scaleAspectFill
             }
             imageView.frame = CGRect(x: xPosition, y: 0, width: scrollFrame.width, height: scrollFrame.height)
-            imageView.sd_setImage(with: URL(string: festaData.userPostImage[i]))
             scrollview.contentSize.width = scrollFrame.width * CGFloat(1 + i)
+            imageView.sd_setImage(with: URL(string: festaData.userPostImage[i]))
             scrollview.addSubview(imageView)
         }
     }

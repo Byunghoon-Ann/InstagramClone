@@ -31,9 +31,9 @@ class DidChattingCustomView: UIView {
        label.textAlignment = .center
        return label
     }()
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
-        self.backgroundColor = .white
         setUpCustomMyChatList()
         firstAlertLabel.isHidden = true
         self.addSubview(firstAlertLabel)
@@ -56,10 +56,9 @@ class DidChattingCustomView: UIView {
     }()
     
     func customCollections() {
+        self.backgroundColor = .white
         tableViews.delegate = self
         tableViews.dataSource = self
-        
-        tableViews.backgroundColor = .white
         tableViews.register(UINib(nibName: "DidChattingCustomView", bundle: nil), forCellReuseIdentifier: "DidChattingCustomCell")
     }
     
@@ -90,10 +89,12 @@ extension DidChattingCustomView : UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableViews.dequeueReusableCell(withIdentifier: "DidChattingCustomCell") as? DidChattingCustomCell else { return UITableViewCell() }
+        guard indexPath.item < chatModel.count else { return UITableViewCell() }
+        let cell:DidChattingCustomCell = tableView.dequeueCell(indexPath: indexPath)
         var yourUID = ""
         let currentUID = appDelegate.currentUID ?? ""
         cell.backgroundColor = .white
+        cell.contentView.backgroundColor = .white
         for i in chatModel[indexPath.row].users {
             if i.key != currentUID {
                 yourUID = i.key
