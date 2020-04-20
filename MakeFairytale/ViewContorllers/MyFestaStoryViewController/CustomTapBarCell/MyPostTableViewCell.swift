@@ -27,7 +27,6 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let calendar = Calendar(identifier: .gregorian)
-    var today = Date()
     lazy var dateFomatter: DateFormatter = {
         let dateFomatter = DateFormatter()
         dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -45,7 +44,10 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
             postText.text = postData.userComment
             postUser.text = postData.userName
             pageControl.numberOfPages = postData.userPostImage.count
-            postDateLabel.text = postingDateCalculation(postData.postDate,dateFomatter,today,calendar)
+            postDateLabel.text = DateCalculation.shread.requestDate(postData.postDate,
+                                                                               dateFomatter,
+                                                                               appDelegate.date,
+                                                                               calendar)
             likeCountLabel.text = "\(postData.likeCount) 좋아요"
             viewCountLabel.text = "\(postData.viewCount) 조회"
             goodBtn.isSelected = postData.goodMark

@@ -34,7 +34,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var postDateLabel: UILabel!
     
-    var label : UILabel = {
+    lazy var label : UILabel = {
        let label = UILabel()
         label.text = "아직 댓글이 없습니다. \n 친구에게 처음으로 댓글을 남겨보세요!"
         label.textColor = .black
@@ -46,7 +46,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
         return label
     }()
     
-    let dateFomatter : DateFormatter = {
+    lazy var dateFomatter : DateFormatter = {
        let dateFomatter = DateFormatter()
        dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
        dateFomatter.locale = Locale(identifier: "kr_KR")
@@ -60,7 +60,6 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     var postKey = ""
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let cellName = "ViewPostingRepleCell"
-    let date = Date()
     let calendar = Calendar(identifier: .gregorian)
     
     override func viewDidLoad() {
@@ -76,8 +75,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
         hideRepleList.delegate = self
         hideRepleList.dataSource = self
        
-        let nibName = UINib(nibName: "ViewPostingRepleCell",bundle: nil)
-        hideRepleList.register(nibName, forCellReuseIdentifier: "ViewPostingRepleCell")
+        hideRepleList.registerCell(ViewPostingRepleCell.self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,19 +106,19 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     }
     
     @objc func keyboardWillHide(notification: Notification) {
-        self.nsKeyboardConstrait.constant = 0
-        self.view.layoutIfNeeded()
+        nsKeyboardConstrait.constant = 0
+        view.layoutIfNeeded()
     }
     
     @objc func dismisskeyboard() {
-        self.view.endEditing(true)
+        view.endEditing(true)
     }
     
     @objc func goProfileVC(_ sender: UITapGestureRecognizer) {
         guard let post = post else { return }
         guard let currentUID = currentUID else { return }
         
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "MyFestaStoryViewController") as? MyFestaStoryViewController else { return }
+        guard let vc = UIStoryboard.myFestaStoryVC() else { return }
         vc.firstMyView.myUID = currentUID
         vc.firstMyView.yourUID = post.userUID
         vc.secondMyview.yourUID = post.userUID
@@ -130,7 +128,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     
     @IBAction func moveChattingViewButton(_ sender: UIButton) {
         guard let post = post else { return }
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "ChattingRoomViewController") as? ChattingRoomViewController else { return }
+        guard let vc = UIStoryboard.chattingRoomVC() else { return }
         vc.yourUID = post.userUID
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -147,8 +145,8 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
                                                     
                                                     self.repleData = LoadFile.shread.repleDatas
                                                     self.repleData.sort { firstData, secondData in
-                                                        let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.date
-                                                        let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.date
+                                                        let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.appDelegate.date
+                                                        let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.appDelegate.date
                                                         if dateFirstData > dateSecondData {
                                                             return true
                                                         }else {
@@ -165,7 +163,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     @objc func likePostAction(_ sender: UIButton) {
         guard let post = post else { return }
         guard let currentUID = currentUID else { return }
-        let likeCheckDate = dateFomatter.string(from: self.date)
+        let likeCheckDate = dateFomatter.string(from: appDelegate.date)
         likeButtonAction(likeCheckDate,
                          post,
                          goodMark,
@@ -214,26 +212,10 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
                           post,
                           false)
         
-        let dateString = dateFomatter.string(from: date)
-        let today = dateFomatter.date(from: dateString) ?? date
-        let postdates = dateFomatter.date(from: post.postDate) ?? date
-        let calendarC = calendar.dateComponents([.year,.month,.day,.hour,.minute,.second], from: postdates,to: today)
-        
-        if case let (y?, m?, d?, h?, mi?, s?) = (calendarC.year, calendarC.month, calendarC.day, calendarC.hour,calendarC.minute,calendarC.second) {
-            if y == 0, m == 0, d == 0, h == 0, mi == 0  {
-                postDateLabel.text = "\(s)초 전"
-            } else if y == 0, m == 0, d == 0, h == 0, mi >= 1 {
-                postDateLabel.text = "\(mi)분 전"
-            } else if y == 0, m == 0, d == 0, h >= 1 {
-                postDateLabel.text = "\(h)시간 전"
-            }else if  y == 0, m == 0, d >= 1{
-                postDateLabel.text = "\(d)일 전"
-            }else if y == 0, m >= 1, d >= 30 {
-                postDateLabel.text = "\(m)개월 전"
-            }else if y >= 1, m >= 12 {
-                postDateLabel.text = "\(y)년 전"
-            }
-        }
+        postDateLabel.text = DateCalculation.shread.requestDate(post.postDate,
+                                                                dateFomatter,
+                                                                appDelegate.date,
+                                                                calendar)
     }
     
     func customRepleFunc() {
@@ -281,8 +263,8 @@ extension ViewPostingController {
                                                 self.repleData = LoadFile.shread.repleDatas
                                                 
                                                 self.repleData.sort { firstData, secondData in
-                                                    let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.date
-                                                    let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.date
+                                                    let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.appDelegate.date
+                                                    let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.appDelegate.date
                                                     if dateFirstData > dateSecondData {
                                                         return true
                                                     }else {
@@ -337,7 +319,7 @@ extension ViewPostingController {
     func uploadReple(_ myData: MyProfile,completion: @escaping () -> Void) {
         guard let reple = repleTextField.text else {return }
         guard let post = post else { return }
-        let repleDate = dateFomatter.string(from: date)
+        let repleDate = dateFomatter.string(from: appDelegate.date)
         
         if !reple.isEmpty {
             self.repleData.removeAll()

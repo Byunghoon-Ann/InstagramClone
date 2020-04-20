@@ -99,9 +99,9 @@ extension SearchViewController : UICollectionViewDataSource ,UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let viewPostingVC = storyboard?.instantiateViewController(withIdentifier:"ViewPostingController") as? ViewPostingController else { return }
-        viewPostingVC.post = searchImageArray[indexPath.row]
-        navigationController?.pushViewController(viewPostingVC, animated: true)
+        guard let vc = UIStoryboard.viewPostingVC() else { return }
+        vc.post = searchImageArray[indexPath.row]
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

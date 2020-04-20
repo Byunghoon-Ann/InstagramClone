@@ -64,7 +64,7 @@ extension ListViewController {
     func loadProfile(completion : @escaping () -> Void) {
         myProfileData = nil
         
-        guard let currentUID = self.appDelegate.currentUID else { return }
+        guard let currentUID = appDelegate.currentUID else { return }
         firestoreRef
             .collection("user")
             .document("\(currentUID)")
@@ -94,7 +94,6 @@ extension ListViewController {
         }else {
             postTableView.addSubview(refresh)
         }
-        
     }
     
     //MARK:-새로고침시 발생하는 Event
@@ -103,7 +102,7 @@ extension ListViewController {
                   userProfileName,
                   postLoadingIndicatior,
                   postTableView,
-                  date,
+                  appDelegate.date,
                   dateFomatter)
     }
     
@@ -114,7 +113,7 @@ extension ListViewController {
         let contentView = button.superview
         guard let cell = contentView?.superview as? FeedCollectionCell else  { return }
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "ChattingRoomViewController") as? ChattingRoomViewController else { return }
+        guard let vc = UIStoryboard.chattingRoomVC() else { return }
         vc.yourUID = postData[indexPath.row].userUID
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -183,18 +182,18 @@ extension ListViewController {
     func didSelectedDropDownView(_ path: Int) {
         switch path {
         case 0:
-            guard let vc = storyboard?.instantiateViewController(withIdentifier: "NotificationAlertViewController") as? NotificationAlertViewController else { return }
+            guard let vc = UIStoryboard.notificationAlertVC() else { return }
             appDelegate.sideViewBadgeCheck = false
             navigationController?.pushViewController(vc, animated: true)
         case 1:
-            guard let vc = storyboard?.instantiateViewController(withIdentifier: "MyStoryViewController") as? MyStoryViewController else { return }
+            guard let vc = UIStoryboard.myStoryVC() else { return }
             navigationController?.pushViewController(vc, animated: true)
         case 2:
             guard let tabVC = storyboard?.instantiateViewController(withIdentifier: "tab2") as? UITabBarController else { return }
             appDelegate.chattingCheck = false
             navigationController?.pushViewController(tabVC, animated: false)
         case 3:
-            guard let vc = storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else  { return }
+            guard let vc = UIStoryboard.loginVC() else  { return }
             let alert = UIAlertController(title: "안내",
                                           message: "로그아웃 하시겠습니까?",
                                           preferredStyle: .alert)

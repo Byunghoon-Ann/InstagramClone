@@ -42,7 +42,6 @@ class PlusCommentViewContrller : UIViewController {
        return dateFomatter
     }()
     
-    let date = Date()
     var postKey : String = ""
     var postData: Posts?
     var myData : MyProfile?
@@ -98,12 +97,12 @@ class PlusCommentViewContrller : UIViewController {
     }
     
     @objc func keyboardWillHide(notification: Notification) {
-        self.nsBottomConstraint.constant = 20
-        self.view.layoutIfNeeded()
+        nsBottomConstraint.constant = 20
+        view.layoutIfNeeded()
     }
     
     @objc func dismisskeyboard() {
-        self.view.endEditing(true)
+        view.endEditing(true)
     }
     
     @IBAction func backMainVCButton(_ sender: Any) {
@@ -113,7 +112,7 @@ class PlusCommentViewContrller : UIViewController {
     //댓글버튼입력 
     @IBAction func checkBtn(_ sender: Any) {
         guard let reple = plusCommentTextField.text else { return }
-        let repleDate = dateFomatter.string(from: date)
+        let repleDate = dateFomatter.string(from: appDelegate.date)
         guard let post = postData else { return }
         let message = "님이 게시물에 댓글을 작성하셨습니다."
         if let currentUid = currentUID, let myData = myData {
@@ -231,7 +230,6 @@ extension PlusCommentViewContrller: UITextFieldDelegate {
         if textField.text == "댓글입력칸" {
             textField.text = ""
         }
-        textField.becomeFirstResponder()
     }
 }
 
@@ -239,8 +237,8 @@ extension PlusCommentViewContrller {
     func customAlertLabel() {
         view.addSubview(alertLabel)
         alertLabel.isHidden = true
-        alertLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        alertLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        alertLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        alertLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
     func dataControl() {
@@ -251,8 +249,8 @@ extension PlusCommentViewContrller {
                 self.alertLabel.isHidden  = false
             }
             self.repleData.sort { firstData, secondData in
-                let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.date
-                let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.date
+                let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.appDelegate.date
+                let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.appDelegate.date
                 if dateFirstData > dateSecondData {
                     return true
                 }else {

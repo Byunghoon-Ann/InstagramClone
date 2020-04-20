@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var currentUID: String?
     var notificationContents: String?
     var otherUID : String?
+    let date = Date()
     var topViewHeight: Double?
     var tableCellHeight: CGFloat?
     var autoRefreshingCheck = false

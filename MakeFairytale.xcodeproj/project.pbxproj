@@ -60,6 +60,8 @@
 		F694C06823F5307200EA79BB /* MyViewsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F694C06723F5307200EA79BB /* MyViewsCollectionCell.swift */; };
 		F6AC60022368452C0053BA89 /* ChattingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AC60012368452C0053BA89 /* ChattingListViewController.swift */; };
 		F6AC6004236845390053BA89 /* ChattingRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AC6003236845390053BA89 /* ChattingRoomViewController.swift */; };
+		F6B898A9244D864800A2B1E7 /* UIStroyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B898A8244D864800A2B1E7 /* UIStroyboardExtension.swift */; };
+		F6B898AB244D96D200A2B1E7 /* DateCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B898AA244D96D200A2B1E7 /* DateCalculation.swift */; };
 		F6BE19712371687200253278 /* DidChattingCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BE196F2371687200253278 /* DidChattingCustomView.swift */; };
 		F6BE19722371687200253278 /* DidChattingCustomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6BE19702371687200253278 /* DidChattingCustomView.xib */; };
 		F6BE19742371695800253278 /* DidChattingCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BE19732371695800253278 /* DidChattingCustomCell.swift */; };
@@ -138,6 +140,8 @@
 		F694C06723F5307200EA79BB /* MyViewsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewsCollectionCell.swift; sourceTree = "<group>"; };
 		F6AC60012368452C0053BA89 /* ChattingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingListViewController.swift; sourceTree = "<group>"; };
 		F6AC6003236845390053BA89 /* ChattingRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingRoomViewController.swift; sourceTree = "<group>"; };
+		F6B898A8244D864800A2B1E7 /* UIStroyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStroyboardExtension.swift; sourceTree = "<group>"; };
+		F6B898AA244D96D200A2B1E7 /* DateCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCalculation.swift; sourceTree = "<group>"; };
 		F6BE196F2371687200253278 /* DidChattingCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidChattingCustomView.swift; sourceTree = "<group>"; };
 		F6BE19702371687200253278 /* DidChattingCustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DidChattingCustomView.xib; sourceTree = "<group>"; };
 		F6BE19732371695800253278 /* DidChattingCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidChattingCustomCell.swift; sourceTree = "<group>"; };
@@ -235,6 +239,7 @@
 				F60EF53523F6AFD60041EA86 /* UITableViewCellExtension.swift */,
 				F6E54FAD244C4C3000D7F9FD /* UITableViewExtension.swift */,
 				F6E54FAF244C511900D7F9FD /* UICollectionViewExtension.swift */,
+				F6B898A8244D864800A2B1E7 /* UIStroyboardExtension.swift */,
 				F67463D323F53E100082F5F6 /* MyFestaStoryViewControllerExtension.swift */,
 				F643613F23EDDC24004D26D4 /* UIViewControllerExtension.swift */,
 				F6E54F802449A8A700D7F9FD /* FirebaseExtension.swift */,
@@ -252,6 +257,15 @@
 				F67463D723F54AFE0082F5F6 /* YourMessageCell.swift */,
 			);
 			path = ChatViews;
+			sourceTree = "<group>";
+		};
+		F6B898AC244D9A4D00A2B1E7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F6904D6023515EBA0044EDE5 /* LoadFile.swift */,
+				F6B898AA244D96D200A2B1E7 /* DateCalculation.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		F6BB882323489C8300A9924B /* ViewContorllers */ = {
@@ -321,7 +335,6 @@
 		F6E1F52123A15F360004D7E2 /* MainModel */ = {
 			isa = PBXGroup;
 			children = (
-				F6904D6023515EBA0044EDE5 /* LoadFile.swift */,
 				F632F8A823E345A700591D3C /* MyProfile.swift */,
 				F632F8AA23E345C200591D3C /* ChattingData.swift */,
 				F632F8AC23E345D900591D3C /* YourData.swift */,
@@ -379,6 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				F6F1F3E2232F7DAC00959262 /* AppDelegate.swift */,
+				F6B898AC244D9A4D00A2B1E7 /* Services */,
 				F6E54FB3244C61BD00D7F9FD /* Protocols */,
 				F632F8B823E34AC900591D3C /* Extensions */,
 				F6E1F52123A15F360004D7E2 /* MainModel */,
@@ -585,8 +599,10 @@
 				F6AC60022368452C0053BA89 /* ChattingListViewController.swift in Sources */,
 				F6E54FAC244C4BFB00D7F9FD /* Reusable.swift in Sources */,
 				F6E54FAE244C4C3000D7F9FD /* UITableViewExtension.swift in Sources */,
+				F6B898A9244D864800A2B1E7 /* UIStroyboardExtension.swift in Sources */,
 				F6424A8623F2AC2900FEA09E /* NotificationAlertTableCell.swift in Sources */,
 				F623887F235B0CE3007E88D3 /* ViewPostingController.swift in Sources */,
+				F6B898AB244D96D200A2B1E7 /* DateCalculation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

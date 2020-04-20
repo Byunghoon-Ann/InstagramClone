@@ -79,7 +79,7 @@ extension MarkViewController: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "ViewPostingController") as? ViewPostingController else { return }
+        guard let vc = UIStoryboard.viewPostingVC() else { return }
         vc.post = goodPost[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }

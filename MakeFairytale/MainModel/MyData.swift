@@ -12,4 +12,6 @@ struct MyData {
     var userName: String
     var userThumbnail: String
     var userUID: String
+    
+    
 }

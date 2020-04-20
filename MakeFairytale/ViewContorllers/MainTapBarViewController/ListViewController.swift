@@ -28,7 +28,6 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
    @IBOutlet weak var postLoadingIndicatior : UIActivityIndicatorView! // 데이터 로딩 인디게이터
    
    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-   let date = Date()
    var leftTopButton = DropDownButton()
    var goodMarkURLKey : String = ""
    var festaData : [Posts] = [] // 포스팅 데이터
@@ -67,7 +66,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
                 userProfileName,
                 postLoadingIndicatior,
                 postTableView,
-                date,
+                appDelegate.date,
                 dateFomatter)
       
       initRefresh(refresh)
@@ -140,7 +139,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
                    userProfileName,
                    postLoadingIndicatior,
                    postTableView,
-                   date,
+                   appDelegate.date,
                    dateFomatter)
       }
    }
@@ -165,7 +164,7 @@ extension ListViewController : UICollectionViewDataSource {
 extension ListViewController : UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
       guard let currentUID = appDelegate.currentUID else { return }
-      guard let vc = storyboard?.instantiateViewController(withIdentifier: "MyFestaStoryViewController") as? MyFestaStoryViewController else { return }
+      guard let vc = UIStoryboard.myFestaStoryVC() else { return }
       
       vc.firstMyView.myUID = currentUID
       vc.secondMyview.yourUID = following[indexPath.row].userUID
@@ -193,7 +192,6 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       guard indexPath.row < festaData.count else { return UITableViewCell() }
       guard let myProfileData = myProfileData else { return UITableViewCell() }
       let cell: FeedCollectionCell = tableView.dequeueCell(indexPath: indexPath)
-     // guard let cell = postTableView.dequeueReusableCell(withIdentifier: "feedcell",for: indexPath) as? FeedCollectionCell else { return UITableViewCell() }
       
       cell.festaData = festaData[indexPath.row]
       cell.myProfile = myProfileData
@@ -209,10 +207,10 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
    
    //MARK: TableView DidSelectRow
    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      guard let viewPostingVC = storyboard?.instantiateViewController(withIdentifier:"ViewPostingController") as? ViewPostingController else  { return }
-      viewPostingVC.post = festaData[indexPath.row]
-      viewPostingVC.postNumber = indexPath.row
-      navigationController?.pushViewController(viewPostingVC, animated: true)
+      guard let vc = UIStoryboard.viewPostingVC() else { return }
+      vc.post = festaData[indexPath.row]
+      vc.postNumber = indexPath.row
+      navigationController?.pushViewController(vc, animated: true)
    }
    
    //MARK: 좋아요 기능
@@ -221,7 +219,7 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       let contentView = sender.superview
       guard let cell = contentView?.superview as? FeedCollectionCell else { return }
       guard let indexPath = postTableView.indexPath(for: cell) else { return }
-      let likeCheckDate = dateFomatter.string(from: self.date)
+      let likeCheckDate = dateFomatter.string(from: appDelegate.date)
       
       DispatchQueue.main.async { [weak self] in
          guard let self = self else {  return }
@@ -248,7 +246,7 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       let contentView = sender.superview
       guard let cell = contentView?.superview as? FeedCollectionCell else { return }
       guard let indexPath = postTableView.indexPath(for: cell) else {return}
-      guard let vc = storyboard?.instantiateViewController(withIdentifier: "ViewPostingController") as? ViewPostingController else { return }
+      guard let vc = UIStoryboard.viewPostingVC() else { return }
       
       let alert = UIAlertController(title: nil,
                                     message: nil,
@@ -320,7 +318,7 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       let contentView = sender.superview
       guard let cell = contentView?.superview as? FeedCollectionCell else  { return }
       guard let indexPath = postTableView.indexPath(for: cell) else { return }
-      guard let vc = storyboard?.instantiateViewController(withIdentifier: "PlusCommentViewContrller") as? PlusCommentViewContrller else { return }
+      guard let vc = UIStoryboard.plusCommentVC() else { return }
       vc.postData = festaData[indexPath.row]
       navigationController?.pushViewController(vc, animated: true)
    }

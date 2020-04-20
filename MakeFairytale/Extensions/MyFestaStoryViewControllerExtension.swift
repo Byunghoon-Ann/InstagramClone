@@ -19,7 +19,7 @@ extension MyFestaStoryViewController {
                               _ secondView: MyPostTableView ) {
         appDelegate.checkNotificationCheck = true
         guard let currentUID = currentUID else { return }
-        let checkDate = dateFomatter.string(from: today)
+        let checkDate = dateFomatter.string(from: appDelegate.date)
         let secondUID = secondView.yourUID
         let firestoreFollowRef = firestoreRef.collection("Follow")
         guard let myName = appDelegate.myProfile?.nickName else { return }

@@ -130,7 +130,7 @@ extension ChattingListViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "ChattingRoomViewController") as? ChattingRoomViewController else { return }
+        guard let vc = UIStoryboard.chattingRoomVC() else { return }
         
         vc.yourUID = userData[indexPath.row].userUID
         navigationController?.pushViewController(vc, animated: false)

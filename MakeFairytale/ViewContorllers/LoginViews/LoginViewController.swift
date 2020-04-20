@@ -36,12 +36,12 @@ class LoginViewController: UIViewController{
     //MARK: 로그인 기록이 있을 경우 자동 로그인
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "tab") as? UITabBarController else { return }
         if Auth.auth().currentUser != nil {
-            let startView = self.storyboard?.instantiateViewController(withIdentifier: "tab") as! UITabBarController
             Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { (timer) in
                 guard let currentUID = Auth.auth().currentUser?.uid else { return }
                 self.appDelegate.currentUID = currentUID
-                self.navigationController?.pushViewController(startView, animated: true)
+                self.navigationController?.pushViewController(vc, animated: true)
             })
         }
     }
@@ -85,8 +85,8 @@ class LoginViewController: UIViewController{
     
     //MARK:회원가입 화면 이동 BUtton
     @IBAction func newSignBtn (_ sender : UIButton) {
-        guard let loginView = storyboard?.instantiateViewController(withIdentifier: "NewSignInViewController") as? NewSignInViewController else { return }
-        navigationController?.pushViewController(loginView, animated: true)
+        guard let vc = UIStoryboard.newSignInVC() else { return }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     //MARK:비밀번호, 이메일 찾기 버튼

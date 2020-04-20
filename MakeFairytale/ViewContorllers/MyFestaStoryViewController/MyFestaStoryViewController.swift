@@ -35,7 +35,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         return collectionView
     }()
     
-    let dateFomatter : DateFormatter = {
+    lazy var dateFomatter : DateFormatter = {
        let dateFomatter = DateFormatter()
        dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
        dateFomatter.locale = Locale(identifier: "kr_KR")
@@ -60,7 +60,6 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     var secondMyview = MyPostTableView()
     var thirdMyView = DidChattingCustomView()
     var myUID : String?
-    var today = Date()
     var yourName: String = ""
     var followingCheck : [String] = []
     var followerCheck : [String] = []
@@ -110,8 +109,8 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     
     //MARK: 프로필 수정 화면 이동 버튼
     @IBAction func fixMyInfomation(_ sender: Any) {
-        guard let myProfileView = storyboard?.instantiateViewController(withIdentifier: "MyStoryViewController") else { return }
-        navigationController?.pushViewController(myProfileView, animated: true)
+        guard let vc = UIStoryboard.myStoryVC() else { return }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func setupCustomTabBar() {
@@ -130,7 +129,6 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         pageCollectionView.dataSource = self
         pageCollectionView.showsHorizontalScrollIndicator = false
         pageCollectionView.registerCell(MyFestaStoryPageCell.self)
-        //pageCollectionView.register(UINib(nibName: "MyFestaStoryPageCell", bundle: nil), forCellWithReuseIdentifier: "MyFestaStoryPageCell")
         view.addSubview(pageCollectionView)
         
         pageCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
@@ -152,7 +150,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     func customMyChatDidselect(_ path: Int) {
         let i = IndexPath(row:path,section:0)
         let yourUID = thirdMyView.chatModel[i.row]
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "ChattingRoomViewController") as? ChattingRoomViewController else { return }
+        guard let vc = UIStoryboard.chattingRoomVC() else { return }
         vc.yourUID = thirdMyView.yourUIDs[i.row]
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -182,8 +180,7 @@ extension MyFestaStoryViewController: UICollectionViewDataSource,UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyFestaStoryPageCell", for: indexPath) as? MyFestaStoryPageCell
-            else { return UICollectionViewCell() }
+        let cell:MyFestaStoryPageCell = collectionView.dequeueCell(indexPath: indexPath)
         customInsertContentView(cell,indexPath)
         return cell
     }
@@ -191,7 +188,7 @@ extension MyFestaStoryViewController: UICollectionViewDataSource,UICollectionVie
     //MARK: CustomMenuBar에 indexPath를 받아서 didscroll로 pageViewCollection cell의 view화면과 이동을 구현
     func customMenuBar(scrollTo Index: Int) {
         let indexPath = IndexPath(row: Index, section: 0)
-        self.pageCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        pageCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

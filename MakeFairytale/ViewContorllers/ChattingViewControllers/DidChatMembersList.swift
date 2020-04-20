@@ -56,7 +56,7 @@ class DidChatMembersList : UIViewController {
             .queryEqual(toValue: true)
             .observeSingleEvent(of: .value) {
                 snapshot in
-                
+                 
                 self.chatModel.removeAll()
                 if let snapshot = snapshot.children.allObjects as? [DataSnapshot]  {
                     if snapshot.count == 0 {
@@ -136,7 +136,7 @@ extension DidChatMembersList:  UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath , animated: true)
         let yourUID = yourUIDs[indexPath.row]
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "ChattingRoomViewController") as? ChattingRoomViewController else { return }
+        guard let vc = UIStoryboard.chattingRoomVC() else { return }
         vc.yourUID = yourUID
         
         navigationController?.pushViewController(vc, animated: true)
