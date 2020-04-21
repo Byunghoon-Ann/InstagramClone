@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 import Firebase
-fileprivate let databaseRef = Database.database().reference()
-fileprivate let firestoreRef = Firestore.firestore()
+fileprivate let chatRoomRef = Database.database().reference().child("chatRooms")
+fileprivate let userRef = Firestore.firestore().user
 
 class DidChatMembersList : UIViewController {
  
@@ -50,8 +50,7 @@ class DidChatMembersList : UIViewController {
     
     func getChatRoomList() {
         guard let currentUID = appDelegate.currentUID else { return }
-        databaseRef
-            .child("chatRooms")
+        chatRoomRef
             .queryOrdered(byChild: "users/"+currentUID)
             .queryEqual(toValue: true)
             .observeSingleEvent(of: .value) {
@@ -104,8 +103,7 @@ extension DidChatMembersList:  UITableViewDataSource,UITableViewDelegate {
         }
         
         if let yourUID = yourUID {
-            firestoreRef
-                .collection("user")
+            userRef
                 .document("\(yourUID)")
                 .getDocument { yourData, error in
                     guard let yourData = yourData?.data() else { return }

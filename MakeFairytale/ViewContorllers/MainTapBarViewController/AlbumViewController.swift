@@ -11,9 +11,10 @@ import Firebase
 import Photos
 import AssetsLibrary
 
-fileprivate let fireStoreRef = Firestore.firestore()
 fileprivate let currentUID = Auth.auth().currentUser
 fileprivate let fireStorageRef = Storage.storage().reference(forURL: "gs://festargram.appspot.com").child("myPost")
+fileprivate let postRef = Firestore.firestore().posts
+fileprivate let userRef = Firestore.firestore().user
 
 class AlbumViewController : UIViewController {
     
@@ -81,7 +82,7 @@ class AlbumViewController : UIViewController {
         super.viewDidLoad()
         commentInputText.delegate = self
         commentInputText.backgroundColor = .white
-        follows = LoadFile.shread.followString
+        follows = FirebaseServices.shread.followString
         let tapEndEditing = UITapGestureRecognizer(target: self, action: #selector(selectProfileImg))
         postingContentView.addGestureRecognizer(tapEndEditing)
         itemsSelectedButton.addTarget(self, action: #selector(didSelectButtonClicked(_:)), for: .touchUpInside)
@@ -161,8 +162,7 @@ class AlbumViewController : UIViewController {
                                 }
                                 
                                 if self.urlString.count == self.selectedImages.count {
-                                    fireStoreRef
-                                        .collection("user")
+                                    userRef
                                         .document(currentUID.uid)
                                         .getDocument { (snapshot, error) in
                                             if let error = error { print("\(error.localizedDescription)")}
@@ -172,8 +172,7 @@ class AlbumViewController : UIViewController {
                                                 guard let nickName = userData["nickName"] as? String else { return }
                                                 self.followPostAlert(self.follows)
                                                 
-                                                fireStoreRef
-                                                    .collection("AllPost")
+                                                postRef
                                                     .addDocument(data: [currentUID.uid:[
                                                         "uid":currentUID.uid,
                                                         "profileImageURL":profileimage,

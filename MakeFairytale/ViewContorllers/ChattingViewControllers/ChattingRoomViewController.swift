@@ -12,7 +12,7 @@ import SnapKit
 import Firebase
 import Kingfisher
 fileprivate let firestoreRef = Firestore.firestore()
-
+fileprivate let chatRoomRef = Database.database().reference().child("chatRooms")
 class ChattingRoomViewController : UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -62,12 +62,9 @@ class ChattingRoomViewController : UIViewController {
         let createRoomInfo : Dictionary<String,Any> =  [
             "users":[currentUID:true,
                      yourUID:true] ]
-        if self.chatRoomUID.isEmpty {
-            self.sendButton.isEnabled = false
-            Database
-                .database()
-                .reference()
-                .child("chatRooms")
+        if chatRoomUID.isEmpty {
+            sendButton.isEnabled = false
+            chatRoomRef
                 .childByAutoId()
                 .setValue(createRoomInfo) { error,ref in
                     if error == nil {
@@ -76,10 +73,7 @@ class ChattingRoomViewController : UIViewController {
                             "uid":currentUID,
                             "message":chatText,
                             "timeStamp":ServerValue.timestamp()]
-                        Database
-                            .database()
-                            .reference()
-                            .child("chatRooms")
+                        chatRoomRef
                             .child(self.chatRoomUID)
                             .child("comments")
                             .childByAutoId()
@@ -96,10 +90,7 @@ class ChattingRoomViewController : UIViewController {
                 "uid":currentUID,
                 "message":chatText,
                 "timeStamp":ServerValue.timestamp()]
-            Database
-                .database()
-                .reference()
-                .child("chatRooms")
+           chatRoomRef
                 .child(chatRoomUID)
                 .child("comments")
                 .childByAutoId()
@@ -141,10 +132,7 @@ class ChattingRoomViewController : UIViewController {
     //MARK:챗방중복생성방지 함수
     func checkChatRoom() {
         guard let currentUID = appDelegate.currentUID else  { return }
-        Database
-            .database()
-            .reference()
-            .child("chatRooms")
+        chatRoomRef
             .queryOrdered(byChild: "users/"+currentUID)
             .queryEqual(toValue: true)
             .observe(.value) { snapshot in
@@ -185,7 +173,7 @@ class ChattingRoomViewController : UIViewController {
     //MARK:채팅기록 로드 함수
     func getMessageList() {
         guard let currentUID = appDelegate.currentUID else { return }
-        databaseRef = Database.database().reference().child("chatRooms").child("\(chatRoomUID)").child("comments")
+        databaseRef = chatRoomRef.child("\(chatRoomUID)").child("comments")
         
         observe = databaseRef?.observe(.value) { snapshot in
             
@@ -232,10 +220,7 @@ class ChattingRoomViewController : UIViewController {
         let readBool = self.comments[position!].readUsers.count + 1
         if peopleCount == nil {
       //      guard let chatRoomUID = chatRoomUID else  {return }
-            Database
-                .database()
-                .reference()
-                .child("chatRooms")
+            chatRoomRef
                 .child("\(chatRoomUID)")
                 .child("users")
                 .observeSingleEvent(of: .value) { (snapshot) in
@@ -304,7 +289,7 @@ extension ChattingRoomViewController : UITableViewDataSource,UITableViewDelegate
                 cell.timeStampLabel.text = time.toDayTime
             }
             
-            self.setReadBool(label: cell.readBoolLabel, position: indexPath.row)
+            setReadBool(label: cell.readBoolLabel, position: indexPath.row)
             
             return cell
         }

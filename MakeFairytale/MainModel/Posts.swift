@@ -6,10 +6,9 @@
 //  Copyright © 2020 ByungHoon Ann. All rights reserved.
 //
 
-import UIKit
+import Firebase
 
 struct  Posts  {
-    
     var userUID: String
     var userName: String
     var userComment: String
@@ -22,92 +21,73 @@ struct  Posts  {
     var urlkey: String
 }
 
-/*
-var documentID: String
-    func pasing(data:[String:[String:Any]]) -> Posts {
-        for (_,j) in data {
-            let name = j["nake"] as? String ?? ""
+
+extension Posts {
+    static func cleanData(_ query:Int,
+                          _ data:[String:[String:Any]]? ,
+                          _ dataID:String,
+                          _ userRef:CollectionReference,
+                          _ viewurl:CollectionReference,
+                          _ likeurl:CollectionReference,
+                          _ currentUID:String,
+                          _ myCheck: DocumentSnapshot?,
+                          _ likeCheck: QuerySnapshot?,
+                          _ viewCheck: QuerySnapshot?,completion: @escaping(Posts) -> Void) {
+        
+        if let data = data {
+            
+            for (_,j) in data {
+                
+                var viewCount = 0
+                var likeCount = 0
+                var like = false
+                let uid = j["uid"] as? String ?? ""
+                let postComment = j["postComment"] as? String ?? ""
+                let postImageURL = j["postImageURL"] as? [String] ?? [""]
+                let date = j["date"] as? String ?? ""
+                
+                if let viewCheck = viewCheck {
+                    viewCount = viewCheck.count
+                }
+                
+                if let likeCheck = likeCheck?.documents {
+                    for check in likeCheck {
+                        let like = check["like"] as? Bool ?? false
+                        if like == true {
+                            likeCount += 1
+                        }
+                    }
+                }
+                
+                if let myCheck = myCheck?.data() {
+                    like = myCheck["like"] as? Bool ?? false
+                    
+                } else {
+                    viewurl
+                        .document(currentUID)
+                        .setData(["like":false])
+                    like = false
+                }
+                
+                userRef
+                    .document(uid)
+                    .getDocument { userData, _ in
+                        guard let userData = userData?.data() else { return }
+                        let name = userData["nickName"] as? String ?? ""
+                        let thumbnail = userData["profileImageURL"] as? String ?? ""
+                        completion(Posts(userUID: uid,
+                                     userName: name,
+                                     userComment: postComment,
+                                     userProfileImage: thumbnail,
+                                     userPostImage: postImageURL,
+                                     postDate: date,
+                                     goodMark: like,
+                                     viewCount: viewCount,
+                                     likeCount: likeCount,
+                                     urlkey: dataID))
+                }
+            }
         }
-       let p = Posts(userUID: <#T##String#>, userName: <#T##String#>, userComment: <#T##String#>, userProfileImage: <#T##String#>, userPostImage: <#T##[String]#>, postDate: <#T##String#>, goodMark: <#T##Bool#>, viewCount: <#T##Int#>, likeCount: <#T##Int#>, urlkey: <#T##String#>)
-        return p
     }
-
-
-extension Posts: DocumentSerializable {
-
-    init(userUID: String,
-         userName: String,
-         userComment: String,
-         userProfileImage: String,
-         userPostImage: [String],
-         postDate: String,
-         goodMark: Bool,
-         viewCount: Int,
-         likeCount: Int,
-         urlKey:String) {
-        let document = Firestore.firestore().posts.document()
-        self.init(documentID:document.documentID,
-                  userUID: userUID,
-                  userName:userName,
-                  userComment: userComment,
-                  userProfileImage: userProfileImage,
-                  userPostImage: userPostImage,
-                  postDate: postDate, goodMark: goodMark,
-                  viewCount: viewCount, likeCount: likeCount,
-                  urlkey: urlKey)
-    }
-
-    private init?(documentID: String, dictionary:[String:Any]) {
-        guard let userUID = dictionary[""] as? String,
-            let userName = dictionary [""] as? String,
-            let userComment = dictionary[""] as? String,
-            let userProfileImage = dictionary[""] as? String,
-            let postDate = dictionary[""] as? String,
-            let goodMark = dictionary[""] as? Bool,
-            let viewCount =  dictionary[""] as? Int,
-            let likeCount = dictionary[""] as? Int,
-            let userPostImage = dictionary[""] as? [String],
-            let urlKey = dictionary[""] as? String  else { return nil }
-
-        self.init(userUID: userUID,
-                  userName: userName,
-                  userComment: userComment,
-                  userProfileImage: userProfileImage,
-                  userPostImage: userPostImage,
-                  postDate: postDate,
-                  goodMark: goodMark,
-                  viewCount: viewCount,
-                  likeCount: likeCount,
-                  urlKey: urlKey)
-
-    }
-
-    init?(document: QueryDocumentSnapshot) {
-        self.init(documentID: document.documentID,dictionary: document.data() )
-    }
-
-    init?(document: DocumentSnapshot) {
-        guard let data = document.data() else { return nil }
-        self.init(documentID: document.documentID, dictionary: data)
-    }
-
-
-
-    var documentData: [String : Any] {
-        return [
-            "": userUID,
-            "": userName,
-            "": userComment,
-            "": userProfileImage,
-            "": userPostImage,
-            "": postDate,
-            "": goodMark,
-            "":viewCount,
-            "":likeCount,
-            "":urlkey
-        ]
-    }
-
-
 }
- */
+

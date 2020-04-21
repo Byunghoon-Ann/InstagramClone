@@ -31,9 +31,9 @@ class SearchViewController : UIViewController ,UISearchBarDelegate{
         searchBar.barTintColor = .systemOrange
         festaPostLoadIndicator.startAnimating()
         
-        LoadFile.shread.loadSearchFeedPost { [weak self] in
+        FirebaseServices.shread.loadSearchFeedPost { [weak self] in
             guard let self = self else { return }
-            self.searchImageArray = LoadFile.shread.posts
+            self.searchImageArray = FirebaseServices.shread.posts
             self.searchImageArray.sort { firstItem, secondItem in
                 let firstDate = self.dateFomatter.date(from: firstItem.postDate) ?? self.today
                 let secondDate = self.dateFomatter.date(from: secondItem.postDate) ?? self.today

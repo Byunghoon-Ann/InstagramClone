@@ -11,7 +11,8 @@ import Foundation
 import UIKit
 import SDWebImage
 import Firebase
-fileprivate let firestoreRef = Firestore.firestore()
+fileprivate let postRef = Firestore.firestore().posts
+fileprivate let userRef = Firestore.firestore().user
 class MarkViewController : UIViewController {
     
     @IBOutlet weak var activityIndicatior: UIActivityIndicatorView!
@@ -40,8 +41,8 @@ class MarkViewController : UIViewController {
         tableView.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
-        self.view.addSubview(alertLabel)
-        self.alertLabel.isHidden = true
+        view.addSubview(alertLabel)
+        alertLabel.isHidden = true
         alertLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         alertLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
@@ -91,101 +92,49 @@ extension MarkViewController {
         activityIndicatior.startAnimating()
         guard let currentUID = appDelegate.currentUID else { return }
         goodPost.removeAll()
-        appDelegate.goodPost.removeAll()
-        firestoreRef
-            .collection("AllPost")
-            .getDocuments { allSnapshot, error in
-                guard let allSnapshot = allSnapshot?.documents else { return }
-                if allSnapshot.isEmpty {
-                    self.tableView.isHidden = true
-                    self.alertLabel.isHidden = false
-                    completion()
-                } else {
-                    for i in allSnapshot {
-                        guard let post = i.data() as? [String:[String:Any]] else { return }
-                        let postID = i.documentID
-                        
-                        firestoreRef
-                            .collection("AllPost")
-                            .document(postID)
-                            .collection("goodMarkLog")
-                            .document(currentUID)
-                            .getDocument { snapshot, error in
-                                
-                                firestoreRef
-                                    .collection("AllPost")
-                                    .document(postID)
-                                    .collection("ViewCheck")
-                                    .getDocuments { viewCheck, error in
-                                        
-                                        firestoreRef
-                                            .collection("AllPost")
-                                            .document(postID)
-                                            .collection("goodMarkLog")
-                                            .getDocuments { likeCheck, error in
-                                                for (_,j) in post {
-                                                    self.count += 1
-                                                    var like = false
-                                                    if let snapshot = snapshot?.data() {
-                                                        var viewCount = 0
-                                                        var likeCounts = 0
-                                                        like = snapshot["like"] as? Bool ?? false
-                                                        let name = j["nickName"] as? String ?? ""
-                                                        let postComment = j["postComment"] as? String ?? ""
-                                                        let postImageURL = j["postImageURL"] as? [String] ?? [""]
-                                                        let date = j["date"] as? String ?? ""
-                                                        let profile = j["profileImageURL"] as? String ?? ""
-                                                        let uid = j["uid"] as? String  ?? ""
-                                                        if let viewCheck = viewCheck {
-                                                            viewCount = viewCheck.count
-                                                        }
-                                                        
-                                                        if let likeCheck = likeCheck?.documents {
-                                                            for check in likeCheck {
-                                                                let likes = check["like"] as? Bool ?? false
-                                                                if likes == true {
-                                                                    likeCounts += 1
-                                                                }
-                                                            }
-                                                        }
-                                                        
-                                                        if like == true {
-                                                            self.goodPost.append(Posts(userUID: uid,
-                                                                                       userName: name,
-                                                                                       userComment: postComment,
-                                                                                       userProfileImage: profile,
-                                                                                       userPostImage: postImageURL,
-                                                                                       postDate: date,
-                                                                                       goodMark: like,
-                                                                                       viewCount: viewCount,
-                                                                                       likeCount: likeCounts,
-                                                                                       urlkey: postID))
-                                                        }
-                                                    } else {
-                                                        if allSnapshot.count == self.count, self.goodPost.isEmpty{
-                                                            self.activityIndicatior.isHidden = true
-                                                            self.tableView.isHidden = true
-                                                            self.alertLabel.isHidden = false
-                                                            completion()
-                                                            break
-                                                        } else {
-                                                            continue
-                                                        }
+        postRef.getDocuments { [weak self] allSnapshot, error in
+            guard let self = self else { return }
+            guard let allSnapshot = allSnapshot?.documents else { return }
+            if allSnapshot.isEmpty {
+                self.tableView.isHidden = true
+                self.alertLabel.isHidden = false
+                completion()
+            } else {
+                for i in allSnapshot {
+                    self.count += 1
+                    let postID = i.documentID
+                    let likeUrl = Firestore.firestore().goodMark(postID)
+                    let viewUrl = Firestore.firestore().viewCount(postID)
+                    
+                    likeUrl.document(currentUID).getDocument {snapshot, error in
+                        viewUrl.getDocuments { viewCheck, error in
+                            likeUrl.getDocuments { likeCheck,error  in
+                                Posts.cleanData(allSnapshot.count,
+                                                i.data() as? [String:[String:Any]] ,
+                                                postID,
+                                                userRef,
+                                                viewUrl,
+                                                likeUrl,
+                                                currentUID,
+                                                snapshot,
+                                                viewCheck,
+                                                likeCheck) { data in
+                                                    if data.goodMark == true {
+                                                        self.goodPost.append(data)
                                                     }
-                                                }
-                                                if allSnapshot.count == self.count, !self.goodPost.isEmpty {
-                                                    self.alertLabel.isHidden = true
-                                                    self.activityIndicatior.isHidden = true
-                                                    self.tableView.isHidden = false
-                                                    
-                                                    self.tableView.reloadData()
-                                                    completion()
-                                                }
-                                        }
+                                                    if allSnapshot.count == self.count {
+                                                        self.activityIndicatior.isHidden = true
+                                                        self.activityIndicatior.stopAnimating()
+                                                        self.alertLabel.isHidden = true
+                                                        self.tableView.reloadData()
+                                                        completion()
+                                                    }
                                 }
+                            }
                         }
                     }
                 }
+            }
         }
     }
     

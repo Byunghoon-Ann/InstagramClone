@@ -13,7 +13,7 @@
 import UIKit
 import Firebase
 fileprivate let currentUID = Auth.auth().currentUser?.uid
-fileprivate let firestoreRef = Firestore.firestore()
+fileprivate let postRef = Firestore.firestore().posts
 
 class PlusCommentViewContrller : UIViewController {
     @IBOutlet weak var nsBottomConstraint: NSLayoutConstraint!
@@ -116,8 +116,7 @@ class PlusCommentViewContrller : UIViewController {
         guard let post = postData else { return }
         let message = "님이 게시물에 댓글을 작성하셨습니다."
         if let currentUid = currentUID, let myData = myData {
-            firestoreRef
-                .collection("AllPost")
+            postRef
                 .document(postKey)
                 .collection("repleList")
                 .addDocument(data: ["uid":currentUid,
@@ -146,8 +145,7 @@ class PlusCommentViewContrller : UIViewController {
         self.repleData.removeAll()
         guard let postData = postData else { return }
         DispatchQueue.main.async {
-            firestoreRef
-                .collection("AllPost")
+            postRef
                 .order(by:"\(postData.userUID)")
                 .getDocuments { postList, error in
                     guard let postList = postList?.documents else {return}
@@ -161,8 +159,7 @@ class PlusCommentViewContrller : UIViewController {
                                 let docKey = docment.documentID
                                 
                                 self.postKey = docKey
-                                firestoreRef
-                                    .collection("AllPost")
+                                postRef
                                     .document(docKey)
                                     .collection("repleList")
                                     .getDocuments { snapshot, error in

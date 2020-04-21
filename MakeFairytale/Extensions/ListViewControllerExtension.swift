@@ -7,11 +7,10 @@
 //
 import UIKit
 import Firebase
-
-fileprivate let firestoreRef = Firestore.firestore()
-
+fileprivate let userRef = Firestore.firestore().user
 extension ListViewController {
     //MARK:- Feed로드
+    
     func loadFesta(_ profileImageView: UIImageView,
                    _ userNameLabel: UILabel,
                    _ indicator: UIActivityIndicatorView,
@@ -19,15 +18,15 @@ extension ListViewController {
                    _ today: Date,
                    _ dateFomatter: DateFormatter)
                    {
-            LoadFile.shread.fecthMyFollowPosting {
+            FirebaseServices.shread.fecthMyFollowPosting {
                 tableview.isHidden = true
                 indicator.startAnimating()
-                self.following = LoadFile.shread.following
+                self.following = FirebaseServices.shread.following
                 self.follwingCollectionView.reloadData()
-                LoadFile.shread.fecthFollowPost {
-                    LoadFile.shread.loadMyFeed {
+                FirebaseServices.shread.fecthFollowPost {
+                    FirebaseServices.shread.loadMyFeed {
                         self.festaData.removeAll()
-                        self.festaData = LoadFile.shread.myPostData
+                        self.festaData = FirebaseServices.shread.myPostData
                         
                         self.festaData.sort { firstItem, secondItem in
                             let firstDate = dateFomatter.date(from: firstItem.postDate) ?? today
@@ -44,7 +43,7 @@ extension ListViewController {
                             profileImageView.sd_setImage(with: URL(string: myProfileData.profileImageURL))
                             userNameLabel.text = myProfileData.nickName
                             
-                            if !LoadFile.shread.followString.isEmpty || !self.festaData.isEmpty {
+                            if !FirebaseServices.shread.followString.isEmpty || !self.festaData.isEmpty {
                                 tableview.isHidden = false
                                 self.firstAlertLabel.isHidden = true
                                 tableview.reloadData()
@@ -63,10 +62,9 @@ extension ListViewController {
     //MARK:- 사용자 정보 로드
     func loadProfile(completion : @escaping () -> Void) {
         myProfileData = nil
-        
         guard let currentUID = appDelegate.currentUID else { return }
-        firestoreRef
-            .collection("user")
+        
+        userRef
             .document("\(currentUID)")
             .getDocument() { snapshot,error in
                 if let error = error {

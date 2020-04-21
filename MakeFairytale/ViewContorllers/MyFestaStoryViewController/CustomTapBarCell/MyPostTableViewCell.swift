@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-fileprivate let currentUID = Auth.auth().currentUser?.uid
+
 class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
     
     @IBOutlet weak var pageControl: UIPageControl!

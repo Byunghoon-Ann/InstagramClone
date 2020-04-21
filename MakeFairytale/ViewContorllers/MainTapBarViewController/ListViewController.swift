@@ -124,7 +124,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
    
    func checknotificationCenter() {
       let currentUID = appDelegate.currentUID ?? ""
-      LoadFile.shread.snapshotListenerCheckEvent(currentUID,
+      FirebaseServices.shread.snapshotListenerCheckEvent(currentUID,
                                                  alertBadgeImageView,
                                                  ["like","reple","follow","newPost"])
       
@@ -280,8 +280,7 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
                                                                            }
                                                                         }
                                                                         
-                                                                        firestoreRef
-                                                                           .collection("AllPost")
+                                                                        firestoreRef.posts
                                                                            .document("\(postURL.urlkey)")
                                                                            .delete { error in
                                                                               if let error = error {

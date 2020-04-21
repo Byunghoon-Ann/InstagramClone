@@ -12,7 +12,7 @@ import Firebase
 import SDWebImage
 import ObjectMapper
 
-fileprivate let firestoreRef = Firestore.firestore()
+fileprivate let followRef = Firestore.firestore().follow
 
 class ChattingListViewController : UIViewController {
     var userData : [MyData] = []
@@ -56,8 +56,7 @@ class ChattingListViewController : UIViewController {
         guard let currentUID = appDelegate.currentUID else { return }
         userData.removeAll()
         DispatchQueue.main.async {
-            firestoreRef
-                .collection("Follow")
+            followRef
                 .document("\(currentUID)")
                 .collection("FollowList")
                 .getDocuments { followList, error in

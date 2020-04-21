@@ -12,7 +12,7 @@ import SDWebImage
 import Firebase
 
 fileprivate let currentUID = Auth.auth().currentUser?.uid
-fileprivate let firestoreRef = Firestore.firestore()
+fileprivate let postRef = Firestore.firestore().posts
 
 class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollViewDelegate{
     
@@ -139,11 +139,11 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
             uploadReple(myData) {
                 self.appDelegate.otherUID = currentUID
                 self.label.isHidden = true
-                LoadFile.shread.loadPostRepleDatas(uid: post.userUID,
+                FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,
                                                    postDate: post.postDate,
                                                    imageURL: post.userPostImage) {
                                                     
-                                                    self.repleData = LoadFile.shread.repleDatas
+                                                    self.repleData = FirebaseServices.shread.repleDatas
                                                     self.repleData.sort { firstData, secondData in
                                                         let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.appDelegate.date
                                                         let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.appDelegate.date
@@ -256,11 +256,11 @@ extension ViewPostingController {
         guard let postData = post else { return }
         
         if hideRepleList.isHidden == true {
-            LoadFile.shread.loadPostRepleDatas(uid: postData.userUID,
+            FirebaseServices.shread.loadPostRepleDatas(uid: postData.userUID,
                                                postDate: postData.postDate,
-                                               imageURL: postData.userPostImage) {
-                                                
-                                                self.repleData = LoadFile.shread.repleDatas
+                                               imageURL: postData.userPostImage) { [weak self] in
+                                                guard let self = self else { return }
+                                                self.repleData = FirebaseServices.shread.repleDatas
                                                 
                                                 self.repleData.sort { firstData, secondData in
                                                     let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.appDelegate.date
@@ -322,9 +322,8 @@ extension ViewPostingController {
         let repleDate = dateFomatter.string(from: appDelegate.date)
         
         if !reple.isEmpty {
-            self.repleData.removeAll()
-            firestoreRef
-                .collection("AllPost")
+            repleData.removeAll()
+            postRef
                 .document(post.urlkey)
                 .collection("repleList")
                 .addDocument(data: ["uid":myData.uid,
@@ -353,7 +352,7 @@ extension ViewPostingController {
         DispatchQueue.main.async {
             guard let post = self.post else { return  }
             guard let currentUID = currentUID else { return }
-            firestoreRef.collection("AllPost")
+            postRef
                 .document(post.urlkey)
                 .collection("ViewCheck")
                 .document(currentUID)

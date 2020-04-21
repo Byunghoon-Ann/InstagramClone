@@ -13,7 +13,10 @@ import Firebase
 import MobileCoreServices
 
 fileprivate let databaseRef = Database.database().reference()
-fileprivate let firestoreRef = Firestore.firestore()
+fileprivate let postRef = Firestore.firestore().posts
+fileprivate let userRef = Firestore.firestore().user
+fileprivate let followRef = Firestore.firestore().follow
+fileprivate let folloerRef = Firestore.firestore().follower
 
 class MyFestaStoryViewController: UIViewController, MyFestaStoryMenuViewDelegate,
 MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
@@ -90,7 +93,6 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         checkFollow()
     }
 
-    //FIXME: 수정필요
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
     }
@@ -149,7 +151,6 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     //MARK: MydidChattingList DIdSelectDelegate
     func customMyChatDidselect(_ path: Int) {
         let i = IndexPath(row:path,section:0)
-        let yourUID = thirdMyView.chatModel[i.row]
         guard let vc = UIStoryboard.chattingRoomVC() else { return }
         vc.yourUID = thirdMyView.yourUIDs[i.row]
         navigationController?.pushViewController(vc, animated: true)
@@ -253,9 +254,8 @@ extension MyFestaStoryViewController {
         followingCheck.removeAll()
         followerCheck.removeAll()
         guard let currentUID = appDelegate.currentUID else { return }
-        let firestoreFollowRef = firestoreRef.collection("Follow")
         if secondMyview.yourUID != "" {
-            firestoreFollowRef
+            followRef
                 .document("\(secondMyview.yourUID)")
                 .collection("FollowList")
                 .getDocuments { snapshot,error in
@@ -271,8 +271,7 @@ extension MyFestaStoryViewController {
                     }
             }
             
-            firestoreRef
-                .collection("Follower")
+            folloerRef
                 .document("\(secondMyview.yourUID)")
                 .collection("FollowerList")
                 .getDocuments{ snapshot , error in
@@ -287,8 +286,7 @@ extension MyFestaStoryViewController {
                     }
             }
         } else {
-            firestoreRef
-                .collection("Follower")
+            folloerRef
                 .document("\(currentUID)")
                 .collection("FollowerList")
                 .getDocuments { snapshot, error in
@@ -304,7 +302,7 @@ extension MyFestaStoryViewController {
                     }
             }
             
-            firestoreFollowRef
+           folloerRef
                 .document("\(currentUID)")
                 .collection("FollowList")
                 .getDocuments { snapshot,error in
@@ -335,8 +333,7 @@ extension MyFestaStoryViewController {
             fixProfileButton.isUserInteractionEnabled = false
             fixProfileButton.isHidden = true
            
-                firestoreRef
-                    .collection("user")
+                userRef
                     .document("\(firstMyView.yourUID)")
                     .getDocument() { userData, error in
                         if let error = error {
@@ -352,7 +349,7 @@ extension MyFestaStoryViewController {
                         profileImageView.sd_setImage(with: URL(string: userThumbnail))
             }
             
-            firestoreRef.collection("AllPost").order(by: firstMyView.yourUID).getDocuments { (query, error) in
+            postRef.order(by: firstMyView.yourUID).getDocuments { (query, error) in
                 if let error = error {print("\(error.localizedDescription)") }
                 if query?.isEmpty == true {
                     completion()
@@ -364,14 +361,12 @@ extension MyFestaStoryViewController {
                     guard let data = document.data() as? [String:[String:Any]] else { return }
                     let dataID = document.documentID
                     
-                    firestoreRef
-                        .collection("AllPost")
+                   postRef
                         .document(dataID)
                         .collection("ViewCheck")
                         .getDocuments { viewCheck,error in
                             
-                            firestoreRef
-                                .collection("AllPost")
+                            postRef
                                 .document(dataID)
                                 .collection("goodMarkLog")
                                 .getDocuments { likeCount, error in
@@ -449,14 +444,13 @@ extension MyFestaStoryViewController {
             firstMyView.collectionView.reloadData()
             secondMyview.tableView.reloadData()
             
-            LoadFile.shread.getChatRoomLists {
+            FirebaseServices.shread.getChatRoomLists {
                 self.thirdMyView.chatModel.removeAll()
-                self.thirdMyView.chatModel = LoadFile.shread.chatModel
+                self.thirdMyView.chatModel = FirebaseServices.shread.chatModel
                 self.thirdMyView.tableViews.reloadData()
             }
             
-            firestoreRef
-                .collection("user")
+            userRef
                 .document("\(currentUID)")
                 .getDocument() { snapshot, error in
                     if let error = error {
@@ -485,7 +479,7 @@ extension MyFestaStoryViewController {
         guard let currentUID = appDelegate.currentUID else { return }
         let secondUID = secondMyview.yourUID
         if secondMyview.yourUID != "" {
-            firestoreRef.collection("Follow")
+                followRef
                 .document("\(currentUID)")
                 .collection("FollowList")
                 .document(secondUID)

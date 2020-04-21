@@ -29,7 +29,7 @@ class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let calendar = Calendar(identifier: .gregorian)
-    let today = Date()
+    
     lazy var dateFomatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -51,7 +51,10 @@ class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
             viewCount.text = "\(festaData.viewCount) 조회"
             postText.text = festaData.userComment
             postUser.text = festaData.userName
-            postingDateLabel.text = DateCalculation.shread.requestDate(festaData.postDate,dateFomatter,today,calendar)
+            postingDateLabel.text = DateCalculation.shread.requestDate(festaData.postDate,
+                                                                       dateFomatter,
+                                                                       appDelegate.date,
+                                                                       calendar)
             postUserProfileImg.sd_setImage(with: URL(string: festaData.userProfileImage))
             likeCountLabel.text = "\(festaData.likeCount) 좋아요"
             goodBtn.isSelected = festaData.goodMark

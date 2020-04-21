@@ -25,14 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var listFeedVC : ListViewController? = nil
     var checkNotificationCheck = false
     var myProfile : MyProfile?
-    var post: [Posts] = [] //전체 포스팅 데이터
     var myPost: [Posts] = [] //사용 유저의 포스팅 데이터
-    var goodPost : [Posts] = [] //좋아요가 체크된 게시물 데이터
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         sleep(1)
         
-        post.removeAll()
         myPost.removeAll()
         FirebaseApp.configure()
         return true

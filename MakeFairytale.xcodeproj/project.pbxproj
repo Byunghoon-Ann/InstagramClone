@@ -55,7 +55,7 @@
 		F67463D823F54AFE0082F5F6 /* YourMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463D723F54AFE0082F5F6 /* YourMessageCell.swift */; };
 		F67463DA23F54C510082F5F6 /* ChattingListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463D923F54C510082F5F6 /* ChattingListViewCell.swift */; };
 		F67463DD23F54CE20082F5F6 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463DC23F54CE10082F5F6 /* ChatModel.swift */; };
-		F6904D6123515EBA0044EDE5 /* LoadFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6904D6023515EBA0044EDE5 /* LoadFile.swift */; };
+		F6904D6123515EBA0044EDE5 /* FirebaseServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6904D6023515EBA0044EDE5 /* FirebaseServices.swift */; };
 		F694C06623F3E73900EA79BB /* MyFestaStoryPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F694C06523F3E73900EA79BB /* MyFestaStoryPageCell.swift */; };
 		F694C06823F5307200EA79BB /* MyViewsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F694C06723F5307200EA79BB /* MyViewsCollectionCell.swift */; };
 		F6AC60022368452C0053BA89 /* ChattingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AC60012368452C0053BA89 /* ChattingListViewController.swift */; };
@@ -77,7 +77,6 @@
 		F6E54FAC244C4BFB00D7F9FD /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54FAB244C4BFB00D7F9FD /* Reusable.swift */; };
 		F6E54FAE244C4C3000D7F9FD /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54FAD244C4C3000D7F9FD /* UITableViewExtension.swift */; };
 		F6E54FB0244C511900D7F9FD /* UICollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54FAF244C511900D7F9FD /* UICollectionViewExtension.swift */; };
-		F6E54FB5244C622700D7F9FD /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54FB4244C622700D7F9FD /* DateFormatterExtension.swift */; };
 		F6F1F3E3232F7DAC00959262 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F1F3E2232F7DAC00959262 /* AppDelegate.swift */; };
 		F6F1F3E8232F7DAC00959262 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6F1F3E6232F7DAC00959262 /* Main.storyboard */; };
 		F6F1F3EA232F7DAD00959262 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6F1F3E9232F7DAD00959262 /* Assets.xcassets */; };
@@ -135,7 +134,7 @@
 		F67463D723F54AFE0082F5F6 /* YourMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourMessageCell.swift; sourceTree = "<group>"; };
 		F67463D923F54C510082F5F6 /* ChattingListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingListViewCell.swift; sourceTree = "<group>"; };
 		F67463DC23F54CE10082F5F6 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
-		F6904D6023515EBA0044EDE5 /* LoadFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFile.swift; sourceTree = "<group>"; };
+		F6904D6023515EBA0044EDE5 /* FirebaseServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseServices.swift; sourceTree = "<group>"; };
 		F694C06523F3E73900EA79BB /* MyFestaStoryPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFestaStoryPageCell.swift; sourceTree = "<group>"; };
 		F694C06723F5307200EA79BB /* MyViewsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewsCollectionCell.swift; sourceTree = "<group>"; };
 		F6AC60012368452C0053BA89 /* ChattingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingListViewController.swift; sourceTree = "<group>"; };
@@ -158,7 +157,6 @@
 		F6E54FAB244C4BFB00D7F9FD /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		F6E54FAD244C4C3000D7F9FD /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		F6E54FAF244C511900D7F9FD /* UICollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewExtension.swift; sourceTree = "<group>"; };
-		F6E54FB4244C622700D7F9FD /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		F6F1F3DF232F7DAC00959262 /* FestaGram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FestaGram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6F1F3E2232F7DAC00959262 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6F1F3E7232F7DAC00959262 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -243,7 +241,6 @@
 				F67463D323F53E100082F5F6 /* MyFestaStoryViewControllerExtension.swift */,
 				F643613F23EDDC24004D26D4 /* UIViewControllerExtension.swift */,
 				F6E54F802449A8A700D7F9FD /* FirebaseExtension.swift */,
-				F6E54FB4244C622700D7F9FD /* DateFormatterExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -262,7 +259,7 @@
 		F6B898AC244D9A4D00A2B1E7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				F6904D6023515EBA0044EDE5 /* LoadFile.swift */,
+				F6904D6023515EBA0044EDE5 /* FirebaseServices.swift */,
 				F6B898AA244D96D200A2B1E7 /* DateCalculation.swift */,
 			);
 			path = Services;
@@ -341,8 +338,8 @@
 				F632F8AE23E3465100591D3C /* MyData.swift */,
 				F632F8B023E3466D00591D3C /* RepleData.swift */,
 				F632F8B223E3468E00591D3C /* FollowData.swift */,
-				F632F8B423E346EE00591D3C /* SearchData.swift */,
 				F632F8B623E3471200591D3C /* Posts.swift */,
+				F632F8B423E346EE00591D3C /* SearchData.swift */,
 				F643614123EEC4CF004D26D4 /* Mode.swift */,
 				F60012A223F16115003DFA12 /* PhotoAsset.swift */,
 				F67463DC23F54CE10082F5F6 /* ChatModel.swift */,
@@ -543,7 +540,6 @@
 			files = (
 				F6E54F812449A8A700D7F9FD /* FirebaseExtension.swift in Sources */,
 				F60B871623605E3200110F31 /* MyPostTableViewCell.swift in Sources */,
-				F6E54FB5244C622700D7F9FD /* DateFormatterExtension.swift in Sources */,
 				F694C06623F3E73900EA79BB /* MyFestaStoryPageCell.swift in Sources */,
 				F60012A323F16115003DFA12 /* PhotoAsset.swift in Sources */,
 				F67463D423F53E100082F5F6 /* MyFestaStoryViewControllerExtension.swift in Sources */,
@@ -559,7 +555,7 @@
 				F671246A2356405100D3C1AD /* MyFestaStoryMenuView.swift in Sources */,
 				F670A01423466C0800BFF3FA /* MyStoryViewController.swift in Sources */,
 				F6AC6004236845390053BA89 /* ChattingRoomViewController.swift in Sources */,
-				F6904D6123515EBA0044EDE5 /* LoadFile.swift in Sources */,
+				F6904D6123515EBA0044EDE5 /* FirebaseServices.swift in Sources */,
 				F60EF53623F6AFD60041EA86 /* UITableViewCellExtension.swift in Sources */,
 				F632F8A923E345A700591D3C /* MyProfile.swift in Sources */,
 				F6BF5F03242B707C00819424 /* DropDownButton.swift in Sources */,

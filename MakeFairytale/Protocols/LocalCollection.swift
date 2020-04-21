@@ -10,20 +10,14 @@ import Firebase
 
 public protocol DocumentSerializable {
 
-  /// Initializes an instance from a Firestore document. May fail if the
-  /// document is missing required fields.
+  
   init?(document: QueryDocumentSnapshot)
 
-  /// Initializes an instance from a Firestore document. May fail if the
-  /// document does not exist or is missing required fields.
   init?(document: DocumentSnapshot)
 
-  /// The documentID of the object in Firestore.
   var documentID: String { get }
 
-  /// The representation of a document-serializable object in Firestore.
   var documentData: [String: Any] { get }
-
 }
 
 final class LocalCollection<T: DocumentSerializable> {
