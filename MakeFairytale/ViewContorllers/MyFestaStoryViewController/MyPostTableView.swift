@@ -26,6 +26,7 @@ class MyPostTableView: UIView {
           label.textAlignment = .center
           return label
        }()
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         self.backgroundColor = .white
@@ -46,7 +47,15 @@ class MyPostTableView: UIView {
         return tableView
     }()
     
-    var yourData : [Posts] = []
+    var yourData : [Posts] = [] {
+        willSet {
+            self.yourData.removeAll()
+        }
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var yourUID = ""
     

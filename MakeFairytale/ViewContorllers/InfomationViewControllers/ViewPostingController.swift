@@ -97,7 +97,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.nsKeyboardConstrait.constant = keyboardSize.height - 35
+            self.nsKeyboardConstrait.constant = keyboardSize.height + 20
         }
         UIView.animate(withDuration: 0, animations: {
             self.view.layoutIfNeeded()
@@ -136,7 +136,8 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     @IBAction func repleButton(_ sender: UIButton ) {
         guard let post = post else { return }
         if let myData = appDelegate.myProfile {
-            uploadReple(myData) {
+            uploadReple(myData) { [weak self] in
+                guard let self = self else { return }
                 self.appDelegate.otherUID = currentUID
                 self.label.isHidden = true
                 FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,

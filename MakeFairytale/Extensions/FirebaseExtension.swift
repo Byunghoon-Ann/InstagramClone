@@ -36,6 +36,18 @@ extension Firestore {
     func viewCount(_ documentID:String) -> CollectionReference {
         return posts.document(documentID).collection("ViewCheck")
     }
+    
+    func followingRef(_ documentID : String) -> CollectionReference {
+        return follow.document(documentID).collection("FollowList")
+    }
+    
+    func followerRef(_ documentID: String) -> CollectionReference {
+        return follower.document(documentID).collection("FollowerList")
+    }
+    
+   static func getOtherRef(_ collection: String, _ documentID: String) -> DocumentReference {
+    return Firestore.firestore().collection(collection).document(documentID)
+    }
 }
 
 

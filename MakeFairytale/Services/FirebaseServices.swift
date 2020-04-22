@@ -167,27 +167,14 @@ class FirebaseServices {
                         guard let postImageURL = i["postImageURL"] as? [String] else { return  }
                         
                         if postDate == date, imageURL == postImageURL {
-                            let docKey = docment.documentID
-                            
-                            postRef
-                                .document(docKey)
-                                .collection("repleList")
-                                .addSnapshotListener { snapshot, error in
+                            let repleURL = postRef.document(docment.documentID).collection("repleList")
+                            repleURL
+                                .getDocuments { snapshot, error in
                                     
                                     guard let snapshot = snapshot?.documents else { return  }
-                                    
                                     for i in snapshot {
-                                        let repleData = i.data()
-                                        let profile = repleData["profileImageURL"] as? String ?? ""
-                                        let uid = repleData["uid"] as? String ?? ""
-                                        let reple = repleData["reple"] as? String ?? ""
-                                        let nickName = repleData["nickName"] as? String ?? ""
-                                        let repleDate = repleData["repleDate"] as? String ?? ""
-                                        self.repleDatas.append(RepleData(uid: uid,
-                                                                         userThumbnail: profile,
-                                                                         userReple: reple,
-                                                                         nickName:nickName,
-                                                                         repleDate:repleDate))
+                                        guard let repleData = RepleData(document: i) else { return }
+                                        self.repleDatas.append(repleData)
                                     }
                                     completion()
                             }
@@ -247,7 +234,6 @@ class FirebaseServices {
                                 likeurl.document(currentUID).getDocument { likeCheck, error in
                                     likeurl.getDocuments { likeCount, error in
                                         viewurl.getDocuments { viewCheck, error in
-                                            
                                             Posts.cleanData(list.count,
                                                             document.data() as? [String:[String:Any]],
                                                             dataID,
@@ -264,10 +250,8 @@ class FirebaseServices {
                                                                 }
                                             }
                                         }
-                                        
                                     }
                                 }
-                                
                             }
                         }
                 }

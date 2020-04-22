@@ -6,10 +6,6 @@
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
 
-//댓글창 ListViewController에서 댓글 선택시 보여준다
-//맨 위는 해당 댓글의 계정주 그밑에는 단 사람 순서대로 나열, 뷰 맨 아래에 사용자가 댓글을 남길수 있고 남기면
-//맨 마지막에 댓글이 달린다.
-
 import UIKit
 import Firebase
 fileprivate let currentUID = Auth.auth().currentUser?.uid
@@ -45,7 +41,14 @@ class PlusCommentViewContrller : UIViewController {
     var postKey : String = ""
     var postData: Posts?
     var myData : MyProfile?
-    var repleData : [RepleData] = []
+    var repleData : [RepleData] = [] {
+        willSet {
+            self.repleData.removeAll()
+        }
+        didSet {
+            commentTableView.reloadData()
+        }
+    }
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
@@ -85,7 +88,7 @@ class PlusCommentViewContrller : UIViewController {
     
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.nsBottomConstraint.constant = keyboardSize.height
+            self.nsBottomConstraint.constant = keyboardSize.height + 10
         }
         UIView.animate(withDuration: 0, animations: {
             self.view.layoutIfNeeded()
@@ -142,7 +145,6 @@ class PlusCommentViewContrller : UIViewController {
     }
     
     func loadPostRepleData(completion : @escaping () -> Void) {
-        self.repleData.removeAll()
         guard let postData = postData else { return }
         DispatchQueue.main.async {
             postRef
@@ -156,33 +158,16 @@ class PlusCommentViewContrller : UIViewController {
                             guard let postImageURL = i["postImageURL"] as? [String] else { return }
                             
                             if postData.postDate == date, postData.userPostImage == postImageURL {
-                                let docKey = docment.documentID
-                                
-                                self.postKey = docKey
-                                postRef
-                                    .document(docKey)
-                                    .collection("repleList")
-                                    .getDocuments { snapshot, error in
-                                        
-                                        guard let snapshot = snapshot?.documents else { return }
-                                        
-                                        for i in snapshot {
-                                            let repleData = i.data()
-                                            guard let profile = repleData["profileImageURL"] as? String else { return }
-                                            guard let uid = repleData["uid"] as? String else { return }
-                                            guard let reple = repleData["reple"] as? String else { return }
-                                            guard let nickName = repleData["nickName"] as? String else { return }
-                                            let repleDate = repleData["repleDate"] as? String ?? ""
-                                            self.repleData.append(RepleData(uid: uid,
-                                                                            userThumbnail: profile,
-                                                                            userReple: reple,
-                                                                            nickName:nickName,
-                                                                            repleDate: repleDate ))
-                                        }
+                                let repleURL = postRef.document(docment.documentID).collection("repleList")
+                                repleURL.getDocuments { snapshot, errpr in
+                                    guard let snapshot = snapshot?.documents else { return }
+                                    for i in snapshot  {
+                                        guard let repleData = RepleData(document: i) else { return }
+                                        self.repleData.append(repleData)
                                         if snapshot.count == self.repleData.count {
-                                            
-                                        completion()
+                                            completion()
                                         }
+                                    }
                                 }
                             }
                         }
@@ -262,8 +247,6 @@ extension PlusCommentViewContrller {
             self.profileImgView.sd_setImage(with: URL(string: postData.userProfileImage))
             self.profileComment.text = postData.userName
             self.mySelfImgView.sd_setImage(with: URL(string: myData.profileImageURL))
-            
-            self.commentTableView.reloadData()
         }
     }
 }

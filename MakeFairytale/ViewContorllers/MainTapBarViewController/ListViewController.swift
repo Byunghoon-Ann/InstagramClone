@@ -30,9 +30,26 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
    let appDelegate = UIApplication.shared.delegate as! AppDelegate
    var leftTopButton = DropDownButton()
    var goodMarkURLKey : String = ""
-   var festaData : [Posts] = [] // 포스팅 데이터
-   var following : [FollowData] = [] //팔로잉 리스트
-   var myProfileData: MyProfile?
+   
+   var festaData : [Posts] = [] {
+      willSet {
+         festaData.removeAll()
+      }
+   }
+   var following : [FollowData] = [] {
+      didSet {
+         follwingCollectionView.reloadData()
+      }
+   }
+   
+   var myProfileData: MyProfile? {
+      didSet {
+         guard let myProfileData = myProfileData else { return }
+         userProfileName.text = myProfileData.nickName
+         userProfileImageView.sd_setImage(with: URL(string: myProfileData.profileImageURL))
+      }
+   }
+   
    var topViewHideCheck = false
    var flagImageSave = false
    let imagePicker = UIImagePickerController()
@@ -44,7 +61,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       return dateFomatter
    }()
    
-   var firstAlertLabel : UILabel = {
+   lazy var firstAlertLabel : UILabel = {
       let label = UILabel()
       label.translatesAutoresizingMaskIntoConstraints = false
       label.numberOfLines = 0
@@ -62,9 +79,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       })
       
       UNUserNotificationCenter.current().delegate = self
-      loadFesta(userProfileImageView,
-                userProfileName,
-                postLoadingIndicatior,
+      loadFesta(postLoadingIndicatior,
                 postTableView,
                 appDelegate.date,
                 dateFomatter)
@@ -135,9 +150,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
             .document(currentUID)
             .updateData(["newPost":false])
          
-         loadFesta(userProfileImageView,
-                   userProfileName,
-                   postLoadingIndicatior,
+         loadFesta(postLoadingIndicatior,
                    postTableView,
                    appDelegate.date,
                    dateFomatter)
@@ -310,7 +323,7 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       }
       alert.addAction(detailAction)
       alert.addAction(cancel)
-      self.present(alert,animated: true)
+      present(alert,animated: true)
    }
    
    @objc func moveRepleList(sender: UIButton) {

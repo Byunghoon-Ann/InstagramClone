@@ -47,7 +47,14 @@ class DidChattingCustomView: UIView {
     
     var yourUIDs : [String] = []
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var chatModel: [ChatModel] = []
+    var chatModel: [ChatModel] = [] {
+        willSet {
+            self.chatModel.removeAll()
+        }
+        didSet {
+            tableViews.reloadData()
+        }
+    }
     var tableViews: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         tableView.backgroundColor = .white

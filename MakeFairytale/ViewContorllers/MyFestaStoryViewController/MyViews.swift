@@ -54,7 +54,14 @@ class MyViews : UIView {
         return collectionView
     }()
     
-    var myPosts: [Posts] = []
+    var myPosts: [Posts] = [] {
+        willSet {
+            self.myPosts.removeAll()
+        }
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     var myUID : String = ""
     var yourUID : String = ""
     func customCollection() {

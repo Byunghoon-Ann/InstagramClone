@@ -11,21 +11,18 @@ fileprivate let userRef = Firestore.firestore().user
 extension ListViewController {
     //MARK:- Feed로드
     
-    func loadFesta(_ profileImageView: UIImageView,
-                   _ userNameLabel: UILabel,
-                   _ indicator: UIActivityIndicatorView,
+    func loadFesta(_ indicator: UIActivityIndicatorView,
                    _ tableview: UITableView,
                    _ today: Date,
                    _ dateFomatter: DateFormatter)
                    {
-            FirebaseServices.shread.fecthMyFollowPosting {
+            FirebaseServices.shread.fecthMyFollowPosting { [weak self] in
+                guard let self = self else { return }
                 tableview.isHidden = true
                 indicator.startAnimating()
                 self.following = FirebaseServices.shread.following
-                self.follwingCollectionView.reloadData()
                 FirebaseServices.shread.fecthFollowPost {
                     FirebaseServices.shread.loadMyFeed {
-                        self.festaData.removeAll()
                         self.festaData = FirebaseServices.shread.myPostData
                         
                         self.festaData.sort { firstItem, secondItem in
@@ -38,16 +35,13 @@ extension ListViewController {
                                 return false
                             }
                         }
+                        
                         self.loadProfile {
-                            guard let myProfileData = self.myProfileData else { return }
-                            profileImageView.sd_setImage(with: URL(string: myProfileData.profileImageURL))
-                            userNameLabel.text = myProfileData.nickName
-                            
                             if !FirebaseServices.shread.followString.isEmpty || !self.festaData.isEmpty {
                                 tableview.isHidden = false
                                 self.firstAlertLabel.isHidden = true
                                 tableview.reloadData()
-                            }else {
+                            } else {
                                 self.firstAlertLabel.isHidden = false
                             }
                             self.refresh.endRefreshing()
@@ -66,19 +60,15 @@ extension ListViewController {
         
         userRef
             .document("\(currentUID)")
-            .getDocument() { snapshot,error in
+            .getDocument() { [weak self] snapshot,error in
+                guard let self = self else { return  }
                 if let error = error {
                     print("\(error.localizedDescription)")
                 } else {
-                    guard let snapshot = snapshot?.data() else { return }
-                    let nickName = snapshot["nickName"] as? String ?? ""
-                    let email = snapshot["email"] as? String  ?? ""
-                    let profileImage = snapshot["profileImageURL"] as? String ?? ""
-                    self.myProfileData = MyProfile(profileImageURL: profileImage,
-                                                   email: email,
-                                                   nickName: nickName,
-                                                   uid: currentUID)
-                    self.appDelegate.myProfile = self.myProfileData
+                    guard let snapshot = snapshot,
+                        let myProfileData = MyProfile(document: snapshot) else { return }
+                    self.myProfileData = myProfileData
+                    self.appDelegate.myProfile = myProfileData
                     completion()
                 }
         }
@@ -96,9 +86,7 @@ extension ListViewController {
     
     //MARK:-새로고침시 발생하는 Event
     @objc func refresh(refresh: UIRefreshControl) {
-        loadFesta(userProfileImageView,
-                  userProfileName,
-                  postLoadingIndicatior,
+        loadFesta(postLoadingIndicatior,
                   postTableView,
                   appDelegate.date,
                   dateFomatter)
