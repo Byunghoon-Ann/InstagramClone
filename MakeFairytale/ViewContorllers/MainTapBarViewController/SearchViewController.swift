@@ -62,7 +62,9 @@ class SearchViewController : UIViewController ,UISearchBarDelegate{
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filterData = searchText.isEmpty ? searchImageArray : searchImageArray.filter { (item: Posts) -> Bool in
-            return item.userComment.range(of: searchText,options: .caseInsensitive,range: nil,locale: nil) != nil
+            return item.userComment.range(of: searchText,
+                                          options: .caseInsensitive,
+                                          range: nil,locale: nil) != nil
         }
         searchCollectionView.reloadData()
     }

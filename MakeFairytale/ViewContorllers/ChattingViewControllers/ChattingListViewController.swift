@@ -15,10 +15,11 @@ import ObjectMapper
 fileprivate let followRef = Firestore.firestore().follow
 
 class ChattingListViewController : UIViewController {
-    var userData : [MyData] = []
-    var tableView = UITableView()
+    
+    var userData: [FollowData] = []
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var alertLabel : UILabel = {
+    lazy var tableView = UITableView()
+    lazy var alertLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 20)
@@ -66,12 +67,8 @@ class ChattingListViewController : UIViewController {
                         self.alertLabel.isHidden = false
                     } else {
                         for i in followList {
-                            let followdata = i.data()
-                            let uid = followdata["uid"] as? String ?? ""
-                            let profile = followdata["profileImageURL"] as? String ?? ""
-                            let nickName = followdata["nickName"] as? String ?? ""
-                            let listData = MyData(userName: nickName, userThumbnail: profile, userUID: uid)
-                            self.userData.append(listData)
+                            guard let userData = FollowData(document: i) else { return }
+                            self.userData.append(userData)
                             if self.userData.count == followList.count {
                                 self.tableView.reloadData()
                             }
@@ -130,7 +127,6 @@ extension ChattingListViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let vc = UIStoryboard.chattingRoomVC() else { return }
-        
         vc.yourUID = userData[indexPath.row].userUID
         navigationController?.pushViewController(vc, animated: false)
     }

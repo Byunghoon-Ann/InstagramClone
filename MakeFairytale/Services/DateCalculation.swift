@@ -11,6 +11,13 @@ import UIKit
 class DateCalculation {
     static let shread = DateCalculation()
     
+    let dateFomatter : DateFormatter = {
+       let dateFomatter = DateFormatter()
+       dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+       dateFomatter.locale = Locale(identifier: "kr_KR")
+       return dateFomatter
+    }()
+    
     func requestDate(_ stringDate: String,
                                 _ dateFomatter: DateFormatter,
                                 _ today: Date,
@@ -36,5 +43,19 @@ class DateCalculation {
             }
         }
         return "\(today)"
+    }
+    
+    func requestSort( _ beforeSortPosts: inout [Posts],
+                      _ dateFormatter: DateFormatter,
+                      _ today: Date) {
+        beforeSortPosts.sort { firstItem, secondItem in
+            let firstDate = dateFomatter.date(from: firstItem.postDate) ?? today
+            let secondDate = dateFomatter.date(from: secondItem.postDate) ?? today
+            if  firstDate > secondDate {
+                return true
+            } else {
+                return false
+            }
+        }
     }
 }

@@ -10,12 +10,8 @@ import Firebase
 fileprivate let userRef = Firestore.firestore().user
 extension ListViewController {
     //MARK:- Feed로드
-    
     func loadFesta(_ indicator: UIActivityIndicatorView,
-                   _ tableview: UITableView,
-                   _ today: Date,
-                   _ dateFomatter: DateFormatter)
-                   {
+                   _ tableview: UITableView) {
             FirebaseServices.shread.fecthMyFollowPosting { [weak self] in
                 guard let self = self else { return }
                 tableview.isHidden = true
@@ -24,18 +20,6 @@ extension ListViewController {
                 FirebaseServices.shread.fecthFollowPost {
                     FirebaseServices.shread.loadMyFeed {
                         self.festaData = FirebaseServices.shread.myPostData
-                        
-                        self.festaData.sort { firstItem, secondItem in
-                            let firstDate = dateFomatter.date(from: firstItem.postDate) ?? today
-                            let secondDate = dateFomatter.date(from: secondItem.postDate) ?? today
-                            
-                            if  firstDate > secondDate {
-                                return true
-                            } else {
-                                return false
-                            }
-                        }
-                        
                         self.loadProfile {
                             if !FirebaseServices.shread.followString.isEmpty || !self.festaData.isEmpty {
                                 tableview.isHidden = false
@@ -86,10 +70,7 @@ extension ListViewController {
     
     //MARK:-새로고침시 발생하는 Event
     @objc func refresh(refresh: UIRefreshControl) {
-        loadFesta(postLoadingIndicatior,
-                  postTableView,
-                  appDelegate.date,
-                  dateFomatter)
+        loadFesta(postLoadingIndicatior, postTableView)
     }
     
     //MARK:- 해당 게시물 유저와 채팅 Event

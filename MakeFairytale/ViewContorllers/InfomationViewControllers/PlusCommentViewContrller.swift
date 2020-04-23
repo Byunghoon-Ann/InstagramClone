@@ -54,17 +54,16 @@ class PlusCommentViewContrller : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customAlertLabel()
-        dataControl()
         checkUIBtn.backgroundColor = .white
         plusCommentTextField.textColor = .black
         plusCommentTextField.backgroundColor = .white
         profileComment.backgroundColor = .white
         profileComment.textColor = .black
-    
+        
         checkUIBtn.setTitleColor(.black, for: .normal)
         commentTableView.dataSource = self
         commentTableView.delegate = self
-        
+        commentTableView.backgroundColor = .white
         plusCommentTextField.delegate = self
        
         commentTableView.layer.borderWidth = 0.3
@@ -73,7 +72,10 @@ class PlusCommentViewContrller : UIViewController {
         mySelfImgView.layer.cornerRadius = mySelfImgView.frame.height/2
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action: #selector(dismisskeyboard))
         view.addGestureRecognizer(tap)
+        
+        requestRepleData()
     }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -118,63 +120,56 @@ class PlusCommentViewContrller : UIViewController {
         let repleDate = dateFomatter.string(from: appDelegate.date)
         guard let post = postData else { return }
         let message = "님이 게시물에 댓글을 작성하셨습니다."
-        if let currentUid = currentUID, let myData = myData {
-            postRef
-                .document(postKey)
-                .collection("repleList")
-                .addDocument(data: ["uid":currentUid,
-                                    "profileImageURL":myData.profileImageURL,
-                                    "reple":reple,
-                                    "nickName":myData.nickName,
-                                    "repleDate":repleDate])
-            self.appDelegate.otherUID = currentUID
-            self.notificationAlert(myData.nickName,
-                                   repleDate,
-                                   myData.uid,
-                                   post.userUID,
-                                   message,
-                                   postKey)
-            
-            self.alertContentsCenter("reple",
-                                     post.userUID)
-            
-            loadPostRepleData {
-                self.commentTableView.reloadData()
-            }
+        print(post.urlkey)
+        guard let currentUID = appDelegate.currentUID else { return }
+        guard let myData = appDelegate.myProfile else {return }
+        
+        postRef
+            .document(post.urlkey)
+            .collection("repleList")
+            .addDocument(data: ["uid":currentUID,
+                                "profileImageURL":myData.profileImageURL,
+                                "reple":reple,
+                                "nickName":myData.nickName,
+                                "repleDate":repleDate])
+        
+        appDelegate.otherUID = currentUID
+        notificationAlert(myData.nickName,
+                          repleDate,
+                          myData.uid,
+                          post.userUID,
+                          message,
+                          postKey)
+        
+        alertContentsCenter("reple", post.userUID)
+        
+        requestRepleData()
+    }
+    
+    func requestRepleData() {
+        guard let post = postData else { return }
+        guard let myData = appDelegate.myProfile else { return }
+        FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,
+                                                   postDate: post.postDate,
+                                                   imageURL: post.userPostImage) {
+                                                    
+                                                    self.profileImgView.sd_setImage(with: URL(string: post.userProfileImage))
+                                                    self.profileComment.text = myData.nickName
+                                                    self.mySelfImgView.sd_setImage(with: URL(string: myData.profileImageURL))
+                                                    self.repleData = FirebaseServices.shread.repleDatas
+                                                    if self.repleData.isEmpty {
+                                                        self.commentTableView.isHidden = true
+                                                        self.alertLabel.isHidden = false
+                                                    } else {
+                                                        
+                                                        self.commentTableView.reloadData()
+                                                        self.commentTableView.isHidden = false
+                                                        self.alertLabel.isHidden = true
+                                                    }
         }
     }
     
-    func loadPostRepleData(completion : @escaping () -> Void) {
-        guard let postData = postData else { return }
-        DispatchQueue.main.async {
-            postRef
-                .order(by:"\(postData.userUID)")
-                .getDocuments { postList, error in
-                    guard let postList = postList?.documents else {return}
-                    for docment in postList {
-                        guard let data = docment.data() as? [String:[String:Any]] else { return }
-                        for (_,i) in data {
-                            guard let date = i["date"] as? String else { return }
-                            guard let postImageURL = i["postImageURL"] as? [String] else { return }
-                            
-                            if postData.postDate == date, postData.userPostImage == postImageURL {
-                                let repleURL = postRef.document(docment.documentID).collection("repleList")
-                                repleURL.getDocuments { snapshot, errpr in
-                                    guard let snapshot = snapshot?.documents else { return }
-                                    for i in snapshot  {
-                                        guard let repleData = RepleData(document: i) else { return }
-                                        self.repleData.append(repleData)
-                                        if snapshot.count == self.repleData.count {
-                                            completion()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-            }
-        }
-    }
+    
 }
 
 extension PlusCommentViewContrller : UITableViewDataSource {
@@ -223,30 +218,5 @@ extension PlusCommentViewContrller {
         alertLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
-    func dataControl() {
-        loadPostRepleData { [weak self] in
-            guard let self = self else { return }
-            if self.repleData.isEmpty {
-                self.commentTableView.isHidden = true
-                self.alertLabel.isHidden  = false
-            }
-            self.repleData.sort { firstData, secondData in
-                let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.appDelegate.date
-                let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.appDelegate.date
-                if dateFirstData > dateSecondData {
-                    return true
-                }else {
-                    return false
-                }
-            }
-            
-            self.myData = self.appDelegate.myProfile
-            guard let postData = self.postData else { return  }
-            guard let myData = self.myData else{ return }
-            
-            self.profileImgView.sd_setImage(with: URL(string: postData.userProfileImage))
-            self.profileComment.text = postData.userName
-            self.mySelfImgView.sd_setImage(with: URL(string: myData.profileImageURL))
-        }
-    }
+   
 }

@@ -341,6 +341,7 @@ class FirebaseServices {
                                                         viewCheck) { data in
                                                             self.posts.append(data)
                                                             if self.posts.count == snapshot.count {
+                                                           
                                                                 completion()
                                                             }
                                         }

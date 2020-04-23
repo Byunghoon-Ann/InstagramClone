@@ -89,5 +89,21 @@ extension Posts {
             }
         }
     }
+    
+    static func postDateSort(_ post: inout [Posts],
+                             _ today: Date,
+                             _ dateFomatter:DateFormatter) -> [Posts]{
+        post.sort { firstItem, secondItem in
+            let firstDate = dateFomatter.date(from: firstItem.postDate) ?? today
+            let secondDate = dateFomatter.date(from: secondItem.postDate) ?? today
+            
+            if  firstDate > secondDate {
+                return true
+            } else {
+                return false
+            }
+        }
+        return post
+    }
 }
 

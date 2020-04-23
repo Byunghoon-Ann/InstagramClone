@@ -5,7 +5,6 @@
 //  Created by ByungHoon Ann on 03/10/2019.
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
-//로그인 후 나타나는 뷰 페뷱이나 인스타처럼 팔로우한 사람들과 본인이 작성한 글들이 나타난다.
 //MARK: TapBarIndex = 0, ViewController
 import UIKit
 import UserNotifications
@@ -13,9 +12,9 @@ import Firebase
 import SDWebImage
 import MobileCoreServices
 
-fileprivate let firestoreRef = Firestore.firestore()
-
-final class ListViewController : UIViewController, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, DropDownButtonDelegate {
+fileprivate let userRef = Firestore.firestore().user
+fileprivate let postRef = Firestore.firestore().posts
+final class ListViewController: UIViewController, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, DropDownButtonDelegate {
 
    @IBOutlet weak var topUIView: UIView!
    @IBOutlet weak var topView: UIView!
@@ -27,15 +26,30 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
    @IBOutlet weak var postTableView: UITableView!  //게시글 테이블뷰
    @IBOutlet weak var postLoadingIndicatior : UIActivityIndicatorView! // 데이터 로딩 인디게이터
    
-   let appDelegate = UIApplication.shared.delegate as! AppDelegate
-   var leftTopButton = DropDownButton()
-   var goodMarkURLKey : String = ""
+   lazy var leftTopButton = DropDownButton()
+   lazy var firstAlertLabel : UILabel = {
+      let label = UILabel()
+      label.translatesAutoresizingMaskIntoConstraints = false
+      label.numberOfLines = 0
+      label.font = .boldSystemFont(ofSize: 20)
+      label.textColor = .black
+      label.text = "처음 사용이신 분들은 \n페스타 찾기 버튼을 클릭하셔서\n 페스타님들의 게시물을 구경해보세요! "
+      label.textAlignment = .center
+      return label
+   }()
    
+   let appDelegate = UIApplication.shared.delegate as! AppDelegate
    var festaData : [Posts] = [] {
       willSet {
-         festaData.removeAll()
+         self.festaData.removeAll()
+      } didSet {
+         DateCalculation.shread.requestSort(&festaData,
+                                            DateCalculation.shread.dateFomatter,
+                                            appDelegate.date)
+         postTableView.reloadData()
       }
    }
+   
    var following : [FollowData] = [] {
       didSet {
          follwingCollectionView.reloadData()
@@ -50,27 +64,11 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       }
    }
    
+   var goodMarkURLKey: String = ""
    var topViewHideCheck = false
    var flagImageSave = false
    let imagePicker = UIImagePickerController()
    let refresh = UIRefreshControl()
-   let dateFomatter : DateFormatter = {
-      let dateFomatter = DateFormatter()
-      dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-      dateFomatter.locale = Locale(identifier: "kr_KR")
-      return dateFomatter
-   }()
-   
-   lazy var firstAlertLabel : UILabel = {
-      let label = UILabel()
-      label.translatesAutoresizingMaskIntoConstraints = false
-      label.numberOfLines = 0
-      label.font = .boldSystemFont(ofSize: 20)
-      label.textColor = .black
-      label.text = "처음 사용이신 분들은 \n페스타 찾기 버튼을 클릭하셔서\n 페스타님들의 게시물을 구경해보세요! "
-      label.textAlignment = .center
-      return label
-   }()
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -80,9 +78,7 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       
       UNUserNotificationCenter.current().delegate = self
       loadFesta(postLoadingIndicatior,
-                postTableView,
-                appDelegate.date,
-                dateFomatter)
+                postTableView)
       
       initRefresh(refresh)
       
@@ -145,15 +141,12 @@ final class ListViewController : UIViewController, UIGestureRecognizerDelegate, 
       
       if appDelegate.checkNotificationCheck == true {
          alertBadgeImageView.isHidden = false
-         firestoreRef
-            .collection("user")
+         userRef
             .document(currentUID)
             .updateData(["newPost":false])
          
          loadFesta(postLoadingIndicatior,
-                   postTableView,
-                   appDelegate.date,
-                   dateFomatter)
+                   postTableView)
       }
    }
 }
@@ -232,7 +225,7 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       let contentView = sender.superview
       guard let cell = contentView?.superview as? FeedCollectionCell else { return }
       guard let indexPath = postTableView.indexPath(for: cell) else { return }
-      let likeCheckDate = dateFomatter.string(from: appDelegate.date)
+      let likeCheckDate = DateCalculation.shread.dateFomatter.string(from: appDelegate.date)
       
       DispatchQueue.main.async { [weak self] in
          guard let self = self else {  return }
@@ -259,71 +252,8 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       let contentView = sender.superview
       guard let cell = contentView?.superview as? FeedCollectionCell else { return }
       guard let indexPath = postTableView.indexPath(for: cell) else {return}
-      guard let vc = UIStoryboard.viewPostingVC() else { return }
-      
-      let alert = UIAlertController(title: nil,
-                                    message: nil,
-                                    preferredStyle: .actionSheet)
-      let cancel = UIAlertAction(title: "취소", style: .cancel)
-      let detailAction = UIAlertAction(title: "자세히 보기",
-                                       style: .default) { _ in
-                                          vc.post = self.festaData[indexPath.row]
-                                          self.navigationController?.pushViewController(vc, animated: true)
-      }
-      let deleteAction = UIAlertAction(title: "삭제",
-                                       style: .default) { _ in
-                                          let deleteAlert = UIAlertController(title: "안내",
-                                                                              message: "게시물을 삭제하시겠습니까?",
-                                                                              preferredStyle: .alert)
-                                          
-                                          let cancel = UIAlertAction(title: "취소",
-                                                                     style: .cancel)
-                                          
-                                          let okAction = UIAlertAction(title: "확인",
-                                                                       style: .default) { [weak self] _ in
-                                                                        guard let self = self else { return }
-                                                                        let postURL = self.festaData[indexPath.row]
-                                                                        for i in 0 ..< postURL.userPostImage.count {
-                                                                           Storage
-                                                                              .storage()
-                                                                              .reference(forURL: "\(postURL.userPostImage[i])")
-                                                                              .delete { (error) in
-                                                                                 if let error = error {
-                                                                                    print("storage Error! = \(error.localizedDescription)")}
-                                                                           }
-                                                                        }
-                                                                        
-                                                                        firestoreRef.posts
-                                                                           .document("\(postURL.urlkey)")
-                                                                           .delete { error in
-                                                                              if let error = error {
-                                                                                 print("error = \(error.localizedDescription)") }
-                                                                        }
-                                                                        self.postTableView.beginUpdates()
-                                                                        self.festaData.remove(at: indexPath.row)
-                                                                        self.postTableView.deleteRows(at: [indexPath], with: .automatic)
-                                                                        self.postTableView.endUpdates()
-                                          }
-                                          deleteAlert.addAction(cancel)
-                                          deleteAlert.addAction(okAction)
-                                          self.present(deleteAlert,animated: true)
-      }
-      let messageAlert = UIAlertAction(title: "쪽지 보내기",
-                                       style: .default) { _ in
-                                          self.moveChattingViewController(sender,
-                                                                          self.postTableView,
-                                                                          self.festaData)
-      }
-      if self.festaData[indexPath.row].userUID == appDelegate.currentUID {
-         alert.addAction(deleteAction)
-      }
-      
-      if festaData[indexPath.row].userUID != appDelegate.currentUID {
-         alert.addAction(messageAlert)
-      }
-      alert.addAction(detailAction)
-      alert.addAction(cancel)
-      present(alert,animated: true)
+      appDelegate.indexPath = indexPath
+      presentAlert()
    }
    
    @objc func moveRepleList(sender: UIButton) {

@@ -30,13 +30,7 @@ class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let calendar = Calendar(identifier: .gregorian)
     
-    lazy var dateFomatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        formatter.locale = Locale(identifier: "kr_KR")
-        return formatter
-    }()
+    lazy var dateFomatter = DateCalculation.shread.dateFomatter
     
     var myProfile: MyProfile? {
         didSet {

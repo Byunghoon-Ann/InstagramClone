@@ -23,7 +23,6 @@ extension UIViewController {
             let imageView = UIImageView()
             let scrollFrame = scrollview.frame
             let xPosition = scrollview.frame.width * CGFloat(i)
-            
             imageView.isUserInteractionEnabled = true
             if contentModeCheck == false {
                 imageView.contentMode = .scaleAspectFit
@@ -88,30 +87,7 @@ extension UIViewController {
                                                                currentUID,
                                                                myMessage,
                                                                urlKey)
-                                        /*
-                                         //MARK:- 알림센터 Message 송신 Event Func
-                                         func notificationAlert(_ name: String,
-                                                                _ date: String,
-                                                                _ myUid: String,
-                                                                _ yourUid: String,
-                                                                _ message: String,
-                                                                _ url: String) {
-                                             
-                                             firestoreRef
-                                                 .collection("NotificationCenter")
-                                                 .document(yourUid)
-                                                 .collection("alert")
-                                                 .addDocument(data:
-                                                     ["nickName":name,
-                                                      "uid":myUid,
-                                                      "date":date,
-                                                      "message":"\(name)\(message)",
-                                                         "url":url
-                                                 ]) { error in
-                                                     if let error = error { print("notification error! = \(error.localizedDescription)") }
-                                             }
-                                         }
-                                         */
+        
                                         if post.userUID != currentUID {
                                         self.notificationAlert(myName,
                                                                checkDate,
@@ -238,7 +214,7 @@ extension UIViewController {
     func moveDetailViewPostView(_ view: MyViews, _ path: Int) {
         let i = IndexPath(row:path, section: 0)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "ViewPostingController") as? ViewPostingController else { return }
+        guard let vc = UIStoryboard.viewPostingVC() else { return }
         if view.yourUID != "" {
             vc.post = view.myPosts[i.row]
         }else {
