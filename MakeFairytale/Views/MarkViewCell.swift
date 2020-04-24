@@ -7,16 +7,27 @@
 //
 
 import UIKit
-
+import SDWebImage
 class MarkViewCell : UITableViewCell {
     @IBOutlet weak var profileImageView:UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userComment: UILabel!
     
+    var post: Posts? {
+        didSet {
+            guard let _post = post else { return }
+            profileImageView.sd_setImage(with: URL(string: _post.userProfileImage))
+            userName.text = _post.userName
+            userComment.text = _post.userComment
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        userName.sizeToFit()
-        userComment.sizeToFit()
+        userName.textColor = .black
+        userName.backgroundColor = .white
+        userComment.textColor = .black
+        userComment.backgroundColor = .white
         profileImageView.layer.cornerRadius = profileImageView.frame.height/2
     }
     

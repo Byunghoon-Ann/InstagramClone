@@ -38,7 +38,7 @@ class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
             mySelfImgView.sd_setImage(with: URL(string: myProfileData.profileImageURL))
         }
     }
-
+    
     var festaData: Posts? {
         didSet {
             guard let festaData = festaData else { return }
@@ -61,14 +61,13 @@ class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
         goodBtn.setImage(UIImage(named: "likeBefore.png"), for: .normal)
         goodBtn.setImage(UIImage(named: "likeAfter.png"), for: .selected)
         postImageScrollView.delegate = self
-        scrollContentView.isHidden = true
         postUserProfileImg.layer.cornerRadius = postUserProfileImg.frame.height/2
         mySelfImgView.layer.cornerRadius = mySelfImgView.frame.height/2
         mySelfImgView.isUserInteractionEnabled = false
         pageControl.currentPage = 0
         appDelegate.tableCellHeight = self.frame.height
     }
-    
+   
     override func prepareForReuse() {
         super.prepareForReuse()
         viewCount.text = nil
@@ -78,6 +77,7 @@ class FeedCollectionCell: UITableViewCell, UIScrollViewDelegate{
         postUserProfileImg.image = nil
         likeCountLabel.text = nil
         mySelfImgView.image = nil
+        pageControl.currentPage = 0
     }
     
 

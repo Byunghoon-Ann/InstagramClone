@@ -12,6 +12,7 @@ import Firebase
 fileprivate let postRef = Firestore.firestore().posts
 fileprivate let storeRef = Storage.storage()
 fileprivate let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
 struct AlertComponents {
     var title: String?
     var message: String?
@@ -25,8 +26,9 @@ struct AlertComponents {
         self.title = title
         self.message = message
         self.completion = completion
-        self.actions = actions.map{
+        self.actions = actions.map {
             UIAlertAction(title: $0.title, style: $0.style, handler: $0.hander)
+            
         }
     }
 }
@@ -41,24 +43,25 @@ struct AlertActionComponent {
         self.style = style
         self.hander = handler
     }
+    
 }
 
-protocol AlertPresentable where Self: UIViewController {
-    var alertStyle: UIAlertController.Style { get }
-    var alertComponents: AlertComponents { get }
+protocol AlertPresentable   {
+    var optionAlertComponents: AlertComponents { get }
+    func selectAlertType(by orderSelect: SelectedType) -> AlertComponents
 }
 
-extension AlertPresentable {
+extension AlertPresentable where Self: UIViewController {
     private var alertTitle: String? {
-        return alertComponents.title
+        return optionAlertComponents.title
     }
     
     private var message: String? {
-        return alertComponents.message
+        return optionAlertComponents.message
     }
     
     private var actions: [UIAlertAction] {
-        return alertComponents.actions
+        return optionAlertComponents.actions
     }
     
     var alertStyle: UIAlertController.Style {
@@ -66,20 +69,22 @@ extension AlertPresentable {
     }
     
     private var completion: (() -> Void)? {
-        return alertComponents.completion
+        return optionAlertComponents.completion
     }
     
-    func presentAlert() {
+    func presentAlert(_ alertStyle: UIAlertController.Style) {
         let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: alertStyle)
-        actions.forEach {alert.addAction($0) }
+        actions.forEach { alert.addAction($0) }
         present(alert, animated: true, completion: completion)
     }
+
 }
 
 extension ListViewController: AlertPresentable {
-   
-    var alertComponents: AlertComponents {
-        let indexPath = appDelegate.indexPath ?? IndexPath(row:festaData.count - 1, section:0)
+    func optionAction(_ selectType: SelectedType ,
+                      _ appDelegate: AppDelegate,
+                      _ tableView: UITableView) -> AlertComponents {
+        let indexPath = appDelegate.indexPath ?? IndexPath(row: festaData.count - 1, section:0)
         let currentUID = appDelegate.currentUID ?? ""
         let deleteAction = AlertActionComponent(title: "삭제") { [weak self] _ in
             guard let self = self else { return }
@@ -99,10 +104,10 @@ extension ListViewController: AlertPresentable {
                     if let error = error {
                         print("error = \(error.localizedDescription)") }
             }
-            self.postTableView.beginUpdates()
+            tableView.beginUpdates()
             self.festaData.remove(at: indexPath.row)
-            self.postTableView.deleteRows(at: [indexPath], with: .automatic)
-            self.postTableView.endUpdates()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.endUpdates()
         }
         
         let detailAlert = AlertActionComponent(title: "자세히 보기") { [weak self] _ in
@@ -120,15 +125,42 @@ extension ListViewController: AlertPresentable {
         }
         
         let cancelAction = AlertActionComponent(title: "취소", handler: nil)
-        
+
         let alertComponents = AlertComponents(title: "안내", actions: [detailAlert,messageAlert,cancelAction])
         
-        if self.festaData[indexPath.row].userUID == currentUID {
+        if festaData[indexPath.row].userUID == currentUID {
             let myComponentss = AlertComponents(title: "안내", actions: [detailAlert,deleteAction,cancelAction])
             return myComponentss
         } else {
             return alertComponents
         }
     }
+    
+    func logoutAction () -> AlertComponents {
+        let cancel = AlertActionComponent(title: "취소", style: .cancel,handler: nil)
+        let logoutAction = AlertActionComponent(title: "로그아웃") { _ in
+            do {
+                try Auth.auth().signOut()
+            } catch let error {
+                print("error : \(error.localizedDescription)")
+            }
+        }
+        return AlertComponents(title: "로그아웃", actions: [logoutAction,cancel])
+    }
+    
+    func selectAlertType(by orderSelect: SelectedType) -> AlertComponents {
+        switch orderSelect {
+        case .option:
+            return optionAction(.option, appDelegate, postTableView)
+        case .logout:
+            return logoutAction()
+        }
+    }
+    
+    
+    var optionAlertComponents: AlertComponents {
+        return selectAlertType(by: CommonService.shread.orderSelect)
+    }
+     
 }
 

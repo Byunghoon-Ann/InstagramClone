@@ -59,6 +59,7 @@
 		F694C06623F3E73900EA79BB /* MyFestaStoryPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F694C06523F3E73900EA79BB /* MyFestaStoryPageCell.swift */; };
 		F694C06823F5307200EA79BB /* MyViewsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F694C06723F5307200EA79BB /* MyViewsCollectionCell.swift */; };
 		F69843E8245187B500397483 /* PostAlertControllerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69843E7245187B500397483 /* PostAlertControllerService.swift */; };
+		F69843EA2452E09B00397483 /* CommenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69843E92452E09B00397483 /* CommenService.swift */; };
 		F6AC60022368452C0053BA89 /* ChattingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AC60012368452C0053BA89 /* ChattingListViewController.swift */; };
 		F6AC6004236845390053BA89 /* ChattingRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AC6003236845390053BA89 /* ChattingRoomViewController.swift */; };
 		F6B898A9244D864800A2B1E7 /* UIStroyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B898A8244D864800A2B1E7 /* UIStroyboardExtension.swift */; };
@@ -139,6 +140,7 @@
 		F694C06523F3E73900EA79BB /* MyFestaStoryPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFestaStoryPageCell.swift; sourceTree = "<group>"; };
 		F694C06723F5307200EA79BB /* MyViewsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewsCollectionCell.swift; sourceTree = "<group>"; };
 		F69843E7245187B500397483 /* PostAlertControllerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAlertControllerService.swift; sourceTree = "<group>"; };
+		F69843E92452E09B00397483 /* CommenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommenService.swift; sourceTree = "<group>"; };
 		F6AC60012368452C0053BA89 /* ChattingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingListViewController.swift; sourceTree = "<group>"; };
 		F6AC6003236845390053BA89 /* ChattingRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingRoomViewController.swift; sourceTree = "<group>"; };
 		F6B898A8244D864800A2B1E7 /* UIStroyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStroyboardExtension.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 			children = (
 				F6904D6023515EBA0044EDE5 /* FirebaseServices.swift */,
 				F6B898AA244D96D200A2B1E7 /* DateCalculation.swift */,
+				F69843E92452E09B00397483 /* CommenService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -553,6 +556,7 @@
 				F6E54F7F2449A72F00D7F9FD /* LocalCollection.swift in Sources */,
 				F6424A8823F2AF3E00FEA09E /* NotificationData.swift in Sources */,
 				F67463D623F54AE00082F5F6 /* MyMessageCell.swift in Sources */,
+				F69843EA2452E09B00397483 /* CommenService.swift in Sources */,
 				F6BF5F05242B709100819424 /* DropDownView.swift in Sources */,
 				F6BE19712371687200253278 /* DidChattingCustomView.swift in Sources */,
 				F671246A2356405100D3C1AD /* MyFestaStoryMenuView.swift in Sources */,

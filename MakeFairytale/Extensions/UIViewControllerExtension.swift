@@ -23,7 +23,6 @@ extension UIViewController {
             let imageView = UIImageView()
             let scrollFrame = scrollview.frame
             let xPosition = scrollview.frame.width * CGFloat(i)
-            imageView.isUserInteractionEnabled = true
             if contentModeCheck == false {
                 imageView.contentMode = .scaleAspectFit
             }else {
@@ -35,7 +34,7 @@ extension UIViewController {
             scrollview.addSubview(imageView)
         }
     }
-
+    
     //MARK:- 좋아요 func
     func likeButtonAction(_ checkDate: String,
                           _ post: Posts,

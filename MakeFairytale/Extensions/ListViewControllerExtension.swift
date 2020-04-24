@@ -160,27 +160,10 @@ extension ListViewController {
             appDelegate.chattingCheck = false
             navigationController?.pushViewController(tabVC, animated: false)
         case 3:
-            guard let vc = UIStoryboard.loginVC() else  { return }
-            let alert = UIAlertController(title: "안내",
-                                          message: "로그아웃 하시겠습니까?",
-                                          preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "아니요",
-                                             style: .cancel)
-            let logoutAction = UIAlertAction(title: "네",
-                                             style: .default) { _ in
-                                                do {
-                                                    try Auth.auth().signOut()
-                                                    print("로그아웃 되었습니다")
-                                                } catch let error {
-                                                    print("error: \(error.localizedDescription)")
-                                                }
-                                                self.navigationController?.pushViewController(vc, animated: true)
-            }
-            alert.addAction(cancelAction)
-            alert.addAction(logoutAction)
-            self.present(alert,animated: true)
+            CommonService.shread.orderSelect = .logout
+            presentAlert(.alert)
         default:
-            print("error selected")
+            print("selected Error : out of range")
         }
     }
     

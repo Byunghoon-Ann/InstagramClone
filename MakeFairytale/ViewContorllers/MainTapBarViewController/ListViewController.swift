@@ -25,8 +25,9 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
    @IBOutlet weak var follwingCollectionView: UICollectionView!//팔로잉콜렉션뷰
    @IBOutlet weak var postTableView: UITableView!  //게시글 테이블뷰
    @IBOutlet weak var postLoadingIndicatior : UIActivityIndicatorView! // 데이터 로딩 인디게이터
-   
+  
    lazy var leftTopButton = DropDownButton()
+   lazy var dateFomatter = DateCalculation.shread.dateFomatter
    lazy var firstAlertLabel : UILabel = {
       let label = UILabel()
       label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +45,7 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
          self.festaData.removeAll()
       } didSet {
          DateCalculation.shread.requestSort(&festaData,
-                                            DateCalculation.shread.dateFomatter,
+                                            dateFomatter,
                                             appDelegate.date)
          postTableView.reloadData()
       }
@@ -89,10 +90,7 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
       alertBadgeImageView.isHidden = true
       postTableView.backgroundColor = .white
       view.backgroundColor = .white
-      postTableView.dataSource = self
-      postTableView.delegate = self
-      follwingCollectionView.delegate = self
-      follwingCollectionView.dataSource = self
+     
       appDelegate.topViewHeight = Double(topView.frame.height)
       dropDownButtonSet()
       topViewHideSwipeGesture(postTableView)
@@ -136,8 +134,8 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
    func checknotificationCenter() {
       let currentUID = appDelegate.currentUID ?? ""
       FirebaseServices.shread.snapshotListenerCheckEvent(currentUID,
-                                                 alertBadgeImageView,
-                                                 ["like","reple","follow","newPost"])
+                                                         alertBadgeImageView,
+                                                         ["like","reple","follow","newPost"])
       
       if appDelegate.checkNotificationCheck == true {
          alertBadgeImageView.isHidden = false
@@ -253,7 +251,8 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       guard let cell = contentView?.superview as? FeedCollectionCell else { return }
       guard let indexPath = postTableView.indexPath(for: cell) else {return}
       appDelegate.indexPath = indexPath
-      presentAlert()
+      CommonService.shread.orderSelect = .option
+      presentAlert(.actionSheet)
    }
    
    @objc func moveRepleList(sender: UIButton) {

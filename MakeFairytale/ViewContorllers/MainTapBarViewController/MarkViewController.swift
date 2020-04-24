@@ -7,9 +7,7 @@
 //
 //좋아요 뷰, 좋아요한 게시글을 모아 테이블뷰로 구현
 
-import Foundation
 import UIKit
-import SDWebImage
 import Firebase
 fileprivate let postRef = Firestore.firestore().posts
 fileprivate let userRef = Firestore.firestore().user
@@ -39,8 +37,6 @@ class MarkViewController : UIViewController {
         initRefresh()
         view.backgroundColor = .white
         tableView.backgroundColor = .white
-        tableView.delegate = self
-        tableView.dataSource = self
         view.addSubview(alertLabel)
         alertLabel.isHidden = true
         alertLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -69,13 +65,7 @@ extension MarkViewController: UITableViewDelegate,UITableViewDataSource {
         guard indexPath.row < goodPost.count else { return UITableViewCell() }
         let cell:MarkViewCell = tableView.dequeueCell(indexPath:indexPath)
         cell.backgroundColor = .white
-        cell.userName.backgroundColor = .white
-        cell.userName.textColor = .black
-        cell.userComment.textColor = .black
-        cell.userComment.backgroundColor = .white
-        cell.profileImageView.sd_setImage(with: URL(string: goodPost[indexPath.row].userProfileImage))
-        cell.userName.text = goodPost[indexPath.row].userName
-        cell.userComment.text = goodPost[indexPath.row].userComment
+        cell.post = goodPost[indexPath.row]
         return cell
     }
     
@@ -85,6 +75,9 @@ extension MarkViewController: UITableViewDelegate,UITableViewDataSource {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UIScreen.main.bounds.height/9
+    }
 }
 
 extension MarkViewController {
