@@ -23,7 +23,6 @@ class ListFollwingCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         follwingUserProfileImage.layer.cornerRadius = follwingUserProfileImage.frame.height/2
     }
     

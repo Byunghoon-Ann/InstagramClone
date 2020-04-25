@@ -156,11 +156,9 @@ extension ListViewController: AlertPresentable {
             return logoutAction()
         }
     }
-    
-    
+
     var optionAlertComponents: AlertComponents {
         return selectAlertType(by: CommonService.shread.orderSelect)
     }
-     
 }
 

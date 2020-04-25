@@ -46,7 +46,7 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
       } didSet {
          DateCalculation.shread.requestSort(&festaData,
                                             dateFomatter,
-                                            appDelegate.date)
+                                            Today.shread.today)
          postTableView.reloadData()
       }
    }
@@ -57,6 +57,7 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
       }
    }
    
+
    var myProfileData: MyProfile? {
       didSet {
          guard let myProfileData = myProfileData else { return }
@@ -137,7 +138,7 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
                                                          alertBadgeImageView,
                                                          ["like","reple","follow","newPost"])
       
-      if appDelegate.checkNotificationCheck == true {
+      if State.shread.checkNotificationCheck == true {
          alertBadgeImageView.isHidden = false
          userRef
             .document(currentUID)
