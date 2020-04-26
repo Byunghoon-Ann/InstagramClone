@@ -9,7 +9,9 @@
 import UIKit
 
 class ChattingListViewCell : UITableViewCell {
+    
     var imageview = UIImageView()
+    
     var label : UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -19,6 +21,7 @@ class ChattingListViewCell : UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("fatalError")
+        
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

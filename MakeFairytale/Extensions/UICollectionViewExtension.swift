@@ -7,6 +7,7 @@
 //
 
 import UIKit
+
 extension UICollectionView {
     func registerCell<Cell: UICollectionViewCell>(_: Cell.Type)  {
         if let nib = Cell.nib {
@@ -19,8 +20,8 @@ extension UICollectionView {
     func dequeueCell<Cell: UICollectionViewCell>(indexPath: IndexPath) -> Cell   {
         return self.dequeueReusableCell(withReuseIdentifier: Cell.reuseIdentifier, for: indexPath) as! Cell
     }
-    
 }
+
 extension UICollectionViewCell: Reusable { }
 
 

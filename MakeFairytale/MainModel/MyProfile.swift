@@ -10,10 +10,10 @@ import UIKit
 import Firebase
 
 struct MyProfile  {
-    var profileImageURL: String
-    var email: String
-    var nickName: String
-    var uid :String
+    var profileImageURL:String
+    var email:String
+    var nickName:String
+    var uid:String
 }
 
 extension MyProfile: DocumentSerializable {
@@ -23,7 +23,6 @@ extension MyProfile: DocumentSerializable {
     
     private init?(documentID:String, dictionary: [String:Any]) {
         guard let userID = dictionary["uid"] as? String else { return nil }
-        print("uid",userID)
         precondition( userID == documentID )
         self.init(dictionary: dictionary)
     }
@@ -33,7 +32,7 @@ extension MyProfile: DocumentSerializable {
             let profileURL = dictionary["profileImageURL"] as? String,
             let nickName = dictionary["nickName"] as? String,
             let email = dictionary["email"] as? String else { return nil }
-        self.init(profileImageURL: profileURL, email: email, nickName: nickName, uid: uid)
+        self.init(uid: uid, nickName: nickName, email: email, profileURL: profileURL)
     }
     
     public init?(document: QueryDocumentSnapshot) {
@@ -45,7 +44,7 @@ extension MyProfile: DocumentSerializable {
         self.init(documentID: document.documentID, dictionary: data)
     }
     
-    public init?(uid: String, nickName: String, email:String, profileURL:String) {
+    private init?(uid: String, nickName: String, email:String, profileURL:String) {
         self.init(profileImageURL: profileURL, email: email, nickName: nickName, uid: uid)
     }
     

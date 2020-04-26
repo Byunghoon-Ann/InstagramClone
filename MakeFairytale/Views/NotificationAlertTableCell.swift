@@ -28,7 +28,7 @@ class NotificationAlertTableCell: UITableViewCell {
             guard let alertData = alertsData else { return }
             alertDate.text = DateCalculation.shread.requestDate(alertData.alertDate,
                                                                            dateFomatter,
-                                                                           appDelegate.date,
+                                                                           Today.shread.today,
                                                                            calendar)
             if alertData.userThumbnail == "" {
                 userThumbnail.image = UIImage(named: "userSelected@40x40")

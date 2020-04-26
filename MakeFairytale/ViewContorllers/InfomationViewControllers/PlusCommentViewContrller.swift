@@ -117,12 +117,12 @@ class PlusCommentViewContrller : UIViewController {
     //댓글버튼입력 
     @IBAction func checkBtn(_ sender: Any) {
         guard let reple = plusCommentTextField.text else { return }
-        let repleDate = dateFomatter.string(from: appDelegate.date)
+        let repleDate = dateFomatter.string(from: Today.shread.today)
         guard let post = postData else { return }
         let message = "님이 게시물에 댓글을 작성하셨습니다."
         print(post.urlkey)
-        guard let currentUID = appDelegate.currentUID else { return }
-        guard let myData = appDelegate.myProfile else {return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
+        guard let myData = FirebaseServices.shread.myProfile else {return }
         
         postRef
             .document(post.urlkey)
@@ -133,7 +133,7 @@ class PlusCommentViewContrller : UIViewController {
                                 "nickName":myData.nickName,
                                 "repleDate":repleDate])
         
-        appDelegate.otherUID = currentUID
+     
         notificationAlert(myData.nickName,
                           repleDate,
                           myData.uid,
@@ -148,7 +148,7 @@ class PlusCommentViewContrller : UIViewController {
     
     func requestRepleData() {
         guard let post = postData else { return }
-        guard let myData = appDelegate.myProfile else { return }
+        guard let myData = FirebaseServices.shread.myProfile else { return }
         FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,
                                                    postDate: post.postDate,
                                                    imageURL: post.userPostImage) {

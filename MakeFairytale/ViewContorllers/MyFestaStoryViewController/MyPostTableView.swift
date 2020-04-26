@@ -116,14 +116,14 @@ extension MyPostTableView : UITableViewDelegate,UITableViewDataSource {
                 return yourData.count
             }
         }else {
-            if appDelegate.myPost.isEmpty {
+            if yourData.isEmpty {
                 firstAlertLabel.isHidden = false
                 tableView.isHidden = true
                 return 0
             }else {
                 firstAlertLabel.isHidden = true
                 tableView.isHidden = false
-                return appDelegate.myPost.count
+                return yourData.count
                 
             }
         }
@@ -137,8 +137,8 @@ extension MyPostTableView : UITableViewDelegate,UITableViewDataSource {
             adScrollImageView(cell.scrollView, yourData[indexPath.row], true)
             return cell
         } else {
-            cell.postData = appDelegate.myPost[indexPath.row]
-            adScrollImageView(cell.scrollView, appDelegate.myPost[indexPath.row], true)
+            cell.postData = yourData[indexPath.row]
+            adScrollImageView(cell.scrollView, yourData[indexPath.row], true)
             return cell
         }
     }
@@ -148,7 +148,7 @@ extension MyPostTableView : UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let tableCellHeight = appDelegate.tableCellHeight else { return 500 }
+        guard let tableCellHeight = AnimationControl.shread.tableCellHeight else { return 500 }
         return tableCellHeight
     }
 

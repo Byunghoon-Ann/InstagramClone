@@ -15,13 +15,12 @@ fileprivate let followRef = Firestore.firestore().follow
 extension MyFestaStoryViewController {
     func followingCheckButton(_ followButton: UIButton,
                               _ dateFomatter: DateFormatter,
-                              _ appDelegate: AppDelegate,
                               _ secondView: MyPostTableView ) {
-        appDelegate.checkNotificationCheck = true
-        guard let currentUID = appDelegate.currentUID else { return }
-        let checkDate = dateFomatter.string(from: appDelegate.date)
+        State.shread.checkNotificationCheck = true
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
+        let checkDate = dateFomatter.string(from: Today.shread.today)
         let secondUID = secondView.yourUID
-        guard let myName = appDelegate.myProfile?.nickName else { return }
+        guard let myName = FirebaseServices.shread.myProfile?.nickName else { return }
         
         if !secondUID.isEmpty {
             let yourRef = Firestore.getOtherRef("user",secondUID)
@@ -49,7 +48,6 @@ extension MyFestaStoryViewController {
                             
                             if snapshot.isEmpty {
                                 followButton.isSelected = true
-                                appDelegate.otherUID = currentUID
                                 yourfollowRef
                                     .document("\(secondUID)")
                                     .setData([
@@ -135,7 +133,7 @@ extension MyFestaStoryViewController {
     }
     
     func loadFollowCount() {
-        guard let currentUID = appDelegate.currentUID else { return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
         let myFollwingRef = Firestore.firestore().followingRef(currentUID)
         let myFollowerRef = Firestore.firestore().followerRef(currentUID)
         if secondMyview.yourUID != "" {

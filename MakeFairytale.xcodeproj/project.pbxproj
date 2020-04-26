@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		79EAF85352A4B6024B161F26 /* libPods-MakeFairytale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D20DF11584CF59DD0CC0A5CB /* libPods-MakeFairytale.a */; };
 		F60012A323F16115003DFA12 /* PhotoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60012A223F16115003DFA12 /* PhotoAsset.swift */; };
+		F606CE7224546844006DC46A /* PostImageCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F606CE7124546844006DC46A /* PostImageCollectionCell.swift */; };
 		F60B8713236059F800110F31 /* MyPostTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B8711236059F700110F31 /* MyPostTableView.swift */; };
 		F60B8714236059F800110F31 /* MyPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F60B8712236059F700110F31 /* MyPostTableViewCell.xib */; };
 		F60B871623605E3200110F31 /* MyPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B871523605E3200110F31 /* MyPostTableViewCell.swift */; };
@@ -55,6 +56,9 @@
 		F67463D823F54AFE0082F5F6 /* YourMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463D723F54AFE0082F5F6 /* YourMessageCell.swift */; };
 		F67463DA23F54C510082F5F6 /* ChattingListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463D923F54C510082F5F6 /* ChattingListViewCell.swift */; };
 		F67463DD23F54CE20082F5F6 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463DC23F54CE10082F5F6 /* ChatModel.swift */; };
+		F6900C812455A3780087380B /* AnimationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6900C802455A3780087380B /* AnimationControl.swift */; };
+		F6900C832455C5B50087380B /* PostImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6900C822455C5B50087380B /* PostImageCollectionView.swift */; };
+		F6900C852455CB140087380B /* PostImageCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6900C842455CB140087380B /* PostImageCollectionCell.xib */; };
 		F6904D6123515EBA0044EDE5 /* FirebaseServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6904D6023515EBA0044EDE5 /* FirebaseServices.swift */; };
 		F694C06623F3E73900EA79BB /* MyFestaStoryPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F694C06523F3E73900EA79BB /* MyFestaStoryPageCell.swift */; };
 		F694C06823F5307200EA79BB /* MyViewsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F694C06723F5307200EA79BB /* MyViewsCollectionCell.swift */; };
@@ -75,7 +79,6 @@
 		F6BF5F07242B70EB00819424 /* DropDownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6BF5F06242B70EB00819424 /* DropDownCell.xib */; };
 		F6C2B9BE23F979E9001B20C0 /* PlusCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2B9BD23F979E9001B20C0 /* PlusCommentCell.swift */; };
 		F6D5BE4E234F2BB300970043 /* FeedCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D5BE4C234F2BB300970043 /* FeedCollectionCell.swift */; };
-		F6D5BE4F234F2BB300970043 /* FeedCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D5BE4D234F2BB300970043 /* FeedCollectionCell.xib */; };
 		F6DE31D0236AF06200039BF1 /* DidChatMembersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DE31CF236AF06200039BF1 /* DidChatMembersList.swift */; };
 		F6E54F7F2449A72F00D7F9FD /* LocalCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54F7E2449A72F00D7F9FD /* LocalCollection.swift */; };
 		F6E54F812449A8A700D7F9FD /* FirebaseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E54F802449A8A700D7F9FD /* FirebaseExtension.swift */; };
@@ -93,6 +96,7 @@
 		3D187DFB2FE117BB9DFAE127 /* Pods-MakeFairytale.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakeFairytale.release.xcconfig"; path = "Target Support Files/Pods-MakeFairytale/Pods-MakeFairytale.release.xcconfig"; sourceTree = "<group>"; };
 		D20DF11584CF59DD0CC0A5CB /* libPods-MakeFairytale.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MakeFairytale.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F60012A223F16115003DFA12 /* PhotoAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAsset.swift; sourceTree = "<group>"; };
+		F606CE7124546844006DC46A /* PostImageCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCollectionCell.swift; sourceTree = "<group>"; };
 		F60B8711236059F700110F31 /* MyPostTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableView.swift; sourceTree = "<group>"; };
 		F60B8712236059F700110F31 /* MyPostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPostTableViewCell.xib; sourceTree = "<group>"; };
 		F60B871523605E3200110F31 /* MyPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableViewCell.swift; sourceTree = "<group>"; };
@@ -139,6 +143,9 @@
 		F67463D723F54AFE0082F5F6 /* YourMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourMessageCell.swift; sourceTree = "<group>"; };
 		F67463D923F54C510082F5F6 /* ChattingListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingListViewCell.swift; sourceTree = "<group>"; };
 		F67463DC23F54CE10082F5F6 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		F6900C802455A3780087380B /* AnimationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationControl.swift; sourceTree = "<group>"; };
+		F6900C822455C5B50087380B /* PostImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCollectionView.swift; sourceTree = "<group>"; };
+		F6900C842455CB140087380B /* PostImageCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostImageCollectionCell.xib; sourceTree = "<group>"; };
 		F6904D6023515EBA0044EDE5 /* FirebaseServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseServices.swift; sourceTree = "<group>"; };
 		F694C06523F3E73900EA79BB /* MyFestaStoryPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFestaStoryPageCell.swift; sourceTree = "<group>"; };
 		F694C06723F5307200EA79BB /* MyViewsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewsCollectionCell.swift; sourceTree = "<group>"; };
@@ -160,7 +167,6 @@
 		F6C2B9BD23F979E9001B20C0 /* PlusCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusCommentCell.swift; sourceTree = "<group>"; };
 		F6C53510241A67C500820A97 /* FBLPromises.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FBLPromises.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6D5BE4C234F2BB300970043 /* FeedCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionCell.swift; sourceTree = "<group>"; };
-		F6D5BE4D234F2BB300970043 /* FeedCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedCollectionCell.xib; sourceTree = "<group>"; };
 		F6DE31CF236AF06200039BF1 /* DidChatMembersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidChatMembersList.swift; sourceTree = "<group>"; };
 		F6E54F7E2449A72F00D7F9FD /* LocalCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCollection.swift; sourceTree = "<group>"; };
 		F6E54F802449A8A700D7F9FD /* FirebaseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseExtension.swift; sourceTree = "<group>"; };
@@ -236,6 +242,8 @@
 				F6C2B9BD23F979E9001B20C0 /* PlusCommentCell.swift */,
 				F6BF5F02242B707C00819424 /* DropDownButton.swift */,
 				F6BF5F04242B709100819424 /* DropDownView.swift */,
+				F6900C822455C5B50087380B /* PostImageCollectionView.swift */,
+				F606CE7124546844006DC46A /* PostImageCollectionCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -334,7 +342,7 @@
 			isa = PBXGroup;
 			children = (
 				F62A16DE23C38E5500D5434B /* ViewPostingRepleCell.xib */,
-				F6D5BE4D234F2BB300970043 /* FeedCollectionCell.xib */,
+				F6900C842455CB140087380B /* PostImageCollectionCell.xib */,
 				F6BF5F06242B70EB00819424 /* DropDownCell.xib */,
 			);
 			path = NibFiles;
@@ -358,6 +366,7 @@
 				F6424A8723F2AF3E00FEA09E /* NotificationData.swift */,
 				F69843ED245462AA00397483 /* Today.swift */,
 				F69843EF2454634D00397483 /* CurrentUID.swift */,
+				F6900C802455A3780087380B /* AnimationControl.swift */,
 			);
 			path = MainModel;
 			sourceTree = "<group>";
@@ -489,11 +498,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6D5BE4F234F2BB300970043 /* FeedCollectionCell.xib in Resources */,
 				F6F1F3ED232F7DAD00959262 /* LaunchScreen.storyboard in Resources */,
 				F62A16E023C38E5500D5434B /* ViewPostingRepleCell.xib in Resources */,
 				F6BE19722371687200253278 /* DidChattingCustomView.xib in Resources */,
 				F6BF5F07242B70EB00819424 /* DropDownCell.xib in Resources */,
+				F6900C852455CB140087380B /* PostImageCollectionCell.xib in Resources */,
 				F6390146235718E700ACA7A3 /* MyViewsCollectionCell.xib in Resources */,
 				F627EF312355D4FA00508ED3 /* MyFestaStoryViewCell.xib in Resources */,
 				F60B8714236059F800110F31 /* MyPostTableViewCell.xib in Resources */,
@@ -563,6 +572,7 @@
 				F6709FF423448F3800BFF3FA /* LoginViewController.swift in Sources */,
 				F69843F02454634D00397483 /* CurrentUID.swift in Sources */,
 				F6709FFA2345E6DB00BFF3FA /* PlusCommentViewContrller.swift in Sources */,
+				F6900C812455A3780087380B /* AnimationControl.swift in Sources */,
 				F6E54F7F2449A72F00D7F9FD /* LocalCollection.swift in Sources */,
 				F6424A8823F2AF3E00FEA09E /* NotificationData.swift in Sources */,
 				F67463D623F54AE00082F5F6 /* MyMessageCell.swift in Sources */,
@@ -576,6 +586,7 @@
 				F6904D6123515EBA0044EDE5 /* FirebaseServices.swift in Sources */,
 				F60EF53623F6AFD60041EA86 /* UITableViewCellExtension.swift in Sources */,
 				F632F8A923E345A700591D3C /* MyProfile.swift in Sources */,
+				F606CE7224546844006DC46A /* PostImageCollectionCell.swift in Sources */,
 				F6BF5F03242B707C00819424 /* DropDownButton.swift in Sources */,
 				F643614023EDDC25004D26D4 /* UIViewControllerExtension.swift in Sources */,
 				F6709FF62344913A00BFF3FA /* NewSignInViewController.swift in Sources */,
@@ -589,6 +600,7 @@
 				F6E54FB0244C511900D7F9FD /* UICollectionViewExtension.swift in Sources */,
 				F6BE19742371695800253278 /* DidChattingCustomCell.swift in Sources */,
 				F63901422357154800ACA7A3 /* MyViews.swift in Sources */,
+				F6900C832455C5B50087380B /* PostImageCollectionView.swift in Sources */,
 				F670A01023466BC500BFF3FA /* AlbumViewController.swift in Sources */,
 				F632F8B323E3468E00591D3C /* FollowData.swift in Sources */,
 				F67463DA23F54C510082F5F6 /* ChattingListViewCell.swift in Sources */,

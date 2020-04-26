@@ -46,17 +46,24 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
         return label
     }()
     
-    lazy var dateFomatter : DateFormatter = {
-       let dateFomatter = DateFormatter()
-       dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-       dateFomatter.locale = Locale(identifier: "kr_KR")
-       return dateFomatter
-    }()
-    
+    lazy var dateFomatter = DateCalculation.shread.dateFomatter
+    lazy var today = Today.shread.today
     var post: Posts?
     var postNumber: Int?
     var likeNumber = 0
-    var repleData : [RepleData] = []
+    var repleData : [RepleData] = [] {
+        didSet {
+            repleData.sort { firstData, secondData in
+                let dateFirstData = dateFomatter.date(from: firstData.repleDate) ?? today
+                let dateSecondData = dateFomatter.date(from: secondData.repleDate) ?? today
+                if dateFirstData > dateSecondData {
+                    return true
+                }else {
+                    return false
+                }
+            }
+        }
+    }
     var postKey = ""
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let cellName = "ViewPostingRepleCell"
@@ -135,10 +142,9 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     
     @IBAction func repleButton(_ sender: UIButton ) {
         guard let post = post else { return }
-        if let myData = appDelegate.myProfile {
+        if let myData = FirebaseServices.shread.myProfile {
             uploadReple(myData) { [weak self] in
                 guard let self = self else { return }
-                self.appDelegate.otherUID = currentUID
                 self.label.isHidden = true
                 FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,
                                                    postDate: post.postDate,
@@ -146,8 +152,8 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
                                                     
                                                     self.repleData = FirebaseServices.shread.repleDatas
                                                     self.repleData.sort { firstData, secondData in
-                                                        let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.appDelegate.date
-                                                        let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.appDelegate.date
+                                                        let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.today
+                                                        let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.today
                                                         if dateFirstData > dateSecondData {
                                                             return true
                                                         }else {
@@ -164,7 +170,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     @objc func likePostAction(_ sender: UIButton) {
         guard let post = post else { return }
         guard let currentUID = currentUID else { return }
-        let likeCheckDate = dateFomatter.string(from: appDelegate.date)
+        let likeCheckDate = dateFomatter.string(from: today)
         likeButtonAction(likeCheckDate,
                          post,
                          goodMark,
@@ -215,7 +221,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
         
         postDateLabel.text = DateCalculation.shread.requestDate(post.postDate,
                                                                 dateFomatter,
-                                                                appDelegate.date,
+                                                                today,
                                                                 calendar)
     }
     
@@ -262,16 +268,6 @@ extension ViewPostingController {
                                                imageURL: postData.userPostImage) { [weak self] in
                                                 guard let self = self else { return }
                                                 self.repleData = FirebaseServices.shread.repleDatas
-                                                
-                                                self.repleData.sort { firstData, secondData in
-                                                    let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.appDelegate.date
-                                                    let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.appDelegate.date
-                                                    if dateFirstData > dateSecondData {
-                                                        return true
-                                                    }else {
-                                                        return false
-                                                    }
-                                                }
                                                 
                                                 self.hideRepleList.reloadData()
                                                 self.hideRepleList.isHidden = false
@@ -320,7 +316,7 @@ extension ViewPostingController {
     func uploadReple(_ myData: MyProfile,completion: @escaping () -> Void) {
         guard let reple = repleTextField.text else {return }
         guard let post = post else { return }
-        let repleDate = dateFomatter.string(from: appDelegate.date)
+        let repleDate = dateFomatter.string(from: today)
         
         if !reple.isEmpty {
             repleData.removeAll()

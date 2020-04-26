@@ -38,7 +38,7 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
         didSet {
             
             guard let postData = postData else { return }
-            guard let myProfile = appDelegate.myProfile else { return }
+            guard let myProfile = FirebaseServices.shread.myProfile else { return }
             postUserProfileImg.sd_setImage(with: URL(string: postData.userProfileImage))
             mySelfImgView.sd_setImage(with: URL(string: myProfile.profileImageURL))
             postText.text = postData.userComment
@@ -46,7 +46,7 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
             pageControl.numberOfPages = postData.userPostImage.count
             postDateLabel.text = DateCalculation.shread.requestDate(postData.postDate,
                                                                                dateFomatter,
-                                                                               appDelegate.date,
+                                                                               Today.shread.today,
                                                                                calendar)
             likeCountLabel.text = "\(postData.likeCount) 좋아요"
             viewCountLabel.text = "\(postData.viewCount) 조회"

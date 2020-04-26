@@ -40,7 +40,7 @@ class LoginViewController: UIViewController{
         if Auth.auth().currentUser != nil {
             Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { (timer) in
                 guard let currentUID = Auth.auth().currentUser?.uid else { return }
-                self.appDelegate.currentUID = currentUID
+                CurrentUID.shread.currentUID = currentUID
                 self.navigationController?.pushViewController(vc, animated: true)
             })
         }
@@ -76,7 +76,7 @@ class LoginViewController: UIViewController{
                             self.activityIndicatorView.startAnimating()
                             guard let startView = self.storyboard?.instantiateViewController(withIdentifier: "tab") as? UITabBarController else { return }
                             self.navigationController?.pushViewController(startView, animated: true)
-                            self.appDelegate.currentUID = uid
+                            CurrentUID.shread.currentUID = uid
                             self.activityIndicatorView.stopAnimating()
                         }
         }

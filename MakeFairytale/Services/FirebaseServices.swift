@@ -22,14 +22,13 @@ class FirebaseServices {
     private init() {}
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
     var following : [FollowData] = []
     var posts : [Posts] = []
     var searchPost: [SearchData] = []
-    var myData : [MyData] = []
     var myPostData: [Posts] = []
     var repleDatas : [RepleData] = []
     var chatModel : [ChatModel] = []
+    var myProfile: MyProfile?
     var followString : [String] = []
     var followPostCount: Int?
     func snapshotListenerCheckEvent(_ uid: String,
@@ -37,8 +36,7 @@ class FirebaseServices {
                                     _ contents: [String]) {
         userRef
             .document(uid)
-            .addSnapshotListener(includeMetadataChanges: true) { [weak self] snapshot, error in
-                guard let self = self else { return }
+            .addSnapshotListener(includeMetadataChanges: true) { snapshot, error in
                 if let error = error { print(error.localizedDescription) }
              
                 guard let userData = snapshot?.data() else { return }
@@ -63,7 +61,7 @@ class FirebaseServices {
                             center.add(requeset) { error in
                                 if let error = error { print("error : \(error)") }
                                 userRef.document(uid).updateData(["like":false])
-                                self.appDelegate.sideViewBadgeCheck = true
+                                State.shread.sideViewBadgeCheck = true
                             }
                             DispatchQueue.main.async {
                                 badge.isHidden = false
@@ -82,7 +80,7 @@ class FirebaseServices {
                             center.add(requeset) { error in
                                 if let error = error { print("error : \(error)")}
                                 userRef.document(uid).updateData(["follow":false])
-                                self.appDelegate.sideViewBadgeCheck = true
+                                State.shread.sideViewBadgeCheck = true
                             }
                             DispatchQueue.main.async {
                                 badge.isHidden = false
@@ -101,7 +99,7 @@ class FirebaseServices {
                             center.add(requeset) { error in
                                 if let error = error { print("error : \(error)")}
                                 userRef.document(uid).updateData(["reple":false])
-                                self.appDelegate.sideViewBadgeCheck = true
+                                State.shread.sideViewBadgeCheck = true
                             }
                             DispatchQueue.main.async {
                                 badge.isHidden = false
@@ -120,7 +118,7 @@ class FirebaseServices {
                             center.add(requeset) { error in
                                 if let error = error { print("error : \(error)") }
                                 userRef.document(uid).updateData(["chatting":false])
-                                self.appDelegate.chattingCheck = true
+                                State.shread.chattingCheck = true
                             }
                             DispatchQueue.main.async {
                                 badge.isHidden = false
@@ -139,11 +137,11 @@ class FirebaseServices {
                             center.add(requeset) { error in
                                 if let error = error { print("error : \(error)")}
                                 firestoreRef.user.document(uid).updateData(["newPost":false])
-                                self.appDelegate.sideViewBadgeCheck = true
+                                State.shread.sideViewBadgeCheck = true
                             }
-                            self.appDelegate.checkNotificationCheck  = true
+                            State.shread.checkNotificationCheck  = true
                         } else {
-                            self.appDelegate.checkNotificationCheck  = false
+                            State.shread.checkNotificationCheck  = false
                         }
                     }
                 }
@@ -185,10 +183,10 @@ class FirebaseServices {
     }
     
     func fecthMyFollowPosting(completion : @escaping () -> Void) {
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
         following.removeAll()
         followString.removeAll()
         myPostData.removeAll()
-        guard let currentUID = appDelegate.currentUID else { return }
         followRef
             .document("\(currentUID)")
             .collection("FollowList")
@@ -212,7 +210,8 @@ class FirebaseServices {
     }
     
     func fecthFollowPost(completion : @escaping () -> Void) {
-        guard let currentUID = appDelegate.currentUID else { return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
+
         if following.isEmpty {
             completion()
         } else {
@@ -261,9 +260,9 @@ class FirebaseServices {
     
     //MARK:Firestore PostDataFetch Func
     func loadMyFeed(completion : @escaping () -> Void) {
-        guard let currentUID = appDelegate.currentUID else { return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
+
         let count = followPostCount ?? 0
-        appDelegate.myPost.removeAll()
         postRef
             .order(by: "\(currentUID)")
             .getDocuments { [weak self] (querySnapshot, error) in
@@ -294,7 +293,6 @@ class FirebaseServices {
                                                     likeCheck,
                                                     viewCheck) { data in
                                                         self.myPostData.append(data)
-                                                        self.appDelegate.myPost.append(data)
                                                         if self.myPostData.count == query.count + count {
                                                             completion()
                                                         }
@@ -309,8 +307,9 @@ class FirebaseServices {
     
     //MARK: SearchViewController Loading Post func
     func loadSearchFeedPost(completion : @escaping () -> Void) {
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
+
         posts.removeAll()
-        guard let currentUID = appDelegate.currentUID else { return }
         postRef
             .getDocuments { [weak self] querySnapshot, error in
                 guard let self = self else { return }
@@ -354,8 +353,29 @@ class FirebaseServices {
         }
     }
     
+    func loadProfile(completion : @escaping () -> Void) {
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
+
+        myProfile = nil
+        
+        userRef
+            .document("\(currentUID)")
+            .getDocument() { [weak self] snapshot,error in
+                guard let self = self else { return  }
+                if let error = error {
+                    print("\(error.localizedDescription)")
+                } else {
+                    guard let snapshot = snapshot,
+                        let myProfileData = MyProfile(document: snapshot) else { return }
+                    self.myProfile = myProfileData
+                    completion()
+                }
+        }
+    }
+    
     func getChatRoomLists(completion : @escaping () -> Void) {
-        let currentUID = appDelegate.currentUID ?? ""
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
+
         if currentUID.isEmpty {
             return
         } else {

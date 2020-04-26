@@ -53,7 +53,6 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         return label
     }()
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var myData: MyProfile?
     var customMenuBar = MyFestaStoryMenuView()
     var firstMyView = MyViews()
@@ -82,8 +81,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if firstMyView.yourUID == "" || firstMyView
-            .yourUID == appDelegate.currentUID{
+        if firstMyView.yourUID == "" || firstMyView.yourUID == CurrentUID.shread.currentUID {
             checkFollowButton.isHidden = true
         } else {
             checkFollow()
@@ -108,7 +106,6 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     @IBAction func checkFollowButton(_ sender: Any) {
         followingCheckButton(checkFollowButton,
                              dateFomatter,
-                             appDelegate,
                              secondMyview)
     }
     
@@ -234,8 +231,6 @@ extension MyFestaStoryViewController {
     }
     
     func checkCustomCells(_ view: UIView, cell: UICollectionViewCell) {
-        print(firstMyView.yourUID)
-        
         if let view = view as? DidChattingCustomView {
             if firstMyView.yourUID == "" {
                 view.isHidden = false
@@ -268,7 +263,7 @@ extension MyFestaStoryViewController {
                          _ profileName: UILabel, _ profileImageView: UIImageView,
                          _ stackView: UIStackView,
                          completion : @escaping () -> Void) {
-        guard let currentUID = appDelegate.currentUID else { return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
         
         if !firstMyView.yourUID.isEmpty, !secondMyview.yourUID.isEmpty {
             backButton.isHidden = false
@@ -330,28 +325,37 @@ extension MyFestaStoryViewController {
                 }
             }
         } else {
-            firstMyView.myPosts = appDelegate.myPost
-            secondMyview.yourData = appDelegate.myPost
-            myData = appDelegate.myProfile
+            for i in 0..<FirebaseServices.shread.myPostData.count {
+                if FirebaseServices.shread.myPostData[i].userUID == currentUID {
+                    firstMyView.myPosts.append(FirebaseServices.shread.myPostData[i])
+                    if i == (FirebaseServices.shread.myPostData.count - 1) {
+                        secondMyview.yourData =  firstMyView.myPosts
+                        if let followCountLabel = stackView.arrangedSubviews[0] as? UILabel {
+                            followCountLabel.text = "\(firstMyView.myPosts.count)"
+                        }
+                        
+                    }
+                }else {
+                    continue
+                }
+            }
+            
+            myData = FirebaseServices.shread.myProfile
             
             FirebaseServices.shread.getChatRoomLists {
                 self.thirdMyView.chatModel = FirebaseServices.shread.chatModel
             }
             
-            guard let myprofileData = appDelegate.myProfile else { return }
+            guard let myprofileData = FirebaseServices.shread.myProfile else { return }
             
             profileName.text = myprofileData.nickName
             profileImageView.sd_setImage(with: URL(string: myprofileData.profileImageURL))
             completion()
-            
-            if let followCountLabel = stackView.arrangedSubviews[0] as? UILabel {
-                followCountLabel.text = "\(appDelegate.myPost.count)"
-            }
         }
     }
     
     func checkFollow() {
-        guard let currentUID = appDelegate.currentUID else { return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
         let secondUID = secondMyview.yourUID
         let followingRef = Firestore.firestore().followingRef(currentUID).document(secondUID)
         followingRef

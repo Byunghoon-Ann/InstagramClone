@@ -99,7 +99,7 @@ extension DidChattingCustomView : UITableViewDelegate,UITableViewDataSource {
         guard indexPath.item < chatModel.count else { return UITableViewCell() }
         let cell:DidChattingCustomCell = tableView.dequeueCell(indexPath: indexPath)
         var yourUID = ""
-        let currentUID = appDelegate.currentUID ?? ""
+        let currentUID = CurrentUID.shread.currentUID ?? ""
         cell.backgroundColor = .white
         cell.contentView.backgroundColor = .white
         for i in chatModel[indexPath.row].users {

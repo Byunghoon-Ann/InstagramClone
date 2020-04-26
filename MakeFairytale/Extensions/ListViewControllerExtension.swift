@@ -10,51 +10,30 @@ import Firebase
 fileprivate let userRef = Firestore.firestore().user
 extension ListViewController {
     //MARK:- Feed로드
-    func loadFesta(_ indicator: UIActivityIndicatorView,
-                   _ tableview: UITableView) {
-            FirebaseServices.shread.fecthMyFollowPosting { [weak self] in
-                guard let self = self else { return }
-                tableview.isHidden = true
-                indicator.startAnimating()
-                self.following = FirebaseServices.shread.following
-                FirebaseServices.shread.fecthFollowPost {
-                    FirebaseServices.shread.loadMyFeed {
-                        self.festaData = FirebaseServices.shread.myPostData
-                        self.loadProfile {
-                            if !FirebaseServices.shread.followString.isEmpty || !self.festaData.isEmpty {
-                                tableview.isHidden = false
-                                self.firstAlertLabel.isHidden = true
-                                tableview.reloadData()
-                            } else {
-                                self.firstAlertLabel.isHidden = false
-                            }
-                            self.refresh.endRefreshing()
-                            indicator.stopAnimating()
-                            indicator.isHidden = true
+    func loadFesta(_ indicator: UIActivityIndicatorView, _ tableview: UITableView) {
+        FirebaseServices.shread.fecthMyFollowPosting { [weak self] in
+            guard let self = self else { return }
+            tableview.isHidden = true
+            indicator.startAnimating()
+            self.following = FirebaseServices.shread.following
+            FirebaseServices.shread.fecthFollowPost {
+                FirebaseServices.shread.loadMyFeed {
+                    self.festaData = FirebaseServices.shread.myPostData
+                    FirebaseServices.shread.loadProfile {
+                        self.myProfileData = FirebaseServices.shread.myProfile
+                        if !FirebaseServices.shread.followString.isEmpty || !self.festaData.isEmpty {
+                            tableview.isHidden = false
+                            self.firstAlertLabel.isHidden = true
+                            tableview.reloadData()
+                        } else {
+                            self.firstAlertLabel.isHidden = false
                         }
+                        self.refresh.endRefreshing()
+                        indicator.stopAnimating()
+                        indicator.isHidden = true
                     }
                 }
-                    }
-    }
-    
-    //MARK:- 사용자 정보 로드
-    func loadProfile(completion : @escaping () -> Void) {
-        myProfileData = nil
-        guard let currentUID = appDelegate.currentUID else { return }
-        
-        userRef
-            .document("\(currentUID)")
-            .getDocument() { [weak self] snapshot,error in
-                guard let self = self else { return  }
-                if let error = error {
-                    print("\(error.localizedDescription)")
-                } else {
-                    guard let snapshot = snapshot,
-                        let myProfileData = MyProfile(document: snapshot) else { return }
-                    self.myProfileData = myProfileData
-                    self.appDelegate.myProfile = myProfileData
-                    completion()
-                }
+            }
         }
     }
     
@@ -113,7 +92,7 @@ extension ListViewController {
     
     @objc func hideDownViewGesture(_ gesture: UISwipeGestureRecognizer) {
         if gesture.direction == .down {
-            guard let topViewHeight = appDelegate.topViewHeight else { return }
+            guard let topViewHeight = AnimationControl.shread.topViewHeight else { return }
             UIView.animate(withDuration: 0.2, delay: 0, options: .transitionFlipFromTop, animations: {
                 self.topView.alpha = 1.0
                 self.leftTopButton.alpha = 1.0
@@ -150,14 +129,14 @@ extension ListViewController {
         switch path {
         case 0:
             guard let vc = UIStoryboard.notificationAlertVC() else { return }
-            appDelegate.sideViewBadgeCheck = false
+            State.shread.sideViewBadgeCheck = false
             navigationController?.pushViewController(vc, animated: true)
         case 1:
             guard let vc = UIStoryboard.myStoryVC() else { return }
             navigationController?.pushViewController(vc, animated: true)
         case 2:
             guard let tabVC = storyboard?.instantiateViewController(withIdentifier: "tab2") as? UITabBarController else { return }
-            appDelegate.chattingCheck = false
+            State.shread.chattingCheck = false
             navigationController?.pushViewController(tabVC, animated: false)
         case 3:
             CommonService.shread.orderSelect = .logout

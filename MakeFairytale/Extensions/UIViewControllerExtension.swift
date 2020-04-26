@@ -43,7 +43,7 @@ extension UIViewController {
                           completion : @escaping () -> Void) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
        
-        guard let myName = appDelegate.myProfile?.nickName else { return }
+        guard let myName = FirebaseServices.shread.myProfile?.nickName else { return }
         let myMessage = "님의 게시물에 좋아요를 누르셨습니다."
         let yourMessage = "께서 게시물에 좋아요를 누르셨습니다."
         let myCancel = "님의 게시물의 좋아요를 취소하셨습니다."
@@ -214,11 +214,11 @@ extension UIViewController {
         let i = IndexPath(row:path, section: 0)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         guard let vc = UIStoryboard.viewPostingVC() else { return }
-        if view.yourUID != "" {
+    
             vc.post = view.myPosts[i.row]
-        }else {
-            vc.post = appDelegate.myPost[i.row]
-        }
+//        }else {
+//            vc.post = appDelegate.myPost[i.row]
+//        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -16,8 +16,11 @@ fileprivate let followRef = Firestore.firestore().follow
 
 class ChattingListViewController : UIViewController {
     
-    var userData: [FollowData] = []
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var userData: [FollowData] = {
+        let userData = FirebaseServices.shread.following
+        return userData
+    }()
+    
     lazy var tableView = UITableView()
     lazy var alertLabel : UILabel = {
         let label = UILabel()
@@ -45,31 +48,32 @@ class ChattingListViewController : UIViewController {
             m.top.equalTo(view).offset(view.frame.height/5)
             m.bottom.left.right.equalTo(view)
         }
-        loadFollowList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadFollowList()
+        tableView.reloadData()
     }
     
     func loadFollowList() {
-        guard let currentUID = appDelegate.currentUID else { return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
         userData.removeAll()
         DispatchQueue.main.async {
             followRef
                 .document("\(currentUID)")
                 .collection("FollowList")
-                .getDocuments { followList, error in
+                .getDocuments { [weak self ] followList, error in
+                    guard let self = self else { return }
                     guard let followList = followList?.documents else { return }
                     
-                    if followList == [] {
+                    if followList.isEmpty {
                         self.alertLabel.isHidden = false
                     } else {
                         for i in followList {
                             guard let userData = FollowData(document: i) else { return }
                             self.userData.append(userData)
                             if self.userData.count == followList.count {
+                                print(userData)
                                 self.tableView.reloadData()
                             }
                         }
@@ -104,10 +108,9 @@ extension ChattingListViewController: UITableViewDataSource, UITableViewDelegate
             if self.userData[indexPath.row].userThumbnail.isEmpty || self.userData[indexPath.row].userThumbnail == "https://firebasestorage.googleapis.com/v0/b/festargram.appspot.com/o/ProfileImage%2FGa1gCzr889XNZMl21BudVge3m422?alt=media&token=f57776f4-e12f-4342-b6eb-8b343aa49a23" {
                 imageView.image = UIImage(named: "userSelected@40x40")
             }else {
-                print(self.userData[indexPath.row].userThumbnail)
+                
                 imageView.sd_setImage(with: URL(string: self.userData[indexPath.row].userThumbnail))
             }
-            imageView.layer.cornerRadius = imageView.frame.height/2
         }
         
         let label = cell.label

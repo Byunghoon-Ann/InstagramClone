@@ -17,7 +17,6 @@ class MarkViewController : UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var goodPost: [Posts] = []
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var alertLabel : UILabel = {
         let label = UILabel()
@@ -83,7 +82,7 @@ extension MarkViewController: UITableViewDelegate,UITableViewDataSource {
 extension MarkViewController {
     func loadGoodMarkPost(completion : @escaping () -> Void) {
         activityIndicatior.startAnimating()
-        guard let currentUID = appDelegate.currentUID else { return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
         goodPost.removeAll()
         postRef.getDocuments { [weak self] allSnapshot, error in
             guard let self = self else { return }

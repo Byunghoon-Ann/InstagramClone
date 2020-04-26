@@ -56,7 +56,6 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
          follwingCollectionView.reloadData()
       }
    }
-   
 
    var myProfileData: MyProfile? {
       didSet {
@@ -84,7 +83,6 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
       
       initRefresh(refresh)
       
-      postTableView.registerCell(FeedCollectionCell.self)
       
       postTableView.layer.borderWidth = 0.2
       postTableView.layer.borderColor = UIColor.lightGray.cgColor
@@ -92,7 +90,7 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
       postTableView.backgroundColor = .white
       view.backgroundColor = .white
      
-      appDelegate.topViewHeight = Double(topView.frame.height)
+      AnimationControl.shread.topViewHeight = Double(topView.frame.height)
       dropDownButtonSet()
       topViewHideSwipeGesture(postTableView)
       
@@ -133,7 +131,8 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
    }
    
    func checknotificationCenter() {
-      let currentUID = appDelegate.currentUID ?? ""
+      guard let currentUID = CurrentUID.shread.currentUID else { return }
+
       FirebaseServices.shread.snapshotListenerCheckEvent(currentUID,
                                                          alertBadgeImageView,
                                                          ["like","reple","follow","newPost"])
@@ -168,9 +167,9 @@ extension ListViewController : UICollectionViewDataSource {
 
 extension ListViewController : UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      guard let currentUID = appDelegate.currentUID else { return }
       guard let vc = UIStoryboard.myFestaStoryVC() else { return }
-      
+      guard let currentUID = CurrentUID.shread.currentUID else { return }
+
       vc.firstMyView.myUID = currentUID
       vc.secondMyview.yourUID = following[indexPath.row].userUID
       vc.firstMyView.yourUID = following[indexPath.row].userUID
@@ -179,7 +178,7 @@ extension ListViewController : UICollectionViewDelegate,UICollectionViewDelegate
    }
    
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-      return CGSize(width: self.userProfileImageView.frame.width, height: 71)
+      return CGSize(width: userProfileImageView.frame.width, height: 71)
    }
    
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -195,14 +194,10 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
    
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
       guard indexPath.row < festaData.count else { return UITableViewCell() }
-      guard let myProfileData = myProfileData else { return UITableViewCell() }
       let cell: FeedCollectionCell = tableView.dequeueCell(indexPath: indexPath)
       
       cell.festaData = festaData[indexPath.row]
       cell.myProfile = myProfileData
-      adScrollImageView(cell.postImageScrollView,
-                        festaData[indexPath.row], true)
-      
       cell.goodBtn.addTarget(self, action: #selector(goodButtonCustom(sender:)), for: .touchUpInside)
       cell.moreOptionButton.addTarget(self, action: #selector(postOptionButton),for: .touchUpInside)
       cell.moveRepleButton.addTarget(self, action:#selector(moveRepleList(sender:)), for:.touchUpInside)
@@ -220,11 +215,12 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
    
    //MARK: 좋아요 기능
    @objc func goodButtonCustom(sender:UIButton) {
-      guard let currentUID = appDelegate.currentUID else { return }
+      guard let currentUID = CurrentUID.shread.currentUID else { return }
+
       let contentView = sender.superview
       guard let cell = contentView?.superview as? FeedCollectionCell else { return }
       guard let indexPath = postTableView.indexPath(for: cell) else { return }
-      let likeCheckDate = DateCalculation.shread.dateFomatter.string(from: appDelegate.date)
+      let likeCheckDate = DateCalculation.shread.dateFomatter.string(from: Today.shread.today)
       
       DispatchQueue.main.async { [weak self] in
          guard let self = self else {  return }
@@ -251,7 +247,7 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       let contentView = sender.superview
       guard let cell = contentView?.superview as? FeedCollectionCell else { return }
       guard let indexPath = postTableView.indexPath(for: cell) else {return}
-      appDelegate.indexPath = indexPath
+      AnimationControl.shread.indexPath = indexPath
       CommonService.shread.orderSelect = .option
       presentAlert(.actionSheet)
    }

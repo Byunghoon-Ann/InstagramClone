@@ -13,16 +13,12 @@ class SearchViewController : UIViewController ,UISearchBarDelegate{
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchCollectionView: UICollectionView!
     
-    let today = Date()
+    
     var searchImageArray: [Posts] = []
     var filterData: [Posts] = []
-    lazy var dateFomatter : DateFormatter = {
-        let dateFomatter = DateFormatter()
-        dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFomatter.locale = Locale(identifier: "kr_KR")
-        return dateFomatter
-    }()
     
+    lazy var dateFomatter = DateCalculation.shread.dateFomatter
+    lazy var today = Today.shread.today
     override func viewDidLoad() {
         super.viewDidLoad()
 

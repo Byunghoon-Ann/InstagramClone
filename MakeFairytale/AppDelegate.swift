@@ -13,24 +13,9 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
    
     var window: UIWindow?
-    var currentUID: String?
-    var notificationContents: String?
-    var otherUID : String?
-    let date = Date()
-    var topViewHeight: Double?
-    var tableCellHeight: CGFloat?
-    var autoRefreshingCheck = false
-    var sideViewBadgeCheck = false
-    var chattingCheck = false
-    var checkNotificationCheck = false
-    var myProfile : MyProfile?
-    var myPost: [Posts] = [] //사용 유저의 포스팅 데이터
-    var indexPath: IndexPath?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         sleep(1)
-        
-        myPost.removeAll()
         FirebaseApp.configure()
         return true
     }

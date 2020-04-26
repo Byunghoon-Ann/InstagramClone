@@ -121,7 +121,7 @@ class NewSignInViewController : UIViewController {
                                             "reple":false,
                                             "follow":false
                                         ]) { error in
-                                            self.appDelegate.currentUID = user.uid
+                                            CurrentUID.shread.currentUID = user.uid
                                             guard let startView = self.storyboard?.instantiateViewController(withIdentifier: "tab") as? UITabBarController else {return}
                                             self.activityIndicatorView.stopAnimating()
                                             self.navigationController?.pushViewController(startView, animated: true)

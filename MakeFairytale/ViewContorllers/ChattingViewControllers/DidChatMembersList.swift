@@ -49,7 +49,7 @@ class DidChatMembersList : UIViewController {
     }
     
     func getChatRoomList() {
-        guard let currentUID = appDelegate.currentUID else { return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
         chatRoomRef
             .queryOrdered(byChild: "users/"+currentUID)
             .queryEqual(toValue: true)
@@ -93,7 +93,7 @@ extension DidChatMembersList:  UITableViewDataSource,UITableViewDelegate {
         let cell:DidChatMembersCell = tableView.dequeueCell(indexPath: indexPath)
         cell.backgroundColor = .white
         var yourUID : String?
-        let currentUID = appDelegate.currentUID ?? ""
+        let currentUID = CurrentUID.shread.currentUID ?? ""
         for i in chatModel[indexPath.row].users {
             if i.key != currentUID {
                 yourUID = i.key

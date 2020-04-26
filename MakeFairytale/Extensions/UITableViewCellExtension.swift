@@ -7,7 +7,8 @@
 //
 
 import UIKit
-extension UITableViewCell : Reusable { }
+extension UITableViewCell: Reusable { }
+
 extension UITableViewCell {
     func actionControlOption(_ festaData: Posts,
                              _ pageControl: UIPageControl) {

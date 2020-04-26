@@ -27,14 +27,8 @@ class AlbumViewController : UIViewController {
     @IBOutlet weak var postingContentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
-    let dates = Date()
-    let dateFomatter: DateFormatter = {
-        let fomatter = DateFormatter()
-        fomatter.dateStyle = .long
-        fomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        fomatter.locale = Locale(identifier: "kr_KR")
-        return fomatter
-    }()
+    lazy var today = Today.shread.today
+    lazy var dateFomatter = DateCalculation.shread.dateFomatter
    
     var mMode: Mode = .view {
         didSet {
@@ -64,7 +58,6 @@ class AlbumViewController : UIViewController {
         return fetchOptions
     }()
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let TcgSize: CGSize = CGSize(width: 1024, height: 1024)
     let scale = UIScreen.main.scale
     var selectAsset: PHAsset?
@@ -121,11 +114,11 @@ class AlbumViewController : UIViewController {
     }
     
     @IBAction func setPost(_ sender: Any) {
-        let checkToday = dateFomatter.string(from: dates)
+        let checkToday = dateFomatter.string(from: today)
         guard let postingText = commentInputText.text else {return}
         guard let currentUID = currentUID else { return }
         guard let email = currentUID.email else  { return }
-        let dateKR = dateFomatter.string(from: dates)
+        let dateKR = dateFomatter.string(from: today)
         
         sendingPostIndicator.isHidden = false
         sendingPostIndicator.startAnimating()
@@ -185,7 +178,7 @@ class AlbumViewController : UIViewController {
                                                             if let error = error { print("\(error.localizedDescription)")}
                                                             self.sendingPostIndicator.stopAnimating()
                                                             self.sendingPostIndicator.isHidden = true
-                                                            self.appDelegate.autoRefreshingCheck = true
+                                                            State.shread.autoRefreshingCheck = true
                                                             self.tabBarController?.selectedIndex = 0
                                                 }    }
                                     }

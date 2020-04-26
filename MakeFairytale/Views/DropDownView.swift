@@ -18,7 +18,6 @@ class DropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
     var tableView = UITableView()
     
     var delegate: DropDownViewDelegate?
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,15 +55,15 @@ class DropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DropDownCell") as? DropDownCell else { return UITableViewCell()}
         cell.buttonBedge.isHidden = true
         
-        if indexPath.row != 0,indexPath.row != 2, appDelegate.sideViewBadgeCheck == true {
+        if indexPath.row != 0,indexPath.row != 2, State.shread.sideViewBadgeCheck == true {
             cell.buttonBedge.isHidden = true
         }
         
-        if indexPath.row == 0, appDelegate.sideViewBadgeCheck == true {
+        if indexPath.row == 0, State.shread.sideViewBadgeCheck == true {
              cell.buttonBedge.isHidden = false
         }
         
-        if indexPath.row == 2, appDelegate.chattingCheck == true {
+        if indexPath.row == 2, State.shread.chattingCheck == true {
              cell.buttonBedge.isHidden = false
         }
         
@@ -79,10 +78,10 @@ class DropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.delegate?.dropDownPressed(indexPath: indexPath.row)
         if indexPath.row == 0 {
-            appDelegate.sideViewBadgeCheck = false
+            State.shread.sideViewBadgeCheck = false
         }
         if indexPath.row == 2 {
-            appDelegate.chattingCheck = false
+            State.shread.chattingCheck = false
         }
         self.tableView.deselectRow(at: indexPath, animated: true)
     }

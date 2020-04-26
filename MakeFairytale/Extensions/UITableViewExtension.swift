@@ -7,6 +7,7 @@
 //
 
 import UIKit
+
 extension UITableView {
     func registerCell<T: UITableViewCell>(_: T.Type) {
         if let nib = T.nib {

@@ -57,7 +57,7 @@ class ChattingRoomViewController : UIViewController {
     
     @objc func createRoom() {
         guard let chatText = self.textField.text else {return}
-        guard let currentUID = appDelegate.currentUID  else { return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
         guard let yourUID = yourUID else { return }
         let createRoomInfo : Dictionary<String,Any> =  [
             "users":[currentUID:true,
@@ -131,7 +131,7 @@ class ChattingRoomViewController : UIViewController {
     
     //MARK:챗방중복생성방지 함수
     func checkChatRoom() {
-        guard let currentUID = appDelegate.currentUID else  { return }
+        guard let currentUID = CurrentUID.shread.currentUID else  { return }
         chatRoomRef
             .queryOrdered(byChild: "users/"+currentUID)
             .queryEqual(toValue: true)
@@ -172,7 +172,7 @@ class ChattingRoomViewController : UIViewController {
     
     //MARK:채팅기록 로드 함수
     func getMessageList() {
-        guard let currentUID = appDelegate.currentUID else { return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
         databaseRef = chatRoomRef.child("\(chatRoomUID)").child("comments")
         
         observe = databaseRef?.observe(.value) { snapshot in
@@ -258,9 +258,9 @@ extension ChattingRoomViewController : UITableViewDataSource,UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let myData = appDelegate.myProfile else { return UITableViewCell() }
+        guard let myData = FirebaseServices.shread.myProfile else { return UITableViewCell() }
         guard indexPath.row < comments.count else { return UITableViewCell() }
-        if  comments[indexPath.row].uid  == appDelegate.currentUID {
+        if  comments[indexPath.row].uid  == CurrentUID.shread.currentUID {
             let cell:MyMessageCell = tableView.dequeueCell(indexPath: indexPath)
             
             cell.myMessageLabel.text = comments[indexPath.row].message

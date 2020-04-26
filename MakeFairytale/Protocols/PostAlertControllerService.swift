@@ -11,7 +11,6 @@ import Firebase
 
 fileprivate let postRef = Firestore.firestore().posts
 fileprivate let storeRef = Storage.storage()
-fileprivate let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
 struct AlertComponents {
     var title: String?
@@ -82,10 +81,9 @@ extension AlertPresentable where Self: UIViewController {
 
 extension ListViewController: AlertPresentable {
     func optionAction(_ selectType: SelectedType ,
-                      _ appDelegate: AppDelegate,
                       _ tableView: UITableView) -> AlertComponents {
-        let indexPath = appDelegate.indexPath ?? IndexPath(row: festaData.count - 1, section:0)
-        let currentUID = appDelegate.currentUID ?? ""
+        let indexPath = AnimationControl.shread.indexPath ?? IndexPath(row: festaData.count - 1, section:0)
+        let currentUID = CurrentUID.shread.currentUID ?? ""
         let deleteAction = AlertActionComponent(title: "삭제") { [weak self] _ in
             guard let self = self else { return }
             let postURL = self.festaData[indexPath.row]
@@ -151,7 +149,7 @@ extension ListViewController: AlertPresentable {
     func selectAlertType(by orderSelect: SelectedType) -> AlertComponents {
         switch orderSelect {
         case .option:
-            return optionAction(.option, appDelegate, postTableView)
+            return optionAction(.option, postTableView)
         case .logout:
             return logoutAction()
         }
