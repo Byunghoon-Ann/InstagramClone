@@ -9,8 +9,8 @@
 import UIKit
 import Firebase
 
-class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
-    
+class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate, PostImageCollectionViewDelegate {
+ 
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var viewCountLabel: UILabel!
     @IBOutlet weak var chattingButton: UIButton!
@@ -21,9 +21,8 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
     @IBOutlet weak var likeCountLabel:UILabel!
     @IBOutlet weak var postText : UILabel!
     @IBOutlet weak var mySelfImgView : UIImageView!
-    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var postDateLabel: UILabel!
-    @IBOutlet weak var scrollContentView: UIView!
+    @IBOutlet weak var postImageContentView: UIView!
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let calendar = Calendar(identifier: .gregorian)
@@ -54,16 +53,16 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
             if postData.userPostImage.count == 1 {
                 pageControl.isHidden = true
             }
+            collectionView.postURLs = postData.userPostImage
         }
     }
     //테스트후 샘플영상 촬영
     override func awakeFromNib() {
         super.awakeFromNib()
         pageControl.currentPage = 0
+        setUpcollectionView() 
         goodBtn.setImage(UIImage(named: "likeBefore.png"), for: .normal)
         goodBtn.setImage(UIImage(named: "likeAfter.png"), for: .selected)
-        scrollView.delegate = self
-        scrollContentView.isHidden = true
         postUserProfileImg.layer.cornerRadius = postUserProfileImg.frame.height/2
         mySelfImgView.layer.cornerRadius = mySelfImgView.frame.height/2
     }
@@ -89,8 +88,25 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate {
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        pageControl.currentPage = Int(floor(scrollView.contentOffset.x / UIScreen.main.bounds.width))
+    var collectionView = PostImageCollectionView()
+    func setUpcollectionView() {
+        postImageContentView.addSubview(collectionView)
+        collectionView.delegate = self
+        collectionView.backgroundColor = .white
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: postImageContentView.topAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: postImageContentView.bottomAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: postImageContentView.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: postImageContentView.trailingAnchor).isActive = true
+    }
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        pageControl.currentPage = Int(floor(scrollView.contentOffset.x / UIScreen.main.bounds.width))
+//    }
+//
+   
+    func pageControlCurrentPageIndex(_ path: Int) {
+        pageControl.currentPage = path
     }
 }
 

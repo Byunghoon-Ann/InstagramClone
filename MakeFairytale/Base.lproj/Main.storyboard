@@ -12,16 +12,19 @@
         <scene sceneID="Li3-3k-3W9">
             <objects>
                 <viewController storyboardIdentifier="NotificationAlertViewController" id="fge-iX-XKK" customClass="NotificationAlertViewController" customModule="FestaGram" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="ltU-Af-pkp">
+                    <view key="view" contentMode="scaleToFill" id="ltU-Af-pkp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IFj-4F-Hcq">
-                                <rect key="frame" x="0.0" y="115" width="414" height="747"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IFj-4F-Hcq">
+                                <rect key="frame" x="0.0" y="71" width="414" height="747"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="747" id="J7s-6k-4gl"/>
+                                </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotificationAlertTableCell" rowHeight="74" translatesAutoresizingMaskIntoConstraints="NO" id="gn6-d0-WBp" customClass="NotificationAlertTableCell" customModule="FestaGram" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotificationAlertTableCell" rowHeight="74" translatesAutoresizingMaskIntoConstraints="NO" id="gn6-d0-WBp" customClass="NotificationAlertTableCell" customModule="FestaGram" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="74"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gn6-d0-WBp" id="SoS-9d-wkA">
@@ -120,6 +123,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="S3n-v9-baL"/>
                     </view>
+                    <navigationItem key="navigationItem" id="rFs-6d-Lig"/>
                     <connections>
                         <outlet property="activityIndicator" destination="b4W-N4-9VQ" id="Q6u-kK-TJj"/>
                         <outlet property="backButton" destination="OIL-Iy-mdy" id="dhO-cm-Jnh"/>
@@ -807,6 +811,10 @@
                                                     <state key="normal" title="댓글 남기러 가기">
                                                         <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="moveRepleVC:" destination="fcZ-2R-Ov7" eventType="touchUpInside" id="9wP-9b-Orv"/>
+                                                        <segue destination="8U3-xo-iqd" kind="push" id="Xej-fZ-hwQ"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="조회수" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ral-iY-k2U">
                                                     <rect key="frame" x="11" y="393" width="34" height="11"/>
@@ -834,6 +842,10 @@
                                                     <state key="normal" image="paperplane@20x20">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="moveChatVC:" destination="fcZ-2R-Ov7" eventType="touchUpInside" id="MZo-PE-a6B"/>
+                                                        <segue destination="oI5-n4-dCD" kind="push" id="Jiq-lI-4Kf"/>
+                                                    </connections>
                                                 </button>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uls-Ar-aOE">
                                                     <rect key="frame" x="13" y="462" width="37" height="37"/>
@@ -1253,11 +1265,11 @@
                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="399" id="2Yb-CP-yOt"/>
                                                 </constraints>
                                             </tableView>
-                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" pagingEnabled="YES" delaysContentTouches="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HcT-md-LTI">
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ecg-VM-fuO">
                                                 <rect key="frame" x="0.0" y="72" width="414" height="369"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <viewLayoutGuide key="safeArea" id="RBL-bB-0z2"/>
-                                            </scrollView>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="게시일" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G9h-OA-6ls">
                                                 <rect key="frame" x="315" y="503" width="83" height="14.666666666666629"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1420,6 +1432,7 @@
                         <viewLayoutGuide key="safeArea" id="hbp-mT-ahL"/>
                     </view>
                     <connections>
+                        <outlet property="contentView" destination="ecg-VM-fuO" id="M4l-WJ-tHy"/>
                         <outlet property="goodMark" destination="dyu-eD-H9S" id="ahl-I4-RY8"/>
                         <outlet property="hideRepleList" destination="wzW-eS-Phg" id="NLN-os-Zv0"/>
                         <outlet property="likeCountLabel" destination="FMi-a4-cmf" id="oe9-V7-enN"/>
@@ -1427,7 +1440,6 @@
                         <outlet property="nsKeyboardConstrait" destination="y3l-rY-KmS" id="sbA-0B-1Yb"/>
                         <outlet property="pageControl" destination="QAq-ql-TfQ" id="SZo-92-ugY"/>
                         <outlet property="postDateLabel" destination="G9h-OA-6ls" id="qrz-5e-CWo"/>
-                        <outlet property="postScrollView" destination="HcT-md-LTI" id="QKU-0J-oia"/>
                         <outlet property="profileImageView" destination="zXv-WS-l8m" id="0yD-hT-ByR"/>
                         <outlet property="repleListHeightNSLayoutConstraint" destination="0Ns-JJ-AKN" id="dJr-vo-kEI"/>
                         <outlet property="repleTextField" destination="ppu-j1-dYo" id="ocK-vP-vr8"/>
@@ -1613,11 +1625,11 @@
             <objects>
                 <viewController storyboardIdentifier="ChattingRoomViewController" id="oI5-n4-dCD" customClass="ChattingRoomViewController" customModule="FestaGram" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lQa-T9-OBX">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Chatting" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kwo-wE-JZB">
-                                <rect key="frame" x="20" y="699" width="283" height="34"/>
+                                <rect key="frame" x="20" y="679" width="283" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="283" id="hcc-c9-LSk"/>
                                     <constraint firstAttribute="height" constant="34" id="y2C-yM-2df"/>
@@ -1627,7 +1639,7 @@
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="640-CQ-fTO">
-                                <rect key="frame" x="364" y="701" width="30" height="30"/>
+                                <rect key="frame" x="364" y="681" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="lvn-rM-4uK"/>
                                 </constraints>
@@ -1637,7 +1649,7 @@
                                 </state>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Flc-gh-Lko">
-                                <rect key="frame" x="0.0" y="36" width="414" height="658"/>
+                                <rect key="frame" x="0.0" y="36" width="414" height="638"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MyMessageCell" rowHeight="78" id="Tpj-ca-HNf" customClass="MyMessageCell" customModule="FestaGram" customModuleProvider="target">
@@ -1837,6 +1849,7 @@
                         <viewLayoutGuide key="safeArea" id="e0p-7V-chc"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="26Y-bg-EoR"/>
+                    <navigationItem key="navigationItem" id="w2c-4D-pWA"/>
                     <connections>
                         <outlet property="nsBottomConstrant" destination="fvh-Y0-sIJ" id="hEc-83-rCV"/>
                         <outlet property="sendButton" destination="640-CQ-fTO" id="VXf-c0-MCS"/>
@@ -1846,7 +1859,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NV8-Ul-XVP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2328.985507246377" y="427.90178571428572"/>
+            <point key="canvasLocation" x="2374" y="427"/>
         </scene>
         <!--나의 페스타-->
         <scene sceneID="KVk-mH-klr">
@@ -2038,7 +2051,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cdL-am-ydH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3063.768115942029" y="427.17391304347831"/>
+            <point key="canvasLocation" x="3836" y="427"/>
         </scene>
         <!--My Festa Story View Controller-->
         <scene sceneID="ju4-7S-WDc">
@@ -2216,11 +2229,11 @@
             <objects>
                 <viewController storyboardIdentifier="PlusCommentViewContrller" id="8U3-xo-iqd" customClass="PlusCommentViewContrller" customModule="FestaGram" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="co1-r0-xtR">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Pp0-am-Q68">
-                                <rect key="frame" x="0.0" y="121" width="414" height="496"/>
+                                <rect key="frame" x="0.0" y="121" width="414" height="476"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2270,7 +2283,7 @@
                                 </prototypes>
                             </tableView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xi2-vo-8CM">
-                                <rect key="frame" x="20" y="633.66666666666663" width="45" height="45"/>
+                                <rect key="frame" x="20" y="613.66666666666663" width="45" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="2zt-bo-CaD"/>
                                     <constraint firstAttribute="width" secondItem="xi2-vo-8CM" secondAttribute="height" multiplier="1:1" id="P6f-g9-A1n"/>
@@ -2278,7 +2291,7 @@
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="댓글입력칸" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cs8-oE-WSv">
-                                <rect key="frame" x="73" y="638" width="229" height="34"/>
+                                <rect key="frame" x="73" y="618" width="229" height="34"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="iSS-hd-dsU"/>
@@ -2311,7 +2324,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lAV-6C-UJQ">
-                                <rect key="frame" x="331" y="639" width="63" height="30"/>
+                                <rect key="frame" x="331" y="619" width="63" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="63" id="V54-8P-rIc"/>
                                 </constraints>
@@ -2350,6 +2363,7 @@
                     <tabBarItem key="tabBarItem" title="검색" image="magnifying-glass.png" selectedImage="magnifying-glass.png" id="3ZE-qq-SkG">
                         <color key="badgeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBarItem>
+                    <navigationItem key="navigationItem" id="hlk-ks-9WV"/>
                     <connections>
                         <outlet property="checkUIBtn" destination="lAV-6C-UJQ" id="eXc-rw-rAc"/>
                         <outlet property="commentTableView" destination="Pp0-am-Q68" id="ITQ-dH-AnL"/>

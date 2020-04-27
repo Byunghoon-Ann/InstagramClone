@@ -34,7 +34,7 @@ class FeedCollectionCell: UITableViewCell, PostImageCollectionViewDelegate {
     lazy var today:Date = {
         return Today.shread.today
     }()
-   
+    
     var myProfile: MyProfile? {
         didSet {
             guard let _myProfile = FirebaseServices.shread.myProfile else { return }
@@ -81,9 +81,9 @@ class FeedCollectionCell: UITableViewCell, PostImageCollectionViewDelegate {
         AnimationControl.shread.tableCellHeight = self.frame.height
         postImageContentView.backgroundColor = .white
         postCollectionView.delegate = self
-        setUpPostCollectionView()
+        setUpPostCollectionView(postCollectionView, postImageContentView)
     }
-   
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         viewCount.text = nil
@@ -100,13 +100,20 @@ class FeedCollectionCell: UITableViewCell, PostImageCollectionViewDelegate {
         pageControl.currentPage = path
     }
     
-    func setUpPostCollectionView() {
-        postImageContentView.addSubview(postCollectionView)
-        postCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        postCollectionView.topAnchor.constraint(equalTo: postImageContentView.topAnchor).isActive = true
-        postCollectionView.bottomAnchor.constraint(equalTo: postImageContentView.bottomAnchor).isActive = true
-        postCollectionView.leadingAnchor.constraint(equalTo: postImageContentView.leadingAnchor).isActive = true
-        postCollectionView.trailingAnchor.constraint(equalTo: postImageContentView.trailingAnchor).isActive = true
+    func setUpPostCollectionView(_ collectionView: UIView, _ contentView: UIView) {
+        contentView.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+    }
+    
+    @IBAction func moveRepleVC(_ sender: Any) {
+        Post.shread.post = festaData
+    }
+    @IBAction func moveChatVC(_ sender: Any) {
+        CurrentUID.shread.yourUID = festaData?.userUID
     }
 }
 

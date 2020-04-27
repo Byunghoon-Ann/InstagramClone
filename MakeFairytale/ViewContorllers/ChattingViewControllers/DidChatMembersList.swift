@@ -135,7 +135,7 @@ extension DidChatMembersList:  UITableViewDataSource,UITableViewDelegate {
         tableView.deselectRow(at: indexPath , animated: true)
         let yourUID = yourUIDs[indexPath.row]
         guard let vc = UIStoryboard.chattingRoomVC() else { return }
-        vc.yourUID = yourUID
+        CurrentUID.shread.yourUID = yourUID
         
         navigationController?.pushViewController(vc, animated: true)
     }

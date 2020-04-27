@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+
 fileprivate let currentUID = Auth.auth().currentUser?.uid
 fileprivate let postRef = Firestore.firestore().posts
 
@@ -20,7 +21,7 @@ class PlusCommentViewContrller : UIViewController {
     @IBOutlet weak var plusCommentTextField: UITextField!
     @IBOutlet weak var mySelfImgView: UIImageView!
     
-    let alertLabel : UILabel = {
+    lazy var alertLabel : UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .black
@@ -31,12 +32,13 @@ class PlusCommentViewContrller : UIViewController {
         return label
     }()
     
-    let dateFomatter : DateFormatter = {
-       let dateFomatter = DateFormatter()
-       dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-       dateFomatter.locale = Locale(identifier: "kr_KR")
-       return dateFomatter
+    lazy var dateFomatter: DateFormatter = {
+        return DateCalculation.shread.dateFomatter
     }()
+    
+    var post:Posts? {
+        return Post.shread.post
+    }
     
     var postKey : String = ""
     var postData: Posts?
@@ -46,10 +48,16 @@ class PlusCommentViewContrller : UIViewController {
             self.repleData.removeAll()
         }
         didSet {
-            commentTableView.reloadData()
+            if repleData.isEmpty {
+                commentTableView.isHidden = true
+                alertLabel.isHidden = false
+            } else {
+                commentTableView.reloadData()
+                commentTableView.isHidden = false
+                alertLabel.isHidden = true
+            }
         }
     }
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +73,7 @@ class PlusCommentViewContrller : UIViewController {
         commentTableView.delegate = self
         commentTableView.backgroundColor = .white
         plusCommentTextField.delegate = self
-       
+        
         commentTableView.layer.borderWidth = 0.3
         commentTableView.layer.borderColor = UIColor.gray.cgColor
         profileImgView.layer.cornerRadius = profileImgView.frame.height/2
@@ -75,7 +83,7 @@ class PlusCommentViewContrller : UIViewController {
         
         requestRepleData()
     }
-
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -116,12 +124,13 @@ class PlusCommentViewContrller : UIViewController {
     
     //댓글버튼입력 
     @IBAction func checkBtn(_ sender: Any) {
-        guard let reple = plusCommentTextField.text else { return }
-        let repleDate = dateFomatter.string(from: Today.shread.today)
-        guard let post = postData else { return }
-        let message = "님이 게시물에 댓글을 작성하셨습니다."
-        print(post.urlkey)
+        guard let post = post else { return }
         guard let currentUID = CurrentUID.shread.currentUID else { return }
+        guard let reple = plusCommentTextField.text else { return }
+        
+        let repleDate = dateFomatter.string(from: Today.shread.today)
+        let message = "님이 게시물에 댓글을 작성하셨습니다."
+        
         guard let myData = FirebaseServices.shread.myProfile else {return }
         
         postRef
@@ -133,7 +142,7 @@ class PlusCommentViewContrller : UIViewController {
                                 "nickName":myData.nickName,
                                 "repleDate":repleDate])
         
-     
+        
         notificationAlert(myData.nickName,
                           repleDate,
                           myData.uid,
@@ -147,29 +156,18 @@ class PlusCommentViewContrller : UIViewController {
     }
     
     func requestRepleData() {
-        guard let post = postData else { return }
+        guard let post = post else { return }
         guard let myData = FirebaseServices.shread.myProfile else { return }
+        
         FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,
                                                    postDate: post.postDate,
                                                    imageURL: post.userPostImage) {
-                                                    
                                                     self.profileImgView.sd_setImage(with: URL(string: post.userProfileImage))
-                                                    self.profileComment.text = myData.nickName
+                                                    self.profileComment.text = post.userName
                                                     self.mySelfImgView.sd_setImage(with: URL(string: myData.profileImageURL))
                                                     self.repleData = FirebaseServices.shread.repleDatas
-                                                    if self.repleData.isEmpty {
-                                                        self.commentTableView.isHidden = true
-                                                        self.alertLabel.isHidden = false
-                                                    } else {
-                                                        
-                                                        self.commentTableView.reloadData()
-                                                        self.commentTableView.isHidden = false
-                                                        self.alertLabel.isHidden = true
-                                                    }
         }
     }
-    
-    
 }
 
 extension PlusCommentViewContrller : UITableViewDataSource {
@@ -202,7 +200,7 @@ extension PlusCommentViewContrller : UITableViewDelegate {
 }
 
 extension PlusCommentViewContrller: UITextFieldDelegate {
-
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField.text == "댓글입력칸" {
             textField.text = ""
@@ -217,6 +215,4 @@ extension PlusCommentViewContrller {
         alertLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         alertLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
-    
-   
 }

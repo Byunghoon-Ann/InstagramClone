@@ -12,37 +12,13 @@ import Firebase
 fileprivate let firestoreRef = Firestore.firestore()
 
 extension UIViewController {
-    //MARK:-스크롤뷰 위의 복수의 이미지 뷰 생성 Func
-    func adScrollImageView(_ scrollview: UIScrollView,
-                           _ festaData: Posts,
-                           _ contentModeCheck: Bool) {
-        
-        let scrollEdgeInsets = UIEdgeInsets(top: 0, left: 70, bottom: 10, right: 70)
-        scrollview.horizontalScrollIndicatorInsets = scrollEdgeInsets
-        for i in 0 ..< festaData.userPostImage.count {
-            let imageView = UIImageView()
-            let scrollFrame = scrollview.frame
-            let xPosition = scrollview.frame.width * CGFloat(i)
-            if contentModeCheck == false {
-                imageView.contentMode = .scaleAspectFit
-            }else {
-                imageView.contentMode = .scaleAspectFill
-            }
-            imageView.frame = CGRect(x: xPosition, y: 0, width: scrollFrame.width, height: scrollFrame.height)
-            scrollview.contentSize.width = scrollFrame.width * CGFloat(1 + i)
-            imageView.sd_setImage(with: URL(string: festaData.userPostImage[i]))
-            scrollview.addSubview(imageView)
-        }
-    }
     
-    //MARK:- 좋아요 func
+    //FIXME:- 좋아요 func
     func likeButtonAction(_ checkDate: String,
                           _ post: Posts,
                           _ sender: UIButton,
                           _ currentUID: String,
                           completion : @escaping () -> Void) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-       
         guard let myName = FirebaseServices.shread.myProfile?.nickName else { return }
         let myMessage = "님의 게시물에 좋아요를 누르셨습니다."
         let yourMessage = "께서 게시물에 좋아요를 누르셨습니다."
@@ -57,38 +33,28 @@ extension UIViewController {
                     guard let data = i.data() as? [String:[String:Any]] else { return}
                     for (_,j) in data {
                         guard let postImage = j["postImageURL"] as? [String] else { return }
-                        
                         if postImage[0] == post.userPostImage[0] {
                             let urlKey = i.documentID
-                            
-                            firestoreRef
-                                .collection("AllPost")
-                                .document(urlKey)
+                            let likeRef = Firestore
+                                .getOtherRef("AllPost", urlKey)
                                 .collection("goodMarkLog")
-                                .document("\(currentUID)")
-                                .getDocument { likeCheck, error in
+                                .document(currentUID)
+                            likeRef.getDocument { likeCheck, error in
                                     
                                     guard let likeCheck = likeCheck?.data() else {
                                         sender.isSelected = true
-                                        firestoreRef
-                                            .collection("AllPost")
-                                            .document(urlKey)
-                                            .collection("goodMarkLog")
-                                            .document("\(currentUID)")
-                                            .setData([
+                                        likeRef.setData([
                                                 "like":true,
                                                 "checkDate":checkDate
                                             ])
-                                        
-                                        self.notificationAlert(post.userName,
+                                        self.notificationAlert(myName,
                                                                checkDate,
                                                                post.userUID,
                                                                currentUID,
                                                                myMessage,
                                                                urlKey)
-        
                                         if post.userUID != currentUID {
-                                        self.notificationAlert(myName,
+                                            self.notificationAlert(myName,
                                                                checkDate,
                                                                currentUID,
                                                                post.userUID,
@@ -97,67 +63,57 @@ extension UIViewController {
                                             self.alertContentsCenter("like", post.userUID)
                                         }
                                         return completion()
-                                    }
+                                }
+                                
+                                let myLike = likeCheck["like"] as? Bool ?? false
+                                if myLike == true {
+                                    sender.isSelected = false
                                     
-                                    let myLike = likeCheck["like"] as? Bool ?? false
-                                    if myLike == true {
-                                        sender.isSelected = false
-                                        
-                                        firestoreRef
-                                            .collection("AllPost")
-                                            .document(urlKey)
-                                            .collection("goodMarkLog")
-                                            .document("\(currentUID)")
-                                            .setData(
-                                                ["like":false,
-                                                 "checkDate":checkDate
-                                            ])
-                                        
-                                        self.notificationAlert(post.userName,
-                                                               checkDate,
-                                                               currentUID,
-                                                               post.userUID,
-                                                               myCancel,
-                                                               urlKey)
-                                        
+                                    likeRef.setData([
+                                        "like":false,
+                                        "checkDate":checkDate
+                                    ])
+                                    
+                                    self.notificationAlert(post.userName,
+                                                           checkDate,
+                                                           currentUID,
+                                                           post.userUID,
+                                                           yourCancel,
+                                                           urlKey)
+                                    print(post.userName,"sdsd")
                                         
                                         if post.userUID != currentUID {
-                                            self.notificationAlert(myName,
+                                            print(post.userName,myCancel,"ddd")
+                                            self.notificationAlert(post.userName,
                                                                    checkDate,
                                                                    post.userUID,
                                                                    currentUID,
-                                                                   yourCancel,
+                                                                   myCancel,
                                                                    urlKey)
                                         }
                                         completion()
                                     } else if myLike == false {
                                         sender.isSelected = true
+                                        likeRef.setData([
+                                            "like":true,
+                                            "checkDate":checkDate
+                                        ])
                                         
-                                        firestoreRef
-                                            .collection("AllPost")
-                                            .document(urlKey)
-                                            .collection("goodMarkLog")
-                                            .document("\(currentUID)")
-                                            .setData([
-                                                "like":true,
-                                                "checkDate":checkDate])
-                                        
-                                        self.notificationAlert(post.userName,
+                                    self.notificationAlert(post.userName,
                                                                checkDate,
                                                                currentUID,
                                                                post.userUID,
                                                                myMessage,
                                                                urlKey)
-                                        
                                         self.alertContentsCenter("like",
                                                                  post.userUID)
                                         
                                         if post.userUID != currentUID {
-                                        self.notificationAlert(myName,
+                                            self.notificationAlert(post.userName,
                                                                checkDate,
                                                                post.userUID,
                                                                currentUID,
-                                                               yourMessage,
+                                                               myMessage,
                                                                urlKey)
                                         }
                                         completion()
@@ -212,20 +168,14 @@ extension UIViewController {
     
     func moveDetailViewPostView(_ view: MyViews, _ path: Int) {
         let i = IndexPath(row:path, section: 0)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         guard let vc = UIStoryboard.viewPostingVC() else { return }
-    
-            vc.post = view.myPosts[i.row]
-//        }else {
-//            vc.post = appDelegate.myPost[i.row]
-//        }
+        vc.post = view.myPosts[i.row]
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-
 extension UIViewController: UNUserNotificationCenterDelegate {
-   public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         print("notificationcenter will Present \(notification)")
         completionHandler([.alert, .sound,.badge])
     }

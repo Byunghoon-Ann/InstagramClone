@@ -14,8 +14,9 @@ protocol MyPostTableViewDelegate : class {
 }
 
 class MyPostTableView: UIView {
-    
+
     weak var delegate : MyPostTableViewDelegate?
+    
     var firstAlertLabel : UILabel = {
           let label = UILabel()
           label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +37,7 @@ class MyPostTableView: UIView {
         firstAlertLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         setUpCustomMyPosts()
     }
-    
+  
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -52,11 +53,17 @@ class MyPostTableView: UIView {
             self.yourData.removeAll()
         }
         didSet {
+            if yourData.isEmpty {
+                firstAlertLabel.isHidden = false
+                tableView.isHidden = true
+            } else {
+                firstAlertLabel.isHidden = true
+                tableView.isHidden = false
+            }
             tableView.reloadData()
         }
     }
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var yourUID = ""
     
     func customCollection() {
@@ -64,7 +71,7 @@ class MyPostTableView: UIView {
         tableView.dataSource = self
         
         tableView.backgroundColor = .white
-        tableView.register(UINib(nibName: "MyPostTableViewCell", bundle: nil), forCellReuseIdentifier: "MyPostTableViewCell")
+        tableView.registerCell(MyPostTableViewCell.self)
     }
     
     func setUpCustomMyPosts() {
@@ -77,70 +84,18 @@ class MyPostTableView: UIView {
         tableView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
-    
-    func adScrollImageView(_ scrollview: UIScrollView, _ festaData: Posts, _ contentModeCheck: Bool) {
-        let scrollEdgeInsets = UIEdgeInsets(top: 0, left: 70, bottom: 10, right: 70)
-        scrollview.horizontalScrollIndicatorInsets = scrollEdgeInsets
-        for i in 0 ..< festaData.userPostImage.count {
-            
-            let imageView = UIImageView()
-            let scrollFrame = scrollview.frame
-            let xPosition = scrollview.frame.width * CGFloat(i)
-            
-            imageView.isUserInteractionEnabled = true
-            if contentModeCheck == false {
-                imageView.contentMode = .scaleAspectFit
-            }else {
-                imageView.contentMode = .scaleAspectFill
-            }
-            imageView.frame = CGRect(x: xPosition, y: 0, width: scrollFrame.width, height: scrollFrame.height)
-            imageView.sd_setImage(with: URL(string: festaData.userPostImage[i]))
-            scrollview.contentSize.width = scrollFrame.width * CGFloat(1 + i)
-            
-            scrollview.addSubview(imageView)
-        }
-    }
 }
 
 extension MyPostTableView : UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if !yourUID.isEmpty {
-            if yourData.isEmpty {
-                firstAlertLabel.isHidden = false
-                tableView.isHidden = true
-                return 0
-            }else {
-                tableView.isHidden = false
-                firstAlertLabel.isHidden = true
-                return yourData.count
-            }
-        }else {
-            if yourData.isEmpty {
-                firstAlertLabel.isHidden = false
-                tableView.isHidden = true
-                return 0
-            }else {
-                firstAlertLabel.isHidden = true
-                tableView.isHidden = false
-                return yourData.count
-                
-            }
-        }
+        guard yourData.count > 0 else { return 0 }
+        return yourData.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:MyPostTableViewCell = tableView.dequeueCell(indexPath: indexPath)
-        
-        if !yourUID.isEmpty {
-            cell.postData = yourData[indexPath.row]
-            adScrollImageView(cell.scrollView, yourData[indexPath.row], true)
-            return cell
-        } else {
-            cell.postData = yourData[indexPath.row]
-            adScrollImageView(cell.scrollView, yourData[indexPath.row], true)
-            return cell
-        }
+        cell.postData = yourData[indexPath.row]
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -151,6 +106,5 @@ extension MyPostTableView : UITableViewDelegate,UITableViewDataSource {
         guard let tableCellHeight = AnimationControl.shread.tableCellHeight else { return 500 }
         return tableCellHeight
     }
-
 }
 

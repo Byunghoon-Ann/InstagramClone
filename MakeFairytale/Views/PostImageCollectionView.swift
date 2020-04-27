@@ -6,12 +6,13 @@
 //  Copyright © 2020 ByungHoon Ann. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SDWebImage
+
 protocol PostImageCollectionViewDelegate {
     func pageControlCurrentPageIndex(_ path: Int)
 }
+
 class PostImageCollectionView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
     var delegate: PostImageCollectionViewDelegate?
     var postURLs = [String]() {
@@ -53,6 +54,7 @@ class PostImageCollectionView: UIView, UICollectionViewDelegate, UICollectionVie
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
         let page = Int(targetContentOffset.pointee.x / collectionView.frame.width)
         delegate?.pageControlCurrentPageIndex(page)
     }

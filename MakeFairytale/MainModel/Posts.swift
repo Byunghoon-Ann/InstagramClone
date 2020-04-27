@@ -8,6 +8,7 @@
 
 import Firebase
 
+
 struct  Posts  {
     var userUID: String
     var userName: String
@@ -19,6 +20,13 @@ struct  Posts  {
     var viewCount: Int
     var likeCount: Int
     var urlkey: String
+}
+
+final class Post{
+    static let shread = Post()
+    var post: Posts?
+    
+    private init() { }
 }
 
 

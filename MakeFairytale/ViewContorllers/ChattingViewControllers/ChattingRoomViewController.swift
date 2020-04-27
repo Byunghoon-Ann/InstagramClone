@@ -6,13 +6,14 @@
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SnapKit
 import Firebase
 import Kingfisher
+
 fileprivate let firestoreRef = Firestore.firestore()
 fileprivate let chatRoomRef = Database.database().reference().child("chatRooms")
+
 class ChattingRoomViewController : UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -20,14 +21,15 @@ class ChattingRoomViewController : UIViewController {
     @IBOutlet var textField: UITextField!
     @IBOutlet var sendButton: UIButton!
     
-    var yourUID: String?
     var chatRoomUID  = ""
     var comments : [ChatModel.Comment] = []
     var userModel : YourData?
     var databaseRef: DatabaseReference?
     var observe : UInt?
     var peopleCount: Int?
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var yourUID:String? {
+        return CurrentUID.shread.yourUID
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +39,7 @@ class ChattingRoomViewController : UIViewController {
         sendButton.isUserInteractionEnabled = true
         sendButton.addTarget(self, action: #selector(createRoom), for: .touchUpInside)
         checkChatRoom()
-        
+
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismisskeyboard))
         view.addGestureRecognizer(tap)
     }
@@ -56,9 +58,10 @@ class ChattingRoomViewController : UIViewController {
     }
     
     @objc func createRoom() {
-        guard let chatText = self.textField.text else {return}
+        guard let chatText = textField.text else {return}
         guard let currentUID = CurrentUID.shread.currentUID else { return }
-        guard let yourUID = yourUID else { return }
+        guard let yourUID = CurrentUID.shread.yourUID else { return }
+
         let createRoomInfo : Dictionary<String,Any> =  [
             "users":[currentUID:true,
                      yourUID:true] ]
@@ -132,6 +135,7 @@ class ChattingRoomViewController : UIViewController {
     //MARK:챗방중복생성방지 함수
     func checkChatRoom() {
         guard let currentUID = CurrentUID.shread.currentUID else  { return }
+        guard let yourUID = CurrentUID.shread.yourUID else { return }
         chatRoomRef
             .queryOrdered(byChild: "users/"+currentUID)
             .queryEqual(toValue: true)
@@ -141,7 +145,7 @@ class ChattingRoomViewController : UIViewController {
                     
                     if let chatRoomdic = id.value as? [String:AnyObject] {
                         guard let chatModel = ChatModel(JSON: chatRoomdic) else { return }
-                        guard let yourUID = self.yourUID else { return }
+                       
                         if chatModel.users[yourUID] == true {
                             self.chatRoomUID = id.key
                             self.sendButton.isEnabled = true
@@ -154,7 +158,8 @@ class ChattingRoomViewController : UIViewController {
     
     //MARK:사용자 정보 불러오기
     func getYourInfo() {
-        guard let yourUID = yourUID else { return }
+        guard let yourUID = CurrentUID.shread.yourUID else { return }
+
         firestoreRef
             .collection("user")
             .document("\(yourUID)")
@@ -174,7 +179,6 @@ class ChattingRoomViewController : UIViewController {
     func getMessageList() {
         guard let currentUID = CurrentUID.shread.currentUID else { return }
         databaseRef = chatRoomRef.child("\(chatRoomUID)").child("comments")
-        
         observe = databaseRef?.observe(.value) { snapshot in
             
             self.comments.removeAll()

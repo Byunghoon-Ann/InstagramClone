@@ -118,7 +118,7 @@ extension ListViewController: AlertPresentable {
         let messageAlert = AlertActionComponent(title: "쪽지 보내기") { [weak self] _ in
             guard let self = self else { return }
             guard let vc = UIStoryboard.chattingRoomVC() else { return }
-            vc.yourUID = self.festaData[indexPath.row].userUID
+            CurrentUID.shread.yourUID = self.festaData[indexPath.row].userUID
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
@@ -136,9 +136,12 @@ extension ListViewController: AlertPresentable {
     
     func logoutAction () -> AlertComponents {
         let cancel = AlertActionComponent(title: "취소", style: .cancel,handler: nil)
-        let logoutAction = AlertActionComponent(title: "로그아웃") { _ in
+        let logoutAction = AlertActionComponent(title: "로그아웃") { [weak self] _ in
+            guard let self = self else { return }
             do {
                 try Auth.auth().signOut()
+                guard let vc = UIStoryboard.loginVC() else { return }
+                self.navigationController?.pushViewController(vc, animated: true)
             } catch let error {
                 print("error : \(error.localizedDescription)")
             }

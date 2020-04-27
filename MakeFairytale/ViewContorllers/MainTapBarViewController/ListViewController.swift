@@ -39,14 +39,17 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
       return label
    }()
    
-   let appDelegate = UIApplication.shared.delegate as! AppDelegate
    var festaData : [Posts] = [] {
       willSet {
+         self.postLoadingIndicatior.isHidden = false
+         self.postLoadingIndicatior.startAnimating()
          self.festaData.removeAll()
       } didSet {
          DateCalculation.shread.requestSort(&festaData,
                                             dateFomatter,
                                             Today.shread.today)
+         postLoadingIndicatior.isHidden = true
+         postLoadingIndicatior.stopAnimating()
          postTableView.reloadData()
       }
    }
@@ -56,7 +59,7 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
          follwingCollectionView.reloadData()
       }
    }
-
+   
    var myProfileData: MyProfile? {
       didSet {
          guard let myProfileData = myProfileData else { return }
@@ -65,7 +68,6 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
       }
    }
    
-   var goodMarkURLKey: String = ""
    var topViewHideCheck = false
    var flagImageSave = false
    let imagePicker = UIImagePickerController()
@@ -78,11 +80,6 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
       })
       
       UNUserNotificationCenter.current().delegate = self
-      loadFesta(postLoadingIndicatior,
-                postTableView)
-      
-      initRefresh(refresh)
-      
       
       postTableView.layer.borderWidth = 0.2
       postTableView.layer.borderColor = UIColor.lightGray.cgColor
@@ -91,6 +88,9 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
       view.backgroundColor = .white
      
       AnimationControl.shread.topViewHeight = Double(topView.frame.height)
+      
+      loadFesta()
+      initRefresh(refresh)
       dropDownButtonSet()
       topViewHideSwipeGesture(postTableView)
       
@@ -143,8 +143,7 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
             .document(currentUID)
             .updateData(["newPost":false])
          
-         loadFesta(postLoadingIndicatior,
-                   postTableView)
+         loadFesta()
       }
    }
 }
@@ -200,8 +199,6 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       cell.myProfile = myProfileData
       cell.goodBtn.addTarget(self, action: #selector(goodButtonCustom(sender:)), for: .touchUpInside)
       cell.moreOptionButton.addTarget(self, action: #selector(postOptionButton),for: .touchUpInside)
-      cell.moveRepleButton.addTarget(self, action:#selector(moveRepleList(sender:)), for:.touchUpInside)
-      cell.chattingButton.addTarget(self, action: #selector(moveChattingView), for: .touchUpInside)
       return cell
    }
    
@@ -252,19 +249,5 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       presentAlert(.actionSheet)
    }
    
-   @objc func moveRepleList(sender: UIButton) {
-      let contentView = sender.superview
-      guard let cell = contentView?.superview as? FeedCollectionCell else  { return }
-      guard let indexPath = postTableView.indexPath(for: cell) else { return }
-      guard let vc = UIStoryboard.plusCommentVC() else { return }
-      vc.postData = festaData[indexPath.row]
-      navigationController?.pushViewController(vc, animated: true)
-   }
-   
-   @objc func moveChattingView(_ sender: UIButton) {
-      moveChattingViewController(sender,
-                                 postTableView,
-                                 festaData)
-   }
 }
 

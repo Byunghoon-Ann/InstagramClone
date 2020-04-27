@@ -14,10 +14,10 @@ import Firebase
 fileprivate let currentUID = Auth.auth().currentUser?.uid
 fileprivate let postRef = Firestore.firestore().posts
 
-class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollViewDelegate{
-    
+class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCollectionViewDelegate{
+
+    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var pageControl: UIPageControl!
-    @IBOutlet weak var postScrollView: UIScrollView!
     @IBOutlet weak var viewRepleButton: UIButton!
     @IBOutlet weak var scrollContentViewNSLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var likeCountLabel: UILabel!
@@ -34,6 +34,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var postDateLabel: UILabel!
     
+    var collectionView = PostImageCollectionView()
     lazy var label : UILabel = {
        let label = UILabel()
         label.text = "아직 댓글이 없습니다. \n 친구에게 처음으로 댓글을 남겨보세요!"
@@ -48,9 +49,13 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     
     lazy var dateFomatter = DateCalculation.shread.dateFomatter
     lazy var today = Today.shread.today
-    var post: Posts?
+    
+    var postKey = ""
+    let cellName = "ViewPostingRepleCell"
+    let calendar = Calendar(identifier: .gregorian)
     var postNumber: Int?
     var likeNumber = 0
+    var post: Posts?
     var repleData : [RepleData] = [] {
         didSet {
             repleData.sort { firstData, secondData in
@@ -64,25 +69,32 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
             }
         }
     }
-    var postKey = ""
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let cellName = "ViewPostingRepleCell"
-    let calendar = Calendar(identifier: .gregorian)
     
     override func viewDidLoad() {
         guard let post = post else { return }
-        postScrollView.delegate = self
         pageControl.currentPage = 0
         pageControl.numberOfPages = post.userPostImage.count
         goodMark.addTarget(self, action: #selector(likePostAction(_:)), for: .touchUpInside)
-        checkViewCount()
-        customFrame()
-        viewPostingData()
-        customRepleFunc()
+        
         hideRepleList.delegate = self
         hideRepleList.dataSource = self
        
         hideRepleList.registerCell(ViewPostingRepleCell.self)
+        
+        checkViewCount()
+        customFrame()
+        viewPostingData()
+        customRepleFunc()
+        collectionViewSetUp()
+    }
+    
+    func collectionViewSetUp() {
+        contentView.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -134,9 +146,9 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
     }
     
     @IBAction func moveChattingViewButton(_ sender: UIButton) {
-        guard let post = post else { return }
+        guard let userUID = post?.userUID else { return }
         guard let vc = UIStoryboard.chattingRoomVC() else { return }
-        vc.yourUID = post.userUID
+        CurrentUID.shread.yourUID = userUID
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -147,23 +159,12 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
                 guard let self = self else { return }
                 self.label.isHidden = true
                 FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,
-                                                   postDate: post.postDate,
-                                                   imageURL: post.userPostImage) {
-                                                    
-                                                    self.repleData = FirebaseServices.shread.repleDatas
-                                                    self.repleData.sort { firstData, secondData in
-                                                        let dateFirstData = self.dateFomatter.date(from: firstData.repleDate) ?? self.today
-                                                        let dateSecondData = self.dateFomatter.date(from: secondData.repleDate) ?? self.today
-                                                        if dateFirstData > dateSecondData {
-                                                            return true
-                                                        }else {
-                                                            return false
-                                                        }
-                                                    }
-                                                    self.hideRepleList.reloadData()
+                                                           postDate: post.postDate,
+                                                           imageURL: post.userPostImage) {
+                                                            self.repleData = FirebaseServices.shread.repleDatas
+                                                            self.hideRepleList.reloadData()
                 }
             }
-            
         }
     }
     
@@ -215,9 +216,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
         }
         
         mySelfProfileImageView.sd_setImage(with: URL(string: post.userProfileImage))
-        adScrollImageView(postScrollView,
-                          post,
-                          false)
+        collectionView.postURLs = post.userPostImage
         
         postDateLabel.text = DateCalculation.shread.requestDate(post.postDate,
                                                                 dateFomatter,
@@ -234,10 +233,13 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate,UIScrollView
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismisskeyboard))
         view.addGestureRecognizer(tap)
     }
+    
+    func pageControlCurrentPageIndex(_ path: Int) {
+        pageControl.currentPage = path
+    }
 }
 
 extension ViewPostingController : UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return repleData.count
     }
@@ -253,7 +255,6 @@ extension ViewPostingController : UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ViewPostingController {
-    
     func viewRepleActionCustom() {
         let cell = ViewPostingRepleCell()
         let bottomOffset = CGPoint(x: viewRepleButton.frame.minX, y: userComment.frame.minY)
@@ -264,32 +265,32 @@ extension ViewPostingController {
         
         if hideRepleList.isHidden == true {
             FirebaseServices.shread.loadPostRepleDatas(uid: postData.userUID,
-                                               postDate: postData.postDate,
-                                               imageURL: postData.userPostImage) { [weak self] in
-                                                guard let self = self else { return }
-                                                self.repleData = FirebaseServices.shread.repleDatas
-                                                
-                                                self.hideRepleList.reloadData()
-                                                self.hideRepleList.isHidden = false
-                                                
-                                                UIView.animate(withDuration: 3, delay: 0, options: .transitionFlipFromBottom, animations: {
-                                                    if self.repleData.isEmpty == true {
-                                                        self.label.isHidden = false
-                                                        self.scrollView.addSubview( self.label)
-                                                        self.label.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
-                                                        self.label.centerYAnchor.constraint(equalTo: self.hideRepleList.centerYAnchor).isActive = true
-                                                    }
-                                                    
-                                                    self.repleListHeightNSLayoutConstraint.constant = cell.frame.height * CGFloat(self.repleData.count)
-                                                    print(self.repleListHeightNSLayoutConstraint.constant)
-                                                    self.hideRepleList.reloadData()
-                                                    self.hideRepleList.isHidden = false
-                                                    
-                                                    if self.repleData.count != 0 {
-                                                        self.viewRepleButton.setTitle("접기", for: .normal)
-                                                    }
-                                                }, completion: nil)
-                                                self.scrollView.setContentOffset(bottomOffset, animated: true)
+                                                       postDate: postData.postDate,
+                                                       imageURL: postData.userPostImage) { [weak self] in
+                                                        guard let self = self else { return }
+                                                        self.repleData = FirebaseServices.shread.repleDatas
+                                                        
+                                                        self.hideRepleList.reloadData()
+                                                        self.hideRepleList.isHidden = false
+                                                        
+                                                        UIView.animate(withDuration: 3, delay: 0, options: .transitionFlipFromBottom, animations: {
+                                                            if self.repleData.isEmpty == true {
+                                                                self.label.isHidden = false
+                                                                self.scrollView.addSubview( self.label)
+                                                                self.label.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
+                                                                self.label.centerYAnchor.constraint(equalTo: self.hideRepleList.centerYAnchor).isActive = true
+                                                            }
+                                                            
+                                                            self.repleListHeightNSLayoutConstraint.constant = cell.frame.height * CGFloat(self.repleData.count)
+                                                            print(self.repleListHeightNSLayoutConstraint.constant)
+                                                            self.hideRepleList.reloadData()
+                                                            self.hideRepleList.isHidden = false
+                                                            
+                                                            if self.repleData.count != 0 {
+                                                                self.viewRepleButton.setTitle("접기", for: .normal)
+                                                            }
+                                                        }, completion: nil)
+                                                        self.scrollView.setContentOffset(bottomOffset, animated: true)
             }
         } else {
             label.isHidden = true
@@ -304,12 +305,6 @@ extension ViewPostingController {
             },completion: nil)
             
             scrollView.setContentOffset(topOffset, animated: true)
-        }
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == postScrollView {
-            pageControl.currentPage = Int(floor(postScrollView.contentOffset.x / UIScreen.main.bounds.width))
         }
     }
     
@@ -338,13 +333,12 @@ extension ViewPostingController {
                                                                "님이 게시물에 댓글을 남기셨습니다.",
                                                                self.postKey)
                                         
-                                        self.alertContentsCenter("reple",
-                                                                 post.userUID)
+                                        self.alertContentsCenter("reple", post.userUID)
                                         completion()
             }
         }
     }
-
+    
     func checkViewCount() {
         DispatchQueue.main.async {
             guard let post = self.post else { return  }

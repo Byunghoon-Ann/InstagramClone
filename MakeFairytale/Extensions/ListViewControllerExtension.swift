@@ -4,36 +4,28 @@
 //
 //  Created by ByungHoon Ann on 2020/02/06.
 //  Copyright © 2020 ByungHoon Ann. All rights reserved.
-//
+
 import UIKit
 import Firebase
+
 fileprivate let userRef = Firestore.firestore().user
+
 extension ListViewController {
     //MARK:- Feed로드
-    func loadFesta(_ indicator: UIActivityIndicatorView, _ tableview: UITableView) {
+    func loadFesta() {
         FirebaseServices.shread.fecthMyFollowPosting { [weak self] in
             guard let self = self else { return }
-            tableview.isHidden = true
-            indicator.startAnimating()
             self.following = FirebaseServices.shread.following
-            FirebaseServices.shread.fecthFollowPost {
-                FirebaseServices.shread.loadMyFeed {
-                    self.festaData = FirebaseServices.shread.myPostData
-                    FirebaseServices.shread.loadProfile {
-                        self.myProfileData = FirebaseServices.shread.myProfile
-                        if !FirebaseServices.shread.followString.isEmpty || !self.festaData.isEmpty {
-                            tableview.isHidden = false
-                            self.firstAlertLabel.isHidden = true
-                            tableview.reloadData()
-                        } else {
-                            self.firstAlertLabel.isHidden = false
-                        }
-                        self.refresh.endRefreshing()
-                        indicator.stopAnimating()
-                        indicator.isHidden = true
-                    }
-                }
+            self.festaData = FirebaseServices.shread.myPostData
+            self.myProfileData = FirebaseServices.shread.myProfile
+            if !FirebaseServices.shread.followString.isEmpty || !self.festaData.isEmpty {
+                self.postTableView.isHidden = false
+                self.firstAlertLabel.isHidden = true
+            } else {
+                self.postTableView.isHidden = true
+                self.firstAlertLabel.isHidden = false
             }
+            self.refresh.endRefreshing()
         }
     }
     
@@ -49,19 +41,7 @@ extension ListViewController {
     
     //MARK:-새로고침시 발생하는 Event
     @objc func refresh(refresh: UIRefreshControl) {
-        loadFesta(postLoadingIndicatior, postTableView)
-    }
-    
-    //MARK:- 해당 게시물 유저와 채팅 Event
-    func moveChattingViewController(_ button: UIButton,
-                                    _ tableView: UITableView,
-                                    _ postData: [Posts]) {
-        let contentView = button.superview
-        guard let cell = contentView?.superview as? FeedCollectionCell else  { return }
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        guard let vc = UIStoryboard.chattingRoomVC() else { return }
-        vc.yourUID = postData[indexPath.row].userUID
-        navigationController?.pushViewController(vc, animated: true)
+        loadFesta()
     }
     
     func topViewHideSwipeGesture(_ tableView: UITableView) {
@@ -93,10 +73,12 @@ extension ListViewController {
     @objc func hideDownViewGesture(_ gesture: UISwipeGestureRecognizer) {
         if gesture.direction == .down {
             guard let topViewHeight = AnimationControl.shread.topViewHeight else { return }
-            UIView.animate(withDuration: 0.2, delay: 0, options: .transitionFlipFromTop, animations: {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .transitionFlipFromTop, animations: { [weak self] in
+                guard let self = self else { return }
                 self.topView.alpha = 1.0
                 self.leftTopButton.alpha = 1.0
-            }) { _ in
+            }) { [weak self] _ in
+                guard let self = self else { return }
                 UIView.animate(withDuration: 0.25 ,animations: {
                     self.tableViewNSLayoutConstraint.constant = CGFloat(topViewHeight)
                     self.postTableView.layoutIfNeeded()

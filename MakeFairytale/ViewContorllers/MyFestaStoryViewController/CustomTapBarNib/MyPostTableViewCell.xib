@@ -78,26 +78,10 @@
                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Skh-uX-T5v">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbh-LB-9ZW">
                         <rect key="frame" x="0.0" y="75" width="414" height="282"/>
-                        <subviews>
-                            <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C5X-Gw-QjV">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="282"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="C5X-Gw-QjV" firstAttribute="height" secondItem="Skh-uX-T5v" secondAttribute="height" id="15D-By-yyL"/>
-                            <constraint firstItem="C5X-Gw-QjV" firstAttribute="top" secondItem="Skh-uX-T5v" secondAttribute="top" id="FM2-Pw-yLz"/>
-                            <constraint firstAttribute="trailing" secondItem="C5X-Gw-QjV" secondAttribute="trailing" id="T9i-3M-HOy"/>
-                            <constraint firstAttribute="height" constant="282" id="bY6-yn-IEk"/>
-                            <constraint firstAttribute="bottom" secondItem="C5X-Gw-QjV" secondAttribute="bottom" id="i9q-2f-htE"/>
-                            <constraint firstItem="C5X-Gw-QjV" firstAttribute="leading" secondItem="Skh-uX-T5v" secondAttribute="leading" id="nzP-qf-U4d"/>
-                            <constraint firstItem="C5X-Gw-QjV" firstAttribute="width" secondItem="Skh-uX-T5v" secondAttribute="width" id="oL6-BQ-R1U"/>
-                        </constraints>
-                        <viewLayoutGuide key="contentLayoutGuide" id="aJV-Ac-Z4W"/>
-                        <viewLayoutGuide key="frameLayoutGuide" id="O22-9V-e5O"/>
-                    </scrollView>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    </view>
                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Pbi-JL-KXj">
                         <rect key="frame" x="187.5" y="365" width="39" height="37"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -124,25 +108,27 @@
                     <constraint firstItem="sGI-OA-kFF" firstAttribute="leading" secondItem="sdt-49-xHs" secondAttribute="leading" constant="10" id="1yZ-jU-aqp"/>
                     <constraint firstItem="5fo-PL-mq8" firstAttribute="centerY" secondItem="IoZ-xs-i0V" secondAttribute="centerY" id="3Tb-dS-SZg"/>
                     <constraint firstItem="1GA-eX-q0I" firstAttribute="leading" secondItem="8dJ-cO-UIV" secondAttribute="leading" constant="10" id="3WA-ek-vZg"/>
+                    <constraint firstItem="bbh-LB-9ZW" firstAttribute="centerX" secondItem="sdt-49-xHs" secondAttribute="centerX" id="49F-w7-Eqf"/>
+                    <constraint firstItem="Pbi-JL-KXj" firstAttribute="top" secondItem="bbh-LB-9ZW" secondAttribute="bottom" constant="8" id="50b-vA-cP5"/>
                     <constraint firstItem="u7Z-ka-Rxx" firstAttribute="centerY" secondItem="Pbi-JL-KXj" secondAttribute="centerY" id="90M-2j-YpT"/>
+                    <constraint firstItem="bbh-LB-9ZW" firstAttribute="top" secondItem="IoZ-xs-i0V" secondAttribute="bottom" constant="15" id="CHV-lj-BLN"/>
+                    <constraint firstItem="u7Z-ka-Rxx" firstAttribute="top" secondItem="bbh-LB-9ZW" secondAttribute="bottom" constant="8" id="DLk-XI-ETR"/>
                     <constraint firstItem="Pbi-JL-KXj" firstAttribute="centerX" secondItem="sdt-49-xHs" secondAttribute="centerX" id="FgU-xH-1pH"/>
                     <constraint firstAttribute="trailing" secondItem="w8d-IV-dLn" secondAttribute="trailing" constant="108" id="GF0-oW-F2H"/>
+                    <constraint firstItem="bbh-LB-9ZW" firstAttribute="leading" secondItem="sdt-49-xHs" secondAttribute="leading" id="GXj-dW-B4m"/>
                     <constraint firstItem="5fo-PL-mq8" firstAttribute="leading" secondItem="IoZ-xs-i0V" secondAttribute="trailing" constant="31" id="HTr-nC-yVI"/>
-                    <constraint firstItem="Skh-uX-T5v" firstAttribute="leading" secondItem="sdt-49-xHs" secondAttribute="leading" id="Hii-JF-fna"/>
                     <constraint firstItem="IoZ-xs-i0V" firstAttribute="top" secondItem="8dJ-cO-UIV" secondAttribute="top" constant="15" id="JUw-hR-cDe"/>
                     <constraint firstAttribute="trailing" secondItem="1GA-eX-q0I" secondAttribute="trailing" constant="64" id="M7A-ue-gVI"/>
-                    <constraint firstItem="sdt-49-xHs" firstAttribute="trailing" secondItem="Skh-uX-T5v" secondAttribute="trailing" id="M7x-e3-vJx"/>
-                    <constraint firstItem="u7Z-ka-Rxx" firstAttribute="top" secondItem="Skh-uX-T5v" secondAttribute="bottom" constant="8" id="NjE-Ba-4m8"/>
+                    <constraint firstItem="bbh-LB-9ZW" firstAttribute="top" secondItem="sdt-49-xHs" secondAttribute="top" constant="75" id="MgY-6v-eJB"/>
                     <constraint firstItem="1GA-eX-q0I" firstAttribute="top" secondItem="Pbi-JL-KXj" secondAttribute="bottom" constant="21" id="OQ5-WN-8EC"/>
                     <constraint firstItem="sdt-49-xHs" firstAttribute="trailing" secondItem="u7Z-ka-Rxx" secondAttribute="trailing" constant="20" id="QIV-xA-TNQ"/>
                     <constraint firstItem="w8d-IV-dLn" firstAttribute="leading" secondItem="8dJ-cO-UIV" secondAttribute="leading" constant="68" id="WRn-Y1-rrs"/>
-                    <constraint firstItem="Skh-uX-T5v" firstAttribute="top" secondItem="IoZ-xs-i0V" secondAttribute="bottom" constant="15" id="Xuo-kn-fqQ"/>
                     <constraint firstItem="sdt-49-xHs" firstAttribute="bottom" secondItem="1GA-eX-q0I" secondAttribute="bottom" constant="76" id="dV0-et-DsG"/>
                     <constraint firstItem="sdt-49-xHs" firstAttribute="bottom" secondItem="sGI-OA-kFF" secondAttribute="bottom" constant="11" id="izN-q5-AP9"/>
                     <constraint firstItem="1GA-eX-q0I" firstAttribute="top" secondItem="8dJ-cO-UIV" secondAttribute="top" constant="423" id="kUY-5Z-DGC"/>
+                    <constraint firstItem="sdt-49-xHs" firstAttribute="trailing" secondItem="bbh-LB-9ZW" secondAttribute="trailing" id="m2n-tv-hvT"/>
                     <constraint firstItem="w8d-IV-dLn" firstAttribute="centerY" secondItem="sGI-OA-kFF" secondAttribute="centerY" id="rjT-14-FTg"/>
                     <constraint firstItem="u7Z-ka-Rxx" firstAttribute="leading" secondItem="sdt-49-xHs" secondAttribute="leading" constant="288" id="unN-FH-m0s"/>
-                    <constraint firstItem="Pbi-JL-KXj" firstAttribute="top" secondItem="Skh-uX-T5v" secondAttribute="bottom" constant="8" id="xfU-k4-4uv"/>
                     <constraint firstItem="IoZ-xs-i0V" firstAttribute="leading" secondItem="8dJ-cO-UIV" secondAttribute="leading" constant="2" id="ywu-MU-h8e"/>
                 </constraints>
                 <viewLayoutGuide key="safeArea" id="sdt-49-xHs"/>
@@ -155,11 +141,10 @@
                 <outlet property="mySelfImgView" destination="sGI-OA-kFF" id="Wtr-SD-GFX"/>
                 <outlet property="pageControl" destination="Pbi-JL-KXj" id="oxC-CV-gul"/>
                 <outlet property="postDateLabel" destination="u7Z-ka-Rxx" id="7RT-cu-a2s"/>
+                <outlet property="postImageContentView" destination="bbh-LB-9ZW" id="ctP-5f-ET6"/>
                 <outlet property="postText" destination="1GA-eX-q0I" id="BdP-Sj-NzJ"/>
                 <outlet property="postUser" destination="5fo-PL-mq8" id="Jiy-zE-rrp"/>
                 <outlet property="postUserProfileImg" destination="IoZ-xs-i0V" id="6jD-2J-dra"/>
-                <outlet property="scrollContentView" destination="C5X-Gw-QjV" id="fe5-P7-viI"/>
-                <outlet property="scrollView" destination="Skh-uX-T5v" id="9VY-g8-2WP"/>
                 <outlet property="viewCountLabel" destination="YAf-qj-Ucs" id="DrT-u7-c25"/>
                 <outlet property="viewPlusCommentBtn" destination="w8d-IV-dLn" id="kMa-4e-umV"/>
             </connections>

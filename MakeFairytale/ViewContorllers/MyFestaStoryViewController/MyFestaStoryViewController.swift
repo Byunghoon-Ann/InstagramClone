@@ -156,7 +156,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     func customMyChatDidselect(_ path: Int) {
         let i = IndexPath(row:path,section:0)
         guard let vc = UIStoryboard.chattingRoomVC() else { return }
-        vc.yourUID = thirdMyView.yourUIDs[i.row]
+        CurrentUID.shread.yourUID = thirdMyView.yourUIDs[i.row]
         navigationController?.pushViewController(vc, animated: true)
     }
     
