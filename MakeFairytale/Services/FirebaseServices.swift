@@ -45,9 +45,11 @@ class FirebaseServices {
                 let repleCheck = userData["reple"] as? Bool ?? false
                 let chatCheck = userData["chatting"] as? Bool ?? false
                 let postCheck = userData["newPost"] as? Bool ?? false
-                
+                print(likeCheck)
                 for i in 0..<contents.count {
+                    
                     if contents[i] == "like" {
+                      
                         if likeCheck == true {
                             self.notificationControl(uid,
                                                      "좋아요",
@@ -104,7 +106,7 @@ class FirebaseServices {
     func notificationControl(_ uid: String,_ title:String, _ body: String, _ documentID: String, _ badge: UIImageView, _ categoryIdentifier: String) {
         let center = UNUserNotificationCenter.current()
         let content = UNMutableNotificationContent()
-        content.body = "누군가 당신의 게시글에 좋아요를 눌렀습니다."
+        content.body = body
         content.badge = 1
         content.title = title
         content.sound = UNNotificationSound.default

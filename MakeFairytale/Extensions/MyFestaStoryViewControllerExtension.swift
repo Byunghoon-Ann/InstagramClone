@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 fileprivate let followerRef = Firestore.firestore().follower
-fileprivate let followRef = Firestore.firestore().follow
+fileprivate let notifiRef = Firestore.firestore().collection("NotificationCenter")
 
 extension MyFestaStoryViewController {
     func followingCheckButton(_ followButton: UIButton,
@@ -25,25 +25,16 @@ extension MyFestaStoryViewController {
         if !secondUID.isEmpty {
             let yourRef = Firestore.getOtherRef("user",secondUID)
             let yourfollowRef = Firestore.getOtherRef("Follow", currentUID).collection("FollowList")
-            yourRef
-                .getDocument { [weak self] userData, error in
+            
+            yourRef.getDocument { [weak self] userData, error in
                     guard let self = self else { return }
                     guard let userData = userData?.data() else { return }
                     let profile = userData["profileImageURL"] as? String ?? ""
                     let nickName = userData["nickName"] as? String ?? ""
                     
-                    let myUrlkey = yourfollowRef
-                        .document(secondUID)
-                        .documentID
+                    let myUrlkey = yourfollowRef.document(secondUID).documentID
                     
-                    let yourUrlKey = followerRef
-                        .document(secondUID)
-                        .collection("FollowerList")
-                        .document(currentUID)
-                        .documentID
-                    
-                    yourfollowRef
-                        .getDocuments { (snapshot, error) in
+                    yourfollowRef.getDocuments { (snapshot, error) in
                             guard let snapshot = snapshot?.documents else {return}
                             
                             if snapshot.isEmpty {
@@ -57,13 +48,6 @@ extension MyFestaStoryViewController {
                                         "follow":true
                                     ])
                                 
-                                self.notificationAlert(nickName,
-                                                       checkDate,
-                                                       secondUID,
-                                                       currentUID,
-                                                       "님을 팔로우합니다",
-                                                       myUrlkey)
-                                
                                 followerRef
                                     .document(secondUID)
                                     .collection("FollowerList")
@@ -73,17 +57,16 @@ extension MyFestaStoryViewController {
                                         "nickName":nickName,
                                         "profileImageURL":profile,
                                         "follower":true
-                                    ])
-                                
-                                self.notificationAlert(myName,
-                                                       checkDate,
-                                                       currentUID,
-                                                       secondUID,
-                                                       "님이 당신을 팔로우합니다",
-                                                       yourUrlKey)
-                                
-                                self.alertContentsCenter("follow",
-                                                         secondUID)
+                                    ]) { error in
+                                        if let _error = error { print("\(_error.localizedDescription)")}
+                                        self.followNotfication(myName,
+                                                               nickName,
+                                                               currentUID,
+                                                               secondUID,
+                                                               checkDate,
+                                                               myUrlkey,
+                                                               follow: true)
+                                }
                             } else {
                                 for i in snapshot {
                                     let data = i.data()
@@ -97,22 +80,13 @@ extension MyFestaStoryViewController {
                                             .document("\(secondUID)")
                                             .delete()
                                         
-                                        self.notificationAlert(nickName,
-                                                               checkDate,
-                                                               secondUID,
-                                                               currentUID,
-                                                               "님을 언팔로우합니다",
-                                                               myUrlkey)
-                                        
-                                        self.notificationAlert(myName,
-                                                               checkDate,
+                                        self.followNotfication(myName,
+                                                               nickName,
                                                                currentUID,
                                                                secondUID,
-                                                               "님이 당신을 언팔로우합니다",
-                                                               yourUrlKey)
-                                        
-                                        self.alertContentsCenter("follow",
-                                                                 secondUID)
+                                                               checkDate,
+                                                               myUrlkey,
+                                                               follow: false)
                                         break
                                     } else {
                                         followButton.isSelected = true
@@ -123,7 +97,16 @@ extension MyFestaStoryViewController {
                                                 "nickName":nickName,
                                                 "profileImageURL":profile,
                                                 "follow":true
-                                            ])
+                                            ]) { error in
+                                                if let _error = error { print("\(_error.localizedDescription)")}
+                                                self.followNotfication(myName,
+                                                                       nickName,
+                                                                       currentUID,
+                                                                       secondUID,
+                                                                       checkDate,
+                                                                       myUrlkey,
+                                                                       follow: true)
+                                        }
                                     }
                                 }
                             }
@@ -192,6 +175,52 @@ extension MyFestaStoryViewController {
                     if let followCountLabel = self.horizontalStackView.arrangedSubviews[2] as? UILabel {
                         followCountLabel.text = "\(snapshot.count)"
                     }
+            }
+        }
+    }
+    
+    func followNotfication(_ myName:String,
+                           _ yourName: String,
+                           _ myUid: String,
+                           _ yourUID: String,
+                           _ date: String,
+                           _ url: String,
+                           follow: Bool) {
+        let yourRef = notifiRef.document(yourUID).collection("alert")
+        let myRef = notifiRef.document(myUid).collection("alert")
+        let myMessage = "\(yourName)님을 팔로우합니다."
+        let yourMessage = "\(myName)님이 당신을 팔로우합니다."
+        let myCancel = "\(yourName)님을 언팔로우합니다."
+        let yourCancel = "\(myName)님이 당신을 언팔로우합니다"
+        
+        if follow == true {
+            yourRef.addDocument(data: ["nickName":myName,
+                                       "date":date,
+                                       "uid": myUid,
+                                       "url":url,
+                                       "message":yourMessage]) { error in
+                                        if let _error = error { print("\(_error.localizedDescription)")}
+                                        
+                                        Firestore.firestore().alertContentsCenter("follow", yourUID)
+                                        
+                                        myRef.addDocument(data: ["nickName":myName,
+                                                                 "date":date,
+                                                                 "uid": myUid,
+                                                                 "url":url,
+                                                                 "message":myMessage])
+            }
+        } else {
+            yourRef.addDocument(data: ["nickName":myName,
+                                       "date":date,
+                                       "uid": myUid,
+                                       "url":url,
+                                       "message":yourCancel]) { error in
+                                        if let _error = error { print("\(_error.localizedDescription)") }
+                                        myRef.addDocument(data: ["nickName":myName,
+                                                                 "date":date,
+                                                                 "uid": myUid,
+                                                                 "url":url,
+                                                                 "message":myCancel])
             }
         }
     }

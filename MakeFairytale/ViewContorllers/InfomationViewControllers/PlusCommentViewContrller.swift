@@ -9,7 +9,6 @@
 import UIKit
 import Firebase
 
-fileprivate let currentUID = Auth.auth().currentUser?.uid
 fileprivate let postRef = Firestore.firestore().posts
 
 class PlusCommentViewContrller : UIViewController {
@@ -40,9 +39,10 @@ class PlusCommentViewContrller : UIViewController {
         return Post.shread.post
     }
     
-    var postKey : String = ""
     var postData: Posts?
-    var myData : MyProfile?
+    var myData : MyProfile? {
+        return FirebaseServices.shread.myProfile
+    }
     var repleData : [RepleData] = [] {
         willSet {
             self.repleData.removeAll()
@@ -87,6 +87,12 @@ class PlusCommentViewContrller : UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        guard let _post = post, let _myData = myData  else { return }
+
+        self.profileImgView.sd_setImage(with: URL(string: _post.userProfileImage))
+        self.profileComment.text = _post.userName
+        self.mySelfImgView.sd_setImage(with: URL(string: _myData.profileImageURL))
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -124,15 +130,30 @@ class PlusCommentViewContrller : UIViewController {
     
     //댓글버튼입력 
     @IBAction func checkBtn(_ sender: Any) {
+        repleUpload(post,CurrentUID.shread.currentUID ,plusCommentTextField.text)
+    }
+    
+    func repleUpload(_ post: Posts?, _ currentUID: String?, _ textfieldText: String?) {
         guard let post = post else { return }
         guard let currentUID = CurrentUID.shread.currentUID else { return }
-        guard let reple = plusCommentTextField.text else { return }
+        guard let reple = textfieldText else { return }
         
         let repleDate = dateFomatter.string(from: Today.shread.today)
         let message = "님이 게시물에 댓글을 작성하셨습니다."
         
         guard let myData = FirebaseServices.shread.myProfile else {return }
-        
+      
+        DispatchQueue.main.async {
+        Firestore
+            .firestore()
+            .collection("NotificationCenter")
+            .document(post.userUID)
+            .collection("alert")
+            .addDocument(data: ["nickName":myData.nickName,
+                                "date":repleDate,
+                                "uid":myData.uid,
+                                "url":post.urlkey,
+                                "message":myData.nickName+message])
         postRef
             .document(post.urlkey)
             .collection("repleList")
@@ -140,31 +161,29 @@ class PlusCommentViewContrller : UIViewController {
                                 "profileImageURL":myData.profileImageURL,
                                 "reple":reple,
                                 "nickName":myData.nickName,
-                                "repleDate":repleDate])
-        
-        
-        notificationAlert(myData.nickName,
-                          repleDate,
-                          myData.uid,
-                          post.userUID,
-                          message,
-                          postKey)
-        
-        alertContentsCenter("reple", post.userUID)
-        
-        requestRepleData()
+                                "repleDate":repleDate]) { error in
+                                    if let _error = error { print("\(_error.localizedDescription)")}
+                                    if currentUID != post.userUID {
+                                        Firestore
+                                            .firestore()
+                                            .alertContentsCenter("reple", post.userUID)
+                                    }
+                                    
+                                    FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,
+                                                                               postDate: post.postDate,
+                                                                               imageURL: post.userPostImage) {
+                                        self.repleData = FirebaseServices.shread.repleDatas
+                                    }
+                                  
+            }
+        }
     }
     
     func requestRepleData() {
         guard let post = post else { return }
-        guard let myData = FirebaseServices.shread.myProfile else { return }
-        
         FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,
                                                    postDate: post.postDate,
                                                    imageURL: post.userPostImage) {
-                                                    self.profileImgView.sd_setImage(with: URL(string: post.userProfileImage))
-                                                    self.profileComment.text = post.userName
-                                                    self.mySelfImgView.sd_setImage(with: URL(string: myData.profileImageURL))
                                                     self.repleData = FirebaseServices.shread.repleDatas
         }
     }
@@ -178,17 +197,7 @@ extension PlusCommentViewContrller : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard indexPath.row < repleData.count else { return UITableViewCell() }
         let cell:PlusCommentCell = tableView.dequeueCell(indexPath: indexPath)
-        cell.contentView.layer.borderWidth = 0.1
-        cell.contentView.layer.borderColor = UIColor.lightGray.cgColor
-        cell.userName.backgroundColor = .white
-        cell.userName.textColor = .black
-        cell.backgroundColor = .white
-        cell.postUser.backgroundColor = .white
-        cell.postUser.textColor = .black
-        cell.userThumbnail.layer.cornerRadius = cell.userThumbnail.frame.height/2
-        cell.postUser.text = repleData[indexPath.row].userReple
-        cell.userName.text = repleData[indexPath.row].nickName
-        cell.userThumbnail.sd_setImage(with: URL(string: repleData[indexPath.row].userThumbnail))
+        cell.repleData = repleData[indexPath.row]
         return cell
     }
 }

@@ -308,13 +308,16 @@ extension ViewPostingController {
         }
     }
     
+    //FIXME:- 중복제거 필요
     func uploadReple(_ myData: MyProfile,completion: @escaping () -> Void) {
         guard let reple = repleTextField.text else {return }
         guard let post = post else { return }
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
         let repleDate = dateFomatter.string(from: today)
-        
+        let message = "님이 게시물에 댓글을 작성하셨습니다."
         if !reple.isEmpty {
             repleData.removeAll()
+            
             postRef
                 .document(post.urlkey)
                 .collection("repleList")
@@ -326,19 +329,38 @@ extension ViewPostingController {
                                         if let error = error {
                                             print(error.localizedDescription)
                                         }
-                                        self.notificationAlert(myData.nickName,
-                                                               repleDate,
-                                                               myData.uid,
-                                                               post.userUID,
-                                                               "님이 게시물에 댓글을 남기셨습니다.",
-                                                               self.postKey)
-                                        
-                                        self.alertContentsCenter("reple", post.userUID)
-                                        completion()
+                                        Firestore
+                                            .firestore()
+                                            .collection("NotificationCenter")
+                                            .document(post.userUID)
+                                            .collection("alert")
+                                            .addDocument(data: ["nickName":myData.nickName,
+                                                                "date":repleDate,
+                                                                "uid":myData.uid,
+                                                                "url":post.urlkey,
+                                                                "message":myData.nickName+message])
+                                        postRef
+                                            .document(post.urlkey)
+                                            .collection("repleList")
+                                            .addDocument(data: ["uid":currentUID,
+                                                                "profileImageURL":myData.profileImageURL,
+                                                                "reple":reple,
+                                                                "nickName":myData.nickName,
+                                                                "repleDate":repleDate]) { error in
+                                                                    if let _error = error { print("\(_error.localizedDescription)")}
+                                                                    if currentUID != post.userUID {
+                                                                        Firestore
+                                                                            .firestore()
+                                                                            .alertContentsCenter("reple", post.userUID)
+                                                                    }
+                                                                    FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID, postDate: post.postDate, imageURL: post.userPostImage) {
+                                                                        self.repleData = FirebaseServices.shread.repleDatas
+                                                                    }
+                                                                    completion()
+                                        }
             }
         }
     }
-    
     func checkViewCount() {
         DispatchQueue.main.async {
             guard let post = self.post else { return  }

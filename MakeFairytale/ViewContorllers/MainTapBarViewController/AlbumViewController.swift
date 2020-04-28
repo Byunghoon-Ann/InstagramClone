@@ -192,7 +192,7 @@ class AlbumViewController : UIViewController {
     func followPostAlert(_ follows:[String]) {
         if !follows.isEmpty {
             for i in 0..<follows.count {
-                alertContentsCenter("post", follows[i])
+                Firestore.firestore().alertContentsCenter("post", follows[i])
             }
         }
     }

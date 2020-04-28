@@ -45,8 +45,26 @@ extension Firestore {
         return follower.document(documentID).collection("FollowerList")
     }
     
-   static func getOtherRef(_ collection: String, _ documentID: String) -> DocumentReference {
-    return Firestore.firestore().collection(collection).document(documentID)
+    //MARK:- 알림 감지를 변수를 분별하기 위한 함수
+    func alertContentsCenter(_ alertContent: String, _ yourUid: String) {
+        switch alertContent {
+        case "like":
+            user.document(yourUid).updateData(["like":true])
+        case "chatting":
+            user.document(yourUid).updateData(["chatting":true])
+        case "follow":
+            user.document(yourUid).updateData(["follow":true])
+        case "post":
+            user.document(yourUid).updateData(["newPost":true])
+        case "reple":
+            user.document(yourUid).updateData(["reple":true])
+        default :
+            print("error!")
+        }
+    }
+    
+    static func getOtherRef(_ collection: String, _ documentID: String) -> DocumentReference {
+        return Firestore.firestore().collection(collection).document(documentID)
     }
 }
 

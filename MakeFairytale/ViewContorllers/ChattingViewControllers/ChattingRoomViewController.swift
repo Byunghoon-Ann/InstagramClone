@@ -82,8 +82,7 @@ class ChattingRoomViewController : UIViewController {
                             .childByAutoId()
                             .setValue(value) { error,ref in
                                 self.textField.text = ""
-                                self.alertContentsCenter("chatting",
-                                                         yourUID)
+                                Firestore.firestore().alertContentsCenter("chatting", yourUID)
                         }
                     }
             }
@@ -99,8 +98,7 @@ class ChattingRoomViewController : UIViewController {
                 .childByAutoId()
                 .setValue(value) { error,ref in
                     self.textField.text = ""
-                    self.alertContentsCenter("chatting",
-                                             yourUID)
+                    Firestore.firestore().alertContentsCenter("chatting",yourUID)
             }
         }
     }
