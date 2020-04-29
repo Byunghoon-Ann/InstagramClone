@@ -23,20 +23,33 @@ class NotificationAlertViewController: UIViewController {
         dateFomatter.locale = Locale(identifier: "kr_KR")
         return dateFomatter
     }()
-    
-    var firstAlertLabel : UILabel = {
-       let label = UILabel()
-       label.translatesAutoresizingMaskIntoConstraints = false
-       label.numberOfLines = 0
-       label.font = .boldSystemFont(ofSize: 20)
-       label.textColor = .black
-       label.text = "아직 알림이 없습니다. "
-       label.textAlignment = .center
-       return label
+    lazy var today = Today.shread.today
+    lazy var firstAlertLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .black
+        label.text = "아직 알림이 없습니다. "
+        label.textAlignment = .center
+        return label
     }()
     
-    var alertsDatas: [NotificationData] = []
-    var today = Date()
+    var alertsDatas: [NotificationData] = [] {
+        didSet {
+            if !self.alertsDatas.isEmpty {
+                self.alertsDatas.sort { firstData, secondData in
+                    let firstDate = self.dateFomatter.date(from: firstData.alertDate) ?? self.today
+                    let secondDate = self.dateFomatter.date(from: secondData.alertDate) ?? self.today
+                    if firstDate > secondDate {
+                        return true
+                    }
+                    return false
+                }
+            }
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,21 +67,10 @@ class NotificationAlertViewController: UIViewController {
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         loadAlerts{
-            if !self.alertsDatas.isEmpty {
-            self.alertsDatas.sort { firstData, secondData in
-                let firstDate = self.dateFomatter.date(from: firstData.alertDate) ?? self.today
-                let secondDate = self.dateFomatter.date(from: secondData.alertDate) ?? self.today
-                if firstDate > secondDate {
-                    return true
-                }
-                return false
-            }
-                
             self.tableView.isHidden = false
             self.activityIndicator.stopAnimating()
             self.activityIndicator.isHidden = true
             self.tableView.reloadData()
-            }
         }
     }
     

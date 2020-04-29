@@ -20,4 +20,12 @@ class MyMessageCell : UITableViewCell {
         myThumbnail.layer.cornerRadius = myThumbnail.frame.height/2
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        readBoolLabel.text = nil
+        myMessageLabel.text = nil
+        myNickName.text = nil
+        myThumbnail.image = nil
+        timeStampLabel.text = nil
+    }
 }

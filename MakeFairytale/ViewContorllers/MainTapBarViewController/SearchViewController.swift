@@ -13,12 +13,26 @@ class SearchViewController : UIViewController ,UISearchBarDelegate{
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchCollectionView: UICollectionView!
     
-    
-    var searchImageArray: [Posts] = []
+    var searchImageArray: [Posts] = [] {
+        didSet {
+            searchImageArray.sort { firstItem, secondItem in
+                let firstDate = dateFomatter.date(from: firstItem.postDate) ?? self.today
+                let secondDate = dateFomatter.date(from: secondItem.postDate) ?? self.today
+                
+                if  firstDate > secondDate {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            filterData = searchImageArray
+        }
+    }
     var filterData: [Posts] = []
     
     lazy var dateFomatter = DateCalculation.shread.dateFomatter
     lazy var today = Today.shread.today
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,16 +44,6 @@ class SearchViewController : UIViewController ,UISearchBarDelegate{
         FirebaseServices.shread.loadSearchFeedPost { [weak self] in
             guard let self = self else { return }
             self.searchImageArray = FirebaseServices.shread.posts
-            self.searchImageArray.sort { firstItem, secondItem in
-                let firstDate = self.dateFomatter.date(from: firstItem.postDate) ?? self.today
-                let secondDate = self.dateFomatter.date(from: secondItem.postDate) ?? self.today
-                
-                if  firstDate > secondDate {
-                    return true
-                } else {
-                    return false
-                }
-            }
             self.filterData = self.searchImageArray
             self.searchCollectionView.reloadData()
             self.searchCollectionView.isHidden = false

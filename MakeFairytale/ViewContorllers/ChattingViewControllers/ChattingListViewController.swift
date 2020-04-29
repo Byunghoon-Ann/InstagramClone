@@ -73,7 +73,6 @@ class ChattingListViewController : UIViewController {
                             guard let userData = FollowData(document: i) else { return }
                             self.userData.append(userData)
                             if self.userData.count == followList.count {
-                                print(userData)
                                 self.tableView.reloadData()
                             }
                         }

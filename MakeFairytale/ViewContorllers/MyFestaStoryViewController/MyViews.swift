@@ -93,24 +93,20 @@ extension MyViews : UICollectionViewDataSource,UICollectionViewDelegate,UICollec
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if !yourUID.isEmpty {
                 if myPosts.isEmpty {
-                    print("myposts is empty1")
                     firstAlertLabel.isHidden = false
                     collectionView.isHidden = true
                     return 0
                 }else {
-                    print("myposts is empty2")
                     collectionView.isHidden = false
                     firstAlertLabel.isHidden = true
                     return myPosts.count
                 }
             } else {
                 if myPosts.isEmpty {
-                    print("myposts is empty3")
                     firstAlertLabel.isHidden = false
                     collectionView.isHidden = true
                     return 0
                 }else {
-                    print("myposts is empty4")
                     firstAlertLabel.isHidden = true
                     collectionView.isHidden = false
                     return myPosts.count

@@ -50,11 +50,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
     lazy var dateFomatter = DateCalculation.shread.dateFomatter
     lazy var today = Today.shread.today
     
-    var postKey = ""
-    let cellName = "ViewPostingRepleCell"
     let calendar = Calendar(identifier: .gregorian)
-    var postNumber: Int?
-    var likeNumber = 0
     var post: Posts?
     var repleData : [RepleData] = [] {
         didSet {
@@ -361,6 +357,7 @@ extension ViewPostingController {
             }
         }
     }
+    
     func checkViewCount() {
         DispatchQueue.main.async {
             guard let post = self.post else { return  }

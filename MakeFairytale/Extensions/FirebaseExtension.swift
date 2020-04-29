@@ -45,7 +45,7 @@ extension Firestore {
         return follower.document(documentID).collection("FollowerList")
     }
     
-    //MARK:- 알림 감지를 변수를 분별하기 위한 함수
+    //MARK:- 알림 감지용 contents를 분별하기 위한 함수
     func alertContentsCenter(_ alertContent: String, _ yourUid: String) {
         switch alertContent {
         case "like":

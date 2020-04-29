@@ -179,13 +179,7 @@ extension MyFestaStoryViewController {
         }
     }
     
-    func followNotfication(_ myName:String,
-                           _ yourName: String,
-                           _ myUid: String,
-                           _ yourUID: String,
-                           _ date: String,
-                           _ url: String,
-                           follow: Bool) {
+    func followNotfication(_ myName:String, _ yourName: String, _ myUid: String, _ yourUID: String, _ date: String, _ url: String, follow: Bool) {
         let yourRef = notifiRef.document(yourUID).collection("alert")
         let myRef = notifiRef.document(myUid).collection("alert")
         let myMessage = "\(yourName)님을 팔로우합니다."

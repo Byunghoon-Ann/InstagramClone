@@ -31,9 +31,8 @@ class FirebaseServices {
     var myProfile: MyProfile?
     var followString : [String] = []
     var followPostCount: Int?
-    func snapshotListenerCheckEvent(_ uid: String,
-                                    _ badge: UIImageView,
-                                    _ contents: [String]) {
+    
+    func snapshotListenerCheckEvent(_ uid: String, _ badge: UIImageView, _ contents: [String]) {
         userRef
             .document(uid)
             .addSnapshotListener(includeMetadataChanges: true) { snapshot, error in
@@ -45,7 +44,6 @@ class FirebaseServices {
                 let repleCheck = userData["reple"] as? Bool ?? false
                 let chatCheck = userData["chatting"] as? Bool ?? false
                 let postCheck = userData["newPost"] as? Bool ?? false
-                print(likeCheck)
                 for i in 0..<contents.count {
                     
                     if contents[i] == "like" {
@@ -173,7 +171,6 @@ class FirebaseServices {
                 guard let followList = followList?.documents else { return }
                 
                 if followList.isEmpty {
-                    print("empty")
                     completion()
                 } else {
                     for userdoc in followList {

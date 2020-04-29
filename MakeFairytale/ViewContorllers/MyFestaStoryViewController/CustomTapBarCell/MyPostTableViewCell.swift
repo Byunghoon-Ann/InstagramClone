@@ -24,18 +24,11 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate, PostImageColl
     @IBOutlet weak var postDateLabel: UILabel!
     @IBOutlet weak var postImageContentView: UIView!
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let calendar = Calendar(identifier: .gregorian)
-    lazy var dateFomatter: DateFormatter = {
-        let dateFomatter = DateFormatter()
-        dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFomatter.locale = Locale(identifier: "kr_KR")
-        return dateFomatter
-    }()
+    lazy var dateFomatter = DateCalculation.shread.dateFomatter
     
     var postData: Posts? {
         didSet {
-            
             guard let postData = postData else { return }
             guard let myProfile = FirebaseServices.shread.myProfile else { return }
             postUserProfileImg.sd_setImage(with: URL(string: postData.userProfileImage))
@@ -56,6 +49,7 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate, PostImageColl
             collectionView.postURLs = postData.userPostImage
         }
     }
+    
     //테스트후 샘플영상 촬영
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -99,12 +93,7 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate, PostImageColl
         collectionView.leadingAnchor.constraint(equalTo: postImageContentView.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: postImageContentView.trailingAnchor).isActive = true
     }
-    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        pageControl.currentPage = Int(floor(scrollView.contentOffset.x / UIScreen.main.bounds.width))
-//    }
-//
-   
+
     func pageControlCurrentPageIndex(_ path: Int) {
         pageControl.currentPage = path
     }

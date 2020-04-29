@@ -19,4 +19,12 @@ class DidChatMembersCell : UITableViewCell {
         super.awakeFromNib()
         profileImageView.layer.cornerRadius = profileImageView.frame.height/2
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        profileImageView.image = nil
+        nickName.text = nil
+        lastMessageLabel.text = nil
+        timeStampLabel.text = nil
+    }
 }

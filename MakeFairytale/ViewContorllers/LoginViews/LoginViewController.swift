@@ -32,7 +32,6 @@ class LoginViewController: UIViewController{
         passwordTextField.layer.cornerRadius = 15
     }
     
-    
     //MARK: 로그인 기록이 있을 경우 자동 로그인
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

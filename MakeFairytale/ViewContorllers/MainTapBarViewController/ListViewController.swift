@@ -206,7 +206,6 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
       guard let vc = UIStoryboard.viewPostingVC() else { return }
       vc.post = festaData[indexPath.row]
-      vc.postNumber = indexPath.row
       navigationController?.pushViewController(vc, animated: true)
    }
    

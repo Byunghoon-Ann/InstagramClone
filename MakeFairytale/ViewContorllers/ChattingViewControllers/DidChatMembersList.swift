@@ -13,11 +13,10 @@ fileprivate let chatRoomRef = Database.database().reference().child("chatRooms")
 fileprivate let userRef = Firestore.firestore().user
 
 class DidChatMembersList : UIViewController {
- 
     
     @IBOutlet weak var tableView: UITableView!
     
-    var firstAlertLabel : UILabel = {
+    lazy var firstAlertLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -55,7 +54,7 @@ class DidChatMembersList : UIViewController {
             .queryEqual(toValue: true)
             .observeSingleEvent(of: .value) {
                 snapshot in
-                 
+                
                 self.chatModel.removeAll()
                 if let snapshot = snapshot.children.allObjects as? [DataSnapshot]  {
                     if snapshot.count == 0 {
@@ -75,7 +74,6 @@ class DidChatMembersList : UIViewController {
                                 }
                             }
                         }
-                        
                     }
                 }
         }
@@ -143,7 +141,6 @@ extension DidChatMembersList:  UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
-    
 }
 
 

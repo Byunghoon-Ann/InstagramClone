@@ -215,7 +215,6 @@ extension AlbumViewController: UICollectionViewDataSource {
                                         cell.configure(with: image)
             }
         }
-        
         return cell
     }
 }

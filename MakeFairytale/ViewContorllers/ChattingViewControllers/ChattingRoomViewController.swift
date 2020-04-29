@@ -61,7 +61,7 @@ class ChattingRoomViewController : UIViewController {
         guard let chatText = textField.text else {return}
         guard let currentUID = CurrentUID.shread.currentUID else { return }
         guard let yourUID = CurrentUID.shread.yourUID else { return }
-
+        
         let createRoomInfo : Dictionary<String,Any> =  [
             "users":[currentUID:true,
                      yourUID:true] ]
@@ -92,7 +92,7 @@ class ChattingRoomViewController : UIViewController {
                 "uid":currentUID,
                 "message":chatText,
                 "timeStamp":ServerValue.timestamp()]
-           chatRoomRef
+            chatRoomRef
                 .child(chatRoomUID)
                 .child("comments")
                 .childByAutoId()

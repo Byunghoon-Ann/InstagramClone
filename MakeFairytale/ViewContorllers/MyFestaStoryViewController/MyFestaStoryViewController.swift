@@ -65,6 +65,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
             self.followingCheck.removeAll()
         }
     }
+    
     var followerCheck : [String] = [] {
         willSet {
             self.followerCheck.removeAll()
@@ -104,9 +105,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     
     //MARK: Following,UnFollow Button
     @IBAction func checkFollowButton(_ sender: Any) {
-        followingCheckButton(checkFollowButton,
-                             dateFomatter,
-                             secondMyview)
+        followingCheckButton(checkFollowButton, dateFomatter, secondMyview)
     }
     
     @IBAction func FakeBarButton(_ sender: Any) {
@@ -259,9 +258,7 @@ extension MyFestaStoryViewController {
     }
     
     //MARK:- 사용자 혹은 타인의 프로필 조회시 발생하는 구별기능
-    func viewUserProfile(_ backButton: UIButton, _ fixProfileButton: UIButton,
-                         _ profileName: UILabel, _ profileImageView: UIImageView,
-                         _ stackView: UIStackView,
+    func viewUserProfile(_ backButton: UIButton, _ fixProfileButton: UIButton, _ profileName: UILabel, _ profileImageView: UIImageView, _ stackView: UIStackView,
                          completion : @escaping () -> Void) {
         guard let currentUID = CurrentUID.shread.currentUID else { return }
         

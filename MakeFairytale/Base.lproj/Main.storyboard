@@ -24,7 +24,7 @@
                                     <constraint firstAttribute="height" constant="747" id="J7s-6k-4gl"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotificationAlertTableCell" rowHeight="74" translatesAutoresizingMaskIntoConstraints="NO" id="gn6-d0-WBp" customClass="NotificationAlertTableCell" customModule="FestaGram" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotificationAlertTableCell" rowHeight="74" translatesAutoresizingMaskIntoConstraints="NO" id="gn6-d0-WBp" customClass="NotificationAlertTableCell" customModule="FestaGram" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="74"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gn6-d0-WBp" id="SoS-9d-wkA">
@@ -387,18 +387,8 @@
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ega-TW-VNj">
-                                <rect key="frame" x="20" y="798" width="128" height="50"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
-                                <state key="normal" title="회원가입">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="newSignBtn:" destination="L9e-cX-GhC" eventType="touchUpInside" id="aOA-fe-rd7"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lkZ-vY-dTp">
-                                <rect key="frame" x="258" y="684" width="136" height="42"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lkZ-vY-dTp">
+                                <rect key="frame" x="258" y="680" width="136" height="50"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <state key="normal" title="비밀번호 찾기">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -418,6 +408,16 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="color" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ega-TW-VNj">
+                                <rect key="frame" x="20" y="680" width="128" height="50"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                <state key="normal" title="회원가입">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="newSignBtn:" destination="L9e-cX-GhC" eventType="touchUpInside" id="aOA-fe-rd7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -433,7 +433,7 @@
                             <constraint firstItem="yJG-GV-YuG" firstAttribute="centerX" secondItem="AM9-hh-9e6" secondAttribute="centerX" id="RK9-z4-l6k"/>
                             <constraint firstItem="nzx-Ok-LkX" firstAttribute="leading" secondItem="AM9-hh-9e6" secondAttribute="leading" constant="126" id="Rsx-2f-4Pq"/>
                             <constraint firstItem="nzx-Ok-LkX" firstAttribute="top" secondItem="v6U-iu-9dY" secondAttribute="bottom" constant="73" id="TFC-rs-PSI"/>
-                            <constraint firstItem="AM9-hh-9e6" firstAttribute="bottom" secondItem="ega-TW-VNj" secondAttribute="bottom" constant="14" id="VIp-MB-bDa"/>
+                            <constraint firstItem="AM9-hh-9e6" firstAttribute="bottom" secondItem="ega-TW-VNj" secondAttribute="bottom" constant="6" id="VIp-MB-bDa"/>
                             <constraint firstItem="jxu-iR-k7j" firstAttribute="leading" secondItem="AM9-hh-9e6" secondAttribute="leading" constant="100" id="VLc-FS-C4w"/>
                             <constraint firstItem="v6U-iu-9dY" firstAttribute="top" secondItem="2zN-D1-cJy" secondAttribute="bottom" constant="17" id="Wk5-kN-ehC"/>
                             <constraint firstItem="AM9-hh-9e6" firstAttribute="trailing" secondItem="cLE-PS-m7V" secondAttribute="trailing" constant="99" id="XU2-fm-EWx"/>
@@ -447,7 +447,7 @@
                             <constraint firstItem="cLE-PS-m7V" firstAttribute="leading" secondItem="AM9-hh-9e6" secondAttribute="leading" constant="100" id="nar-hz-ofh"/>
                             <constraint firstItem="ega-TW-VNj" firstAttribute="leading" secondItem="AM9-hh-9e6" secondAttribute="leading" constant="20" id="pTw-jR-Iij"/>
                             <constraint firstItem="Tiv-0n-dKv" firstAttribute="leading" secondItem="AM9-hh-9e6" secondAttribute="leading" constant="20" id="qGe-dW-So4"/>
-                            <constraint firstItem="lkZ-vY-dTp" firstAttribute="centerY" secondItem="ega-TW-VNj" secondAttribute="centerY" constant="4" id="sW4-g6-ns3"/>
+                            <constraint firstItem="lkZ-vY-dTp" firstAttribute="centerY" secondItem="ega-TW-VNj" secondAttribute="centerY" id="sW4-g6-ns3"/>
                             <constraint firstItem="AM9-hh-9e6" firstAttribute="trailing" secondItem="v6U-iu-9dY" secondAttribute="trailing" constant="20" id="tZ6-v7-0E4"/>
                             <constraint firstItem="cLE-PS-m7V" firstAttribute="top" secondItem="jxu-iR-k7j" secondAttribute="bottom" constant="8" id="wfx-Me-orJ"/>
                             <constraint firstItem="Tiv-0n-dKv" firstAttribute="top" secondItem="AM9-hh-9e6" secondAttribute="top" constant="294" id="yY0-yw-xtq"/>
@@ -669,7 +669,7 @@
                                         </constraints>
                                         <collectionViewLayout key="collectionViewLayout" id="Gl6-AX-bFr"/>
                                         <cells>
-                                            <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" semanticContentAttribute="playback" reuseIdentifier="ListFollwingCell" translatesAutoresizingMaskIntoConstraints="NO" id="pQA-ra-B4a" customClass="ListFollwingCell" customModule="FestaGram" customModuleProvider="target">
+                                            <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" semanticContentAttribute="playback" fixedFrame="YES" reuseIdentifier="ListFollwingCell" translatesAutoresizingMaskIntoConstraints="NO" id="pQA-ra-B4a" customClass="ListFollwingCell" customModule="FestaGram" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="60" height="71"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" id="QJD-k3-fNw">
