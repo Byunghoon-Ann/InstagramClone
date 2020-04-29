@@ -112,9 +112,28 @@ class FeedCollectionCell: UITableViewCell, PostImageCollectionViewDelegate {
     @IBAction func moveRepleVC(_ sender: Any) {
         Post.shread.post = festaData
     }
+    
     @IBAction func moveChatVC(_ sender: Any) {
         CurrentUID.shread.yourUID = festaData?.userUID
     }
+    
+//    @IBAction func likeButtonAction(_ sender: UIButton) {
+//        guard let likeCount = festaData?.likeCount else { return }
+//
+//        if sender.isSelected == true {
+//            festaData?.likeCount -= 1
+//            festaData?.goodMark = false
+//            likeCountLabel.text = "\(festaData?.likeCount ?? likeCount - 1) 좋아요"
+//            if likeCount < 0 {
+//                likeCountLabel.text = "0 좋아요"
+//            }
+//        }else {
+//            festaData?.likeCount += 1
+//            festaData?.goodMark = true
+//            likeCountLabel.text = "\(festaData?.likeCount ?? likeCount + 1) 좋아요"
+//        }
+//    }
+    
 }
 
 

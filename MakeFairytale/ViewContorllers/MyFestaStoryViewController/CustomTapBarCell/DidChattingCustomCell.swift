@@ -6,7 +6,6 @@
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class DidChattingCustomCell : UITableViewCell {
@@ -16,7 +15,7 @@ class DidChattingCustomCell : UITableViewCell {
     @IBOutlet weak var lastMessage: UILabel!
     @IBOutlet weak var timeStamps: UILabel!
    
-    var alertLabel : UILabel = {
+    lazy var alertLabel : UILabel = {
        let label = UILabel()
         label.text = "타인의 채팅기록은 조회를 할 수가 없습니다."
         label.textAlignment = .center

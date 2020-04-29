@@ -70,8 +70,6 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         guard let post = post else { return }
         pageControl.currentPage = 0
         pageControl.numberOfPages = post.userPostImage.count
-        goodMark.addTarget(self, action: #selector(likePostAction(_:)), for: .touchUpInside)
-        
         hideRepleList.delegate = self
         hideRepleList.dataSource = self
        
@@ -84,15 +82,6 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         collectionViewSetUp()
     }
     
-    func collectionViewSetUp() {
-        contentView.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let post = post else { return }
@@ -100,7 +89,6 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         } else {
             pageControl.isHidden = false
         }
-
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -132,7 +120,6 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
     @objc func goProfileVC(_ sender: UITapGestureRecognizer) {
         guard let post = post else { return }
         guard let currentUID = currentUID else { return }
-        
         guard let vc = UIStoryboard.myFestaStoryVC() else { return }
         vc.firstMyView.myUID = currentUID
         vc.firstMyView.yourUID = post.userUID
@@ -164,20 +151,32 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         }
     }
     
-    @objc func likePostAction(_ sender: UIButton) {
-        guard let post = post else { return }
+   @IBAction func likeAction(_ sender: UIButton) {
+        guard let _post = post else { return }
         guard let currentUID = currentUID else { return }
-        let likeCheckDate = dateFomatter.string(from: today)
-        likeButtonAction(likeCheckDate,
-                         post,
-                         goodMark,
-                         currentUID) {
-                            if sender.isSelected {
-                                self.likeCountLabel.text = "\(post.likeCount + 1) 좋아요"
-                            }else {
-                                self.likeCountLabel.text = "\(post.likeCount - 1) 좋아요"
-                            }
+        let today = dateFomatter.string(from: self.today)
+        
+        if sender.isSelected == false {
+            sender.isSelected = true
+            likeCountLabel.text = "\(_post.likeCount + 1) 좋아요"
+            post?.likeCount += 1
+        }else {
+            sender.isSelected = false
+            likeCountLabel.text = "\(_post.likeCount - 1 ) 좋아요"
+            post?.likeCount -= 1
         }
+        DispatchQueue.main.async {
+            self.likeButtonAction(today, _post, currentUID) { }
+        }
+    }
+    
+    func collectionViewSetUp() {
+        contentView.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
     
     func customFrame() {
@@ -201,15 +200,14 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         userComment.text = post.userComment
         viewCountLabel.text = "조회 \(post.viewCount)명"
         goodMark.isSelected = post.goodMark
-        if post.goodMark == true {
-            likeCountLabel.text = "\(post.likeCount) 좋아요"
+        print(post.likeCount,"좋아요수",post.goodMark)
+        
+        likeCountLabel.text = post.goodMark ? "\(post.likeCount) 좋아요":"\(post.likeCount - 1) 좋아요"
+        
+        if likeCountLabel.text == "-1 좋아요" {
+            likeCountLabel.text = "0 좋아요"
         }
-        else {
-            likeCountLabel.text = "\(post.likeCount) 좋아요"
-            if likeCountLabel.text == "-1 좋아요" {
-                likeCountLabel.text = "0 좋아요"
-            }
-        }
+        
         
         mySelfProfileImageView.sd_setImage(with: URL(string: post.userProfileImage))
         collectionView.postURLs = post.userPostImage

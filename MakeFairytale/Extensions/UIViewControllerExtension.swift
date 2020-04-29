@@ -15,7 +15,6 @@ extension UIViewController {
     //FIXME:- 좋아요 func
     func likeButtonAction(_ checkDate: String,
                           _ post: Posts,
-                          _ sender: UIButton,
                           _ currentUID: String,
                           completion : @escaping () -> Void) {
         guard let myName = FirebaseServices.shread.myProfile?.nickName else { return }
@@ -39,7 +38,6 @@ extension UIViewController {
                             likeRef.getDocument { likeCheck, error in
                                 
                                 guard let likeCheck = likeCheck?.data() else {
-                                    sender.isSelected = true
                                     likeRef.setData([
                                         "like":true,
                                         "checkDate":checkDate
@@ -58,7 +56,6 @@ extension UIViewController {
                                 
                                 let myLike = likeCheck["like"] as? Bool ?? false
                                 if myLike == true {
-                                    sender.isSelected = false
                                     
                                     likeRef.setData([
                                         "like":false,
@@ -74,7 +71,6 @@ extension UIViewController {
                                     
                                     completion()
                                 } else if myLike == false {
-                                    sender.isSelected = true
                                     likeRef.setData([
                                         "like":true,
                                         "checkDate":checkDate
@@ -109,7 +105,7 @@ extension UIViewController {
         let myCancel = "\(yourName)님의 게시물의 좋아요를 취소하셨습니다."
         let yourCancel = "\(myName)님께서 당신의 게시물에 좋아요를 취소하셨습니다."
         let selfLike = "당신의 게시물에 좋아요를 누르셨습니다."
-        let selfCancel = "당신의 게시물에 싫어요를 누르셨습니다."
+        let selfCancel = "당신의 게시물에 좋아요를 취소하셨습니다."
         
         let myRef = firestoreRef.collection("NotificationCenter").document(myUid).collection("alert")
         let yourRef = firestoreRef.collection("NotificationCenter").document(yourUid).collection("alert")

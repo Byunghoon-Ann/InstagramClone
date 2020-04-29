@@ -104,6 +104,7 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
       checknotificationCenter()
+      newPostCheck()
    }
 
    override func viewDidLayoutSubviews() {
@@ -132,18 +133,21 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
    
    func checknotificationCenter() {
       guard let currentUID = CurrentUID.shread.currentUID else { return }
-
       FirebaseServices.shread.snapshotListenerCheckEvent(currentUID,
                                                          alertBadgeImageView,
                                                          ["like","reple","follow","newPost"])
-      
+   }
+   
+   func newPostCheck() {
+      guard let currentUID = CurrentUID.shread.currentUID else { return }
       if State.shread.checkNotificationCheck == true {
          alertBadgeImageView.isHidden = false
          userRef
             .document(currentUID)
-            .updateData(["newPost":false])
-         
-         loadFesta()
+            .updateData(["newPost":false]) { error in
+               if let _error = error { print("\(_error.localizedDescription)")}
+               self.loadFesta()
+         }
       }
    }
 }
@@ -217,25 +221,22 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       guard let cell = contentView?.superview as? FeedCollectionCell else { return }
       guard let indexPath = postTableView.indexPath(for: cell) else { return }
       let likeCheckDate = DateCalculation.shread.dateFomatter.string(from: Today.shread.today)
+      if sender.isSelected == true {
+         festaData[indexPath.row].likeCount -= 1
+         festaData[indexPath.row].goodMark = false
+         cell.likeCountLabel.text = "\(festaData[indexPath.row].likeCount) 좋아요"
+         if festaData[indexPath.row].likeCount < 0 {
+            cell.likeCountLabel.text = "0 좋아요"
+         }
+      }else {
+         festaData[indexPath.row].likeCount += 1
+         festaData[indexPath.row].goodMark = true
+         cell.likeCountLabel.text = "\(festaData[indexPath.row].likeCount) 좋아요"
+      }
       
       DispatchQueue.main.async { [weak self] in
          guard let self = self else {  return }
-         self.likeButtonAction(likeCheckDate,
-                               self.festaData[indexPath.row],
-                               cell.goodBtn,
-                               currentUID) {
-                                 if cell.goodBtn.isSelected == true {
-                                    self.festaData[indexPath.row].goodMark = true
-                                    self.festaData[indexPath.row].likeCount += 1
-                                    cell.likeCountLabel.text = "\(self.festaData[indexPath.row].likeCount) 좋아요"
-                                    return
-                                 } else {
-                                    self.festaData[indexPath.row].goodMark = false
-                                    self.festaData[indexPath.row].likeCount -= 1
-                                    cell.likeCountLabel.text = "\(self.festaData[indexPath.row].likeCount) 좋아요"
-                                    return
-                                 }
-         }
+         self.likeButtonAction(likeCheckDate, self.festaData[indexPath.row], currentUID) { }
       }
    }
    

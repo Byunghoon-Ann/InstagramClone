@@ -60,8 +60,10 @@ extension Posts {
                 
                 if let likeCheck = likeCheck?.documents {
                     for check in likeCheck {
-                        let like = check["like"] as? Bool ?? false
-                        if like == true {
+                        let likes = check["like"] as? Bool ?? false
+                        if likes == true {
+                            
+                            like = true
                             likeCount += 1
                         }
                     }
@@ -69,14 +71,13 @@ extension Posts {
                 
                 if let myCheck = myCheck?.data() {
                     like = myCheck["like"] as? Bool ?? false
-                    
                 } else {
                     viewurl
                         .document(currentUID)
                         .setData(["like":false])
                     like = false
                 }
-                
+               
                 userRef
                     .document(uid)
                     .getDocument { userData, _ in

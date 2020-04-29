@@ -257,7 +257,7 @@ class FirebaseServices {
                         let likeurl = Firestore.firestore().goodMark(documentID)
                         let viewurl = Firestore.firestore().viewCount(documentID)
                         
-                        likeurl.document(documentID).getDocument { myCheck,error  in
+                        likeurl.document(currentUID).getDocument { myCheck,error  in
                             likeurl.getDocuments { likeCheck, error  in
                                 viewurl.getDocuments { viewCheck, error in
                                     viewurl.document(currentUID).setData([currentUID:true])

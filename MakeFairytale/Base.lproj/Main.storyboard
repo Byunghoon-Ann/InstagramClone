@@ -669,7 +669,7 @@
                                         </constraints>
                                         <collectionViewLayout key="collectionViewLayout" id="Gl6-AX-bFr"/>
                                         <cells>
-                                            <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" semanticContentAttribute="playback" fixedFrame="YES" reuseIdentifier="ListFollwingCell" translatesAutoresizingMaskIntoConstraints="NO" id="pQA-ra-B4a" customClass="ListFollwingCell" customModule="FestaGram" customModuleProvider="target">
+                                            <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" semanticContentAttribute="playback" reuseIdentifier="ListFollwingCell" translatesAutoresizingMaskIntoConstraints="NO" id="pQA-ra-B4a" customClass="ListFollwingCell" customModule="FestaGram" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="60" height="71"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" id="QJD-k3-fNw">
@@ -1303,6 +1303,9 @@
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <state key="selected" image="likeAfter"/>
+                                                <connections>
+                                                    <action selector="likeAction:" destination="yak-kb-uVm" eventType="touchUpInside" id="uhd-RN-nfL"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tQ3-ib-Aac">
                                                 <rect key="frame" x="75" y="28" width="137" height="20"/>
