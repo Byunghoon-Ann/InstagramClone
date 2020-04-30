@@ -17,11 +17,11 @@ UITableView, UICollectionView, UIImagePickerController
 
 Trouble Shooting
 
-- 외부 라이브러리 SideMenu(https://github.com/jonkykong/SideMenu)가 3/25 Xcode업데이트로 에러가 발생하여 Custom DropDownButton/DropDownView로 대체되었습니다.
+- 외부 라이브러리 SideMenu(https://github.com/jonkykong/SideMenu) 가 3/25 Xcode업데이트로 에러가 발생하여 Custom DropDownButton/DropDownView로 대체되었습니다.
 
 - UITableCell안에 UIScrollView를 통해 게시물에 올려진 여러개의 사진을 보기 위해 기능을 제현하였으나
   UICollectionView로 활용하는게 데이터 사용이나 가시성에 효율적이라는 결론을 내어 새로 수정. 
 
 스크린샷
 
-![샘플](./Users/byunghoonann/Downloads/샘플.png)
+![screenshot](./Users/byunghoonann/Downloads/screenshot.png)
