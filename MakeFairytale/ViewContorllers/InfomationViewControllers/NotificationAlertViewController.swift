@@ -17,13 +17,6 @@ class NotificationAlertViewController: UIViewController {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    lazy var dateFomatter : DateFormatter = {
-        let dateFomatter = DateFormatter()
-        dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFomatter.locale = Locale(identifier: "kr_KR")
-        return dateFomatter
-    }()
-    lazy var today = Today.shread.today
     lazy var firstAlertLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +28,14 @@ class NotificationAlertViewController: UIViewController {
         return label
     }()
     
+    lazy var dateFomatter : DateFormatter = {
+        let dateFomatter = DateFormatter()
+        dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFomatter.locale = Locale(identifier: "kr_KR")
+        return dateFomatter
+    }()
+    
+    lazy var today = Today.shread.today
     var alertsDatas: [NotificationData] = [] {
         didSet {
             if !self.alertsDatas.isEmpty {
@@ -66,7 +67,8 @@ class NotificationAlertViewController: UIViewController {
         super.viewWillAppear(animated)
         
         UIApplication.shared.applicationIconBadgeNumber = 0
-        loadAlerts{
+        loadAlerts{ [weak self] in
+            guard let self = self else { return }
             self.tableView.isHidden = false
             self.activityIndicator.stopAnimating()
             self.activityIndicator.isHidden = true

@@ -27,7 +27,6 @@ struct AlertComponents {
         self.completion = completion
         self.actions = actions.map {
             UIAlertAction(title: $0.title, style: $0.style, handler: $0.hander)
-            
         }
     }
 }

@@ -37,14 +37,17 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate, PostImageColl
             postUser.text = postData.userName
             pageControl.numberOfPages = postData.userPostImage.count
             postDateLabel.text = DateCalculation.shread.requestDate(postData.postDate,
-                                                                               dateFomatter,
-                                                                               Today.shread.today,
-                                                                               calendar)
+                                                                    dateFomatter,
+                                                                    Today.shread.today,
+                                                                    calendar)
             likeCountLabel.text = "\(postData.likeCount) 좋아요"
             viewCountLabel.text = "\(postData.viewCount) 조회"
             goodBtn.isSelected = postData.goodMark
             if postData.userPostImage.count == 1 {
                 pageControl.isHidden = true
+            }else {
+                pageControl.isHidden = false
+                pageControl.numberOfPages = postData.userPostImage.count
             }
             collectionView.postURLs = postData.userPostImage
         }

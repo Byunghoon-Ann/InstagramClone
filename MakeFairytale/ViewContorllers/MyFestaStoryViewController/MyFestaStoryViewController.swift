@@ -322,6 +322,7 @@ extension MyFestaStoryViewController {
                 }
             }
         } else {
+            firstMyView.myPosts.removeAll()
             for i in 0..<FirebaseServices.shread.myPostData.count {
                 if FirebaseServices.shread.myPostData[i].userUID == currentUID {
                     firstMyView.myPosts.append(FirebaseServices.shread.myPostData[i])
@@ -330,7 +331,6 @@ extension MyFestaStoryViewController {
                         if let followCountLabel = stackView.arrangedSubviews[0] as? UILabel {
                             followCountLabel.text = "\(firstMyView.myPosts.count)"
                         }
-                        
                     }
                 }else {
                     continue
