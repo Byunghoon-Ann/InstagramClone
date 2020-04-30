@@ -14,7 +14,7 @@ import MobileCoreServices
 
 fileprivate let userRef = Firestore.firestore().user
 fileprivate let postRef = Firestore.firestore().posts
-final class ListViewController: UIViewController, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, DropDownButtonDelegate {
+final class ListViewController: UIViewController, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, DropDownButtonDelegate  {
 
    @IBOutlet weak var topUIView: UIView!
    @IBOutlet weak var topView: UIView!
@@ -75,6 +75,8 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
    
    override func viewDidLoad() {
       super.viewDidLoad()
+      tabBarController?.delegate = self
+
       UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge], completionHandler: {didAllow,Error in
          print(didAllow)
       })
@@ -86,7 +88,7 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
       alertBadgeImageView.isHidden = true
       postTableView.backgroundColor = .white
       view.backgroundColor = .white
-     
+      
       AnimationControl.shread.topViewHeight = Double(topView.frame.height)
       
       loadFesta()
@@ -106,7 +108,7 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
       checknotificationCenter()
       newPostCheck()
    }
-
+   
    override func viewDidLayoutSubviews() {
       super.viewDidLayoutSubviews()
       let layout = UICollectionViewFlowLayout()

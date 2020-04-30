@@ -31,9 +31,7 @@ class PlusCommentViewContrller : UIViewController {
         return label
     }()
     
-    lazy var dateFomatter: DateFormatter = {
-        return DateCalculation.shread.dateFomatter
-    }()
+    lazy var dateFomatter = DateCalculation.shread.dateFomatter
     
     var post:Posts? {
         return Post.shread.post
@@ -44,9 +42,6 @@ class PlusCommentViewContrller : UIViewController {
         return FirebaseServices.shread.myProfile
     }
     var repleData : [RepleData] = [] {
-        willSet {
-            self.repleData.removeAll()
-        }
         didSet {
             if repleData.isEmpty {
                 commentTableView.isHidden = true
@@ -55,6 +50,7 @@ class PlusCommentViewContrller : UIViewController {
                 commentTableView.reloadData()
                 commentTableView.isHidden = false
                 alertLabel.isHidden = true
+                
             }
         }
     }
@@ -142,49 +138,26 @@ class PlusCommentViewContrller : UIViewController {
         let message = "님이 게시물에 댓글을 작성하셨습니다."
         
         guard let myData = FirebaseServices.shread.myProfile else {return }
-        
-        DispatchQueue.main.async {
-            Firestore
-                .firestore()
-                .collection("NotificationCenter")
-                .document(post.userUID)
-                .collection("alert")
-                .addDocument(data: ["nickName":myData.nickName,
-                                    "date":repleDate,
-                                    "uid":myData.uid,
-                                    "url":post.urlkey,
-                                    "message":myData.nickName+message])
-            postRef
-                .document(post.urlkey)
-                .collection("repleList")
-                .addDocument(data: ["uid":currentUID,
-                                    "profileImageURL":myData.profileImageURL,
-                                    "reple":reple,
-                                    "nickName":myData.nickName,
-                                    "repleDate":repleDate]) { error in
-                                        if let _error = error { print("\(_error.localizedDescription)")}
-                                        if currentUID != post.userUID {
-                                            Firestore
-                                                .firestore()
-                                                .alertContentsCenter("reple", post.userUID)
-                                        }
-                                        
-                                        FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,
-                                                                                   postDate: post.postDate,
-                                                                                   imageURL: post.userPostImage) {
-                                                                                    self.repleData = FirebaseServices.shread.repleDatas
-                                        }
-                                        
-            }
+        FirebaseServices.shread.replUploadService(post.userUID,
+                                                  currentUID,
+                                                  myData.profileImageURL,
+                                                  reple, repleDate,
+                                                  post.urlkey,
+                                                  myData.nickName+message,
+                                                  myData.nickName) { [weak self] in
+                                                    guard let self = self else {return }
+                                                    self.requestRepleData()
         }
     }
     
     func requestRepleData() {
+        repleData.removeAll()
         guard let post = post else { return }
         FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,
                                                    postDate: post.postDate,
                                                    imageURL: post.userPostImage) {
                                                     self.repleData = FirebaseServices.shread.repleDatas
+                                                    
         }
     }
 }

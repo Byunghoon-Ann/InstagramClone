@@ -5,7 +5,6 @@
 //  Created by ByungHoon Ann on 04/10/2019.
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
-import Foundation
 import UIKit
 import Firebase
 import Photos
@@ -16,7 +15,7 @@ fileprivate let fireStorageRef = Storage.storage().reference(forURL: "gs://festa
 fileprivate let postRef = Firestore.firestore().posts
 fileprivate let userRef = Firestore.firestore().user
 
-class AlbumViewController : UIViewController {
+class AlbumViewController : UIViewController, PhothAurhorizationStatus{
     
     @IBOutlet weak var sendingPostIndicator: UIActivityIndicatorView!
     @IBOutlet weak var selectedImg: UIImageView!
@@ -58,6 +57,10 @@ class AlbumViewController : UIViewController {
         return fetchOptions
     }()
     
+    var images: [Data] = []
+    var selectedImages : [UIImage] = []
+    var fetchResult: PHFetchResult<PHAsset>?
+    let imageManager = PHCachingImageManager()
     let TcgSize: CGSize = CGSize(width: 1024, height: 1024)
     let scale = UIScreen.main.scale
     var selectAsset: PHAsset?
@@ -66,16 +69,14 @@ class AlbumViewController : UIViewController {
     var count = 0
     var urlString: [String] = []
     var follows: [String] = []
-    var images: [Data] = []
-    var selectedImages : [UIImage] = []
-    var fetchResult: PHFetchResult<PHAsset>?
-    let imageManager = PHCachingImageManager()
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         commentInputText.delegate = self
         commentInputText.backgroundColor = .white
-        follows = FirebaseServices.shread.followString
+        
+        
+       
         let tapEndEditing = UITapGestureRecognizer(target: self, action: #selector(selectProfileImg))
         postingContentView.addGestureRecognizer(tapEndEditing)
         itemsSelectedButton.addTarget(self, action: #selector(didSelectButtonClicked(_:)), for: .touchUpInside)
@@ -87,6 +88,7 @@ class AlbumViewController : UIViewController {
         mMode = .view
         PHPhotoLibrary.shared().register(self)
         phothAurhorizationStatus()
+        followListLoad()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -196,6 +198,15 @@ class AlbumViewController : UIViewController {
             }
         }
     }
+    
+    func followListLoad() {
+        follows.removeAll()
+        if FirebaseServices.shread.following.count > 0 {
+            for i in 0..<FirebaseServices.shread.following.count {
+                follows.append(FirebaseServices.shread.following[i].userUID)
+            }
+        }
+    }
 }
 
 extension AlbumViewController: UICollectionViewDataSource {
@@ -208,8 +219,8 @@ extension AlbumViewController: UICollectionViewDataSource {
         let cell: MyAlbumCollectionCell = collectionView.dequeueCell(indexPath: indexPath)
         guard let asset = fetchResult?[indexPath.row] else { return UICollectionViewCell() }
         OperationQueue.main.addOperation {
-        self.imageManager.requestImage(for: asset,
-                                       targetSize: self.TcgSize,
+            self.imageManager.requestImage(for: asset,
+                                           targetSize: self.TcgSize,
                                        contentMode: .aspectFill,
                                        options: nil) { image, _ in
                                         cell.configure(with: image)
@@ -332,6 +343,7 @@ extension AlbumViewController: UITextViewDelegate {
         return true
     }
 }
+
 //MARK:- phasset Func
 extension AlbumViewController: PHPhotoLibraryChangeObserver {
     
@@ -341,44 +353,6 @@ extension AlbumViewController: PHPhotoLibraryChangeObserver {
             if let changes = changeInstance.changeDetails(for: fetchResult) {
                 self.fetchResult = changes.fetchResultAfterChanges
             }
-        }
-    }
-    
-    func phothAurhorizationStatus() {
-        let phothAurhorizationStatus = PHPhotoLibrary.authorizationStatus()
-        switch phothAurhorizationStatus {
-        case .authorized:
-            print("ok")
-            self.requestImageCollection()
-        case .denied:
-            print("denied")
-            
-        case .notDetermined:
-            print("notDetermined")
-            PHPhotoLibrary.requestAuthorization { status in
-                switch status {
-                case .authorized:
-                    print("사용자 허용")
-                    self.requestImageCollection()
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                    }
-                case .denied:
-                    print("허용되지 않음")
-                default: break
-                }
-            }
-            
-        case .restricted:
-            let alert = UIAlertController(title: "안내",
-                                          message: "동의 진행 중입니다.",
-                                          preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "확인",
-                                             style: .default)
-            alert.addAction(cancelAction)
-            present(alert, animated: true)
-        @unknown default:
-            print("fatal error")
         }
     }
     

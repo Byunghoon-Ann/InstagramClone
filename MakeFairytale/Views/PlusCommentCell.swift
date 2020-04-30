@@ -14,13 +14,24 @@ class PlusCommentCell : UITableViewCell {
     @IBOutlet weak var postUser : UILabel!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userThumbnail:UIImageView!
+    @IBOutlet weak var repleDateLabel: UILabel!
+    
+    lazy var dateFormatter = DateCalculation.shread.dateFomatter
+    lazy var today = Today.shread.today
+    let calendar = Calendar(identifier: .gregorian)
 
     var repleData: RepleData? {
         didSet {
             guard let _repleData = repleData else {  return }
             postUser.text = _repleData.userReple
             userName.text = _repleData.nickName
+            
+            repleDateLabel.text = DateCalculation.shread.requestDate(_repleData.repleDate,
+                                                                     dateFormatter,
+                                                                     today,
+                                                                     calendar)
             userThumbnail.sd_setImage(with: URL(string: _repleData.userThumbnail))
+            
         }
     }
     

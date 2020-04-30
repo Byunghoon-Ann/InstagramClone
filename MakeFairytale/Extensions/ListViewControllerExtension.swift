@@ -10,7 +10,7 @@ import Firebase
 
 fileprivate let userRef = Firestore.firestore().user
 
-extension ListViewController {
+extension ListViewController: UITabBarControllerDelegate {
     //MARK:- Feed로드
     func loadFesta() {
         FirebaseServices.shread.fecthMyFollowPosting { [weak self] in
@@ -131,6 +131,21 @@ extension ListViewController {
     func dropdownButtonIsSelected(_ isSelected: Bool) {
         if isSelected == true {
             alertBadgeImageView.isHidden = true
+        }
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let tabBarIndex = tabBarController.selectedIndex
+        guard let topViewHeight = AnimationControl.shread.topViewHeight else { return }
+        if tabBarIndex == 0 {
+            UIView.animate(withDuration: 0.2) { [weak self] in
+                guard let self = self else { return }
+                self.topView.alpha = 1.0
+                self.leftTopButton.alpha = 1.0
+                self.tableViewNSLayoutConstraint.constant = CGFloat(topViewHeight)
+                self.postTableView.layoutIfNeeded()
+                self.postTableView.contentOffset = CGPoint(x: 0, y: 0)
+            }
         }
     }
 }

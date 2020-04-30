@@ -136,17 +136,11 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
     }
     
     @IBAction func repleButton(_ sender: UIButton ) {
-        guard let post = post else { return }
         if let myData = FirebaseServices.shread.myProfile {
             uploadReple(myData) { [weak self] in
                 guard let self = self else { return }
                 self.label.isHidden = true
-                FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID,
-                                                           postDate: post.postDate,
-                                                           imageURL: post.userPostImage) {
-                                                            self.repleData = FirebaseServices.shread.repleDatas
-                                                            self.hideRepleList.reloadData()
-                }
+                self.hideRepleList.reloadData()
             }
         }
     }
@@ -200,7 +194,6 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         userComment.text = post.userComment
         viewCountLabel.text = "조회 \(post.viewCount)명"
         goodMark.isSelected = post.goodMark
-        print(post.likeCount,"좋아요수",post.goodMark)
         
         likeCountLabel.text = post.goodMark ? "\(post.likeCount) 좋아요":"\(post.likeCount - 1) 좋아요"
         
@@ -302,7 +295,6 @@ extension ViewPostingController {
         }
     }
     
-    //FIXME:- 중복제거 필요
     func uploadReple(_ myData: MyProfile,completion: @escaping () -> Void) {
         guard let reple = repleTextField.text else {return }
         guard let post = post else { return }
@@ -311,50 +303,21 @@ extension ViewPostingController {
         let message = "님이 게시물에 댓글을 작성하셨습니다."
         if !reple.isEmpty {
             repleData.removeAll()
-            
-            postRef
-                .document(post.urlkey)
-                .collection("repleList")
-                .addDocument(data: ["uid":myData.uid,
-                                    "profileImageURL":myData.profileImageURL,
-                                    "reple":reple,
-                                    "nickName":myData.nickName,
-                                    "repleDate":repleDate]) { error in
-                                        if let error = error {
-                                            print(error.localizedDescription)
-                                        }
-                                        Firestore
-                                            .firestore()
-                                            .collection("NotificationCenter")
-                                            .document(post.userUID)
-                                            .collection("alert")
-                                            .addDocument(data: ["nickName":myData.nickName,
-                                                                "date":repleDate,
-                                                                "uid":myData.uid,
-                                                                "url":post.urlkey,
-                                                                "message":myData.nickName+message])
-                                        postRef
-                                            .document(post.urlkey)
-                                            .collection("repleList")
-                                            .addDocument(data: ["uid":currentUID,
-                                                                "profileImageURL":myData.profileImageURL,
-                                                                "reple":reple,
-                                                                "nickName":myData.nickName,
-                                                                "repleDate":repleDate]) { error in
-                                                                    if let _error = error { print("\(_error.localizedDescription)")}
-                                                                    if currentUID != post.userUID {
-                                                                        Firestore
-                                                                            .firestore()
-                                                                            .alertContentsCenter("reple", post.userUID)
-                                                                    }
-                                                                    FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID, postDate: post.postDate, imageURL: post.userPostImage) {
-                                                                        self.repleData = FirebaseServices.shread.repleDatas
-                                                                    }
-                                                                    completion()
-                                        }
+            FirebaseServices.shread.replUploadService(post.userUID, currentUID, myData.profileImageURL, reple, repleDate, post.urlkey, myData.nickName+message, myData.nickName) {
+                if currentUID != post.userUID {
+                    Firestore
+                        .firestore()
+                        .alertContentsCenter("reple", post.userUID)
+                }
+                FirebaseServices.shread.loadPostRepleDatas(uid: post.userUID, postDate: post.postDate, imageURL: post.userPostImage) {
+                    
+                    self.repleData = FirebaseServices.shread.repleDatas
+                    completion()
+                }
             }
         }
     }
+    
     
     func checkViewCount() {
         DispatchQueue.main.async {

@@ -21,16 +21,23 @@ class FirebaseServices {
     
     private init() {}
     
+    lazy var dateformatter = DateCalculation.shread.dateFomatter
+    lazy var today = Today.shread.today
+    var followString : [String] = []
+    var followPostCount: Int?
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var following : [FollowData] = []
     var posts : [Posts] = []
     var searchPost: [SearchData] = []
     var myPostData: [Posts] = []
-    var repleDatas : [RepleData] = []
     var chatModel : [ChatModel] = []
     var myProfile: MyProfile?
-    var followString : [String] = []
-    var followPostCount: Int?
+   
+    var repleDatas : [RepleData] = [] {
+        didSet {
+            DateCalculation.shread.requestRepleSort(&repleDatas,dateformatter,today)
+        }
+    }
     
     func snapshotListenerCheckEvent(_ uid: String, _ badge: UIImageView, _ contents: [String]) {
         userRef
@@ -158,10 +165,35 @@ class FirebaseServices {
         }
     }
     
+    func replUploadService(_ postUid: String, _ myUid: String, _ myProfileURL: String, _ reple: String, _ date: String, _ url: String, _ message: String, _ myName: String, completion: @escaping () -> Void) {
+        let notiRef = firestoreRef.collection("NotificationCenter").document(postUid).collection("alert")
+        let repleRef = postRef.document(url).collection("repleList")
+        DispatchQueue.main.async {
+            notiRef.addDocument(data: ["nickName":myName,
+                                       "date":date,
+                                       "uid":myUid,
+                                       "url":url,
+                                       "message":message])
+            
+            repleRef.addDocument(data: ["uid":myUid,
+                                        "profileImageURL":myProfileURL,
+                                        "reple":reple,
+                                        "nickName":myName,
+                                        "repleDate":date]) { error in
+                                            if let _error = error { print("\(_error.localizedDescription)")}
+                                            if myProfileURL != postUid {
+                                                Firestore
+                                                    .firestore()
+                                                    .alertContentsCenter("reple", postUid)
+                                            }
+                                            completion()
+            }
+        }
+    }
+    
     func fecthMyFollowPosting(completion : @escaping () -> Void) {
         guard let currentUID = CurrentUID.shread.currentUID else { return }
         following.removeAll()
-        followString.removeAll()
         myPostData.removeAll()
         followRef
             .document("\(currentUID)")

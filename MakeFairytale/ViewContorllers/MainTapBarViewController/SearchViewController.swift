@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-class SearchViewController : UIViewController ,UISearchBarDelegate{
+class SearchViewController : UIViewController ,UISearchBarDelegate {
     
     @IBOutlet weak var festaPostLoadIndicator: UIActivityIndicatorView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -35,6 +35,7 @@ class SearchViewController : UIViewController ,UISearchBarDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBarController?.delegate = self
 
         searchCollectionView.isHidden = true
         searchBar.searchTextField.backgroundColor = .white
@@ -124,5 +125,18 @@ extension SearchViewController:  UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
+    }
+}
+
+extension SearchViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let tabBarIndex = tabBarController.selectedIndex
+        if tabBarIndex == 1 {
+            UIView.animate(withDuration: 0.2) { [weak self] in
+                guard let self = self else { return }
+        
+                self.searchCollectionView.contentOffset = CGPoint(x: 0, y: 0)
+            }
+        }
     }
 }

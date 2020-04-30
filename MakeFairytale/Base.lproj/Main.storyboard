@@ -534,7 +534,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" reuseIdentifier="SearchCell" translatesAutoresizingMaskIntoConstraints="NO" id="qLH-0D-qyu" customClass="SearchCell" customModule="FestaGram" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="SearchCell" translatesAutoresizingMaskIntoConstraints="NO" id="qLH-0D-qyu" customClass="SearchCell" customModule="FestaGram" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="130" height="131"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Stk-zC-DvH">
@@ -604,7 +604,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gdd-1W-29H"/>
                     </view>
-                    <tabBarItem key="tabBarItem" image="searchDeselected@40x40" selectedImage="searchSelected@40x40" id="XZA-Gg-I0G">
+                    <tabBarItem key="tabBarItem" tag="1" image="searchDeselected@40x40" selectedImage="searchSelected@40x40" id="XZA-Gg-I0G">
                         <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" title="페스타" id="ICu-V1-exo"/>
@@ -1153,7 +1153,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2D2-yx-IeX"/>
                     </view>
-                    <tabBarItem key="tabBarItem" image="editDeselected@40x40" selectedImage="editSelected@40x40" id="ikg-bZ-cZe">
+                    <tabBarItem key="tabBarItem" tag="2" image="editDeselected@40x40" selectedImage="editSelected@40x40" id="ikg-bZ-cZe">
                         <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="flx-Ic-xpn"/>
@@ -2160,7 +2160,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Jw0-PN-IS4"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="userDeselected@40x40" selectedImage="userSelected@40x40" id="WWI-DC-7fl">
+                    <tabBarItem key="tabBarItem" tag="4" title="" image="userDeselected@40x40" selectedImage="userSelected@40x40" id="WWI-DC-7fl">
                         <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="4"/>
                     </tabBarItem>
                     <connections>
@@ -2262,23 +2262,32 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZR4-8l-EH4">
+                                                    <rect key="frame" x="32" y="11" width="38" height="34"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVp-iY-Tfp">
+                                                    <rect key="frame" x="244" y="44" width="147" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pwt-WO-Pwy">
-                                                    <rect key="frame" x="91" y="29" width="300" height="13"/>
+                                                    <rect key="frame" x="94" y="11" width="300" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                     <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZR4-8l-EH4">
-                                                    <rect key="frame" x="32" y="11" width="38" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="postUser" destination="Pwt-WO-Pwy" id="yWM-zo-df5"/>
+                                            <outlet property="repleDateLabel" destination="aVp-iY-Tfp" id="uq2-EJ-DDt"/>
                                             <outlet property="userName" destination="62S-qb-zxX" id="7c7-p9-0i7"/>
                                             <outlet property="userThumbnail" destination="ZR4-8l-EH4" id="N5F-X5-AoB"/>
                                         </connections>
@@ -2403,7 +2412,7 @@
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MarkViewCell" rowHeight="80" translatesAutoresizingMaskIntoConstraints="NO" id="2xK-9N-DQT" customClass="MarkViewCell" customModule="FestaGram" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MarkViewCell" rowHeight="80" translatesAutoresizingMaskIntoConstraints="NO" id="2xK-9N-DQT" customClass="MarkViewCell" customModule="FestaGram" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="2xK-9N-DQT" id="PTx-R5-ZzM">
@@ -2497,7 +2506,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zmG-YA-aHQ"/>
                     </view>
-                    <tabBarItem key="tabBarItem" image="likeBeforeTab@40x40" selectedImage="likeAfterTab@40x40" id="cef-Jg-tYb">
+                    <tabBarItem key="tabBarItem" tag="3" image="likeBeforeTab@40x40" selectedImage="likeAfterTab@40x40" id="cef-Jg-tYb">
                         <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="5"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="Oei-HR-GPZ"/>

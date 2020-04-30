@@ -17,11 +17,13 @@ class DateCalculation {
        dateFomatter.locale = Locale(identifier: "kr_KR")
        return dateFomatter
     }()
+    let calendar = Calendar(identifier: .gregorian)
     
     func requestDate(_ stringDate: String,
                                 _ dateFomatter: DateFormatter,
                                 _ today: Date,
                                 _ calendar: Calendar) -> String {
+        
         let dateString = dateFomatter.string(from: today)
         let nowToday = dateFomatter.date(from: dateString) ?? today
         let postdates = dateFomatter.date(from: stringDate) ?? today
@@ -58,4 +60,19 @@ class DateCalculation {
             }
         }
     }
+    
+    func requestRepleSort( _ beforeSortPosts: inout [RepleData],
+                           _ dateFormatter: DateFormatter,
+                           _ today: Date) {
+        beforeSortPosts.sort { firstItem, secondItem in
+            let firstDate = dateFomatter.date(from: firstItem.repleDate) ?? today
+            let secondDate = dateFomatter.date(from: secondItem.repleDate) ?? today
+            if  firstDate < secondDate {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
 }
