@@ -22,6 +22,6 @@ Trouble Shooting
 - UITableCell안에 UIScrollView를 통해 게시물에 올려진 여러개의 사진을 보기 위해 기능을 제현하였으나
   UICollectionView로 활용하는게 데이터 사용이나 가시성에 효율적이라는 결론을 내어 새로 수정. 
 
-스크린샷
+스크린샷/Users/byunghoonann/Downloads/screenshot.png
 
-![screenshot](./Users/byunghoonann/Downloads/screenshot.png)
+![screenshot](https://user-images.githubusercontent.com/23135385/80697647-3c918d00-8b14-11ea-80ad-289b77346b31.png)
