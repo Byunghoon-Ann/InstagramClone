@@ -93,5 +93,6 @@ class DropDownCell: UITableViewCell {
         super.awakeFromNib()
         self.backgroundColor = .white
         buttonBedge.layer.cornerRadius = buttonBedge.frame.height/2
+        
     }
 }

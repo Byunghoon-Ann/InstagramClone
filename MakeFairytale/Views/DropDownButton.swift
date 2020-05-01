@@ -42,9 +42,10 @@ class DropDownButton: UIButton, DropDownViewDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         if isOpen == false {
-            
+            if dropView.isHidden == true {
+                dropView.isHidden = false
+            }
             isOpen = true
             self.isSelected = isOpen
             NSLayoutConstraint.deactivate([self.height])

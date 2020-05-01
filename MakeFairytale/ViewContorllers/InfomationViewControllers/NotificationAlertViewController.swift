@@ -39,6 +39,7 @@ class NotificationAlertViewController: UIViewController {
     var alertsDatas: [NotificationData] = [] {
         didSet {
             if !self.alertsDatas.isEmpty {
+                tableView.isHidden = false
                 self.alertsDatas.sort { firstData, secondData in
                     let firstDate = self.dateFomatter.date(from: firstData.alertDate) ?? self.today
                     let secondDate = self.dateFomatter.date(from: secondData.alertDate) ?? self.today
@@ -47,10 +48,11 @@ class NotificationAlertViewController: UIViewController {
                     }
                     return false
                 }
+            } else {
+                tableView.isHidden = true
             }
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +71,6 @@ class NotificationAlertViewController: UIViewController {
         UIApplication.shared.applicationIconBadgeNumber = 0
         loadAlerts{ [weak self] in
             guard let self = self else { return }
-            self.tableView.isHidden = false
             self.activityIndicator.stopAnimating()
             self.activityIndicator.isHidden = true
             self.tableView.reloadData()
@@ -102,48 +103,51 @@ extension NotificationAlertViewController {
         guard let currentUID = currentUID else { return }
         activityIndicator.startAnimating()
         tableView.isHidden = true
-        firestoreRef
-            .collection("NotificationCenter")
-            .document(currentUID)
-            .collection("alert")
-            .getDocuments { snapshot, error in
-                guard let snapshot = snapshot?.documents else { return }
-                guard snapshot.count > 0 else  {
-                    self.activityIndicator.stopAnimating()
-                    self.activityIndicator.isHidden = true
-                    self.firstAlertLabel.isHidden = false
-                    completion()
-                    return }
-                for i in snapshot {
-                    let alertData = i.data()
-                    let alertComment = alertData["message"] as? String ?? ""
-                    let nickName = alertData["nickName"] as? String ?? ""
-                    let alertDate = alertData["date"] as? String ?? ""
-                    let userUID = alertData["uid"] as? String ?? ""
-                    
-                    firestoreRef
-                        .collection("user")
-                        .document(userUID)
-                        .getDocument{ userData, error in
-                            guard let userData = userData?.data() else {
+        DispatchQueue.main.async {
+            firestoreRef
+                .collection("NotificationCenter")
+                .document(currentUID)
+                .collection("alert")
+                .getDocuments { [weak self] snapshot, error in
+                    guard let self = self else { return }
+                    guard let snapshot = snapshot?.documents else { return }
+                    guard snapshot.count > 0 else  {
+                        self.activityIndicator.stopAnimating()
+                        self.activityIndicator.isHidden = true
+                        self.firstAlertLabel.isHidden = false
+                        completion()
+                        return }
+                    for i in snapshot {
+                        let alertData = i.data()
+                        let alertComment = alertData["message"] as? String ?? ""
+                        let nickName = alertData["nickName"] as? String ?? ""
+                        let alertDate = alertData["date"] as? String ?? ""
+                        let userUID = alertData["uid"] as? String ?? ""
+                        
+                        firestoreRef
+                            .collection("user")
+                            .document(userUID)
+                            .getDocument{ userData, error in
+                                guard let userData = userData?.data() else {
+                                    self.alertsDatas.append(NotificationData(userName: nickName,
+                                                                             userThumbnail: "",
+                                                                             userUID: userUID,
+                                                                             alertDate: alertDate,
+                                                                             alertContent: alertComment))
+                                    return }
+                                let profileImageURL = userData["profileImageURL"] as? String ?? ""
+                                
                                 self.alertsDatas.append(NotificationData(userName: nickName,
-                                                                         userThumbnail: "",
+                                                                         userThumbnail: profileImageURL,
                                                                          userUID: userUID,
                                                                          alertDate: alertDate,
                                                                          alertContent: alertComment))
-                                return }
-                            let profileImageURL = userData["profileImageURL"] as? String ?? ""
-                            
-                            self.alertsDatas.append(NotificationData(userName: nickName,
-                                                                     userThumbnail: profileImageURL,
-                                                                     userUID: userUID,
-                                                                     alertDate: alertDate,
-                                                                     alertContent: alertComment))
-                            if snapshot.count == self.alertsDatas.count {
-                                completion()
-                            }
+                                if snapshot.count == self.alertsDatas.count {
+                                    completion()
+                                }
+                        }
                     }
-                }
+            }
         }
     }
 }

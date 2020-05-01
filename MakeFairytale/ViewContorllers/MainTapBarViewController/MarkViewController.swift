@@ -45,7 +45,8 @@ class MarkViewController : UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadGoodMarkPost {
-            self.tableView.isHidden = false
+            self.activityIndicatior.stopAnimating()
+            self.activityIndicatior.isHidden = true
         }
     }
     
@@ -115,9 +116,6 @@ extension MarkViewController {
                                                         self.goodPost.append(data)
                                                     }
                                                     if allSnapshot.count == self.count {
-                                                        self.activityIndicatior.isHidden = true
-                                                        self.activityIndicatior.stopAnimating()
-                                                        self.alertLabel.isHidden = true
                                                         self.tableView.reloadData()
                                                         completion()
                                                     }

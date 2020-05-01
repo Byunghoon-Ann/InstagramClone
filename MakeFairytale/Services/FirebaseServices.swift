@@ -111,8 +111,11 @@ class FirebaseServices {
     func notificationControl(_ uid: String,_ title:String, _ body: String, _ documentID: String, _ badge: UIImageView, _ categoryIdentifier: String) {
         let center = UNUserNotificationCenter.current()
         let content = UNMutableNotificationContent()
+        
+        let badgeCurrent = Int(truncating: content.badge ?? NSNumber(value: 0)) + 1
         content.body = body
-        content.badge = 1
+        content.badge = NSNumber(value:badgeCurrent + 1)
+    
         content.title = title
         content.sound = UNNotificationSound.default
         content.categoryIdentifier = categoryIdentifier
@@ -203,7 +206,9 @@ class FirebaseServices {
                 guard let followList = followList?.documents else { return }
                 
                 if followList.isEmpty {
+                    self.loadMyFeed {
                     completion()
+                    }
                 } else {
                     for userdoc in followList {
                         guard let user = FollowData(document: userdoc) else { continue }
@@ -281,7 +286,9 @@ class FirebaseServices {
                 guard let query = querySnapshot?.documents else { return }
                 
                 if query.isEmpty {
-                    completion()
+                    self.loadProfile {
+                        completion()
+                    }
                 } else {
                     for i in 0..<query.count {
                         let documentID = query[i].documentID
@@ -371,7 +378,6 @@ class FirebaseServices {
         guard let currentUID = CurrentUID.shread.currentUID else { return }
 
         myProfile = nil
-        
         userRef
             .document("\(currentUID)")
             .getDocument() { [weak self] snapshot,error in

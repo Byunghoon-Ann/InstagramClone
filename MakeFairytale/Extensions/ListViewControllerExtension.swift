@@ -57,6 +57,12 @@ extension ListViewController: UITabBarControllerDelegate {
     
     @objc func hideUpViewGesture (_ gesture: UISwipeGestureRecognizer) {
         if gesture.direction == .up {
+            if leftTopButton.isSelected == true {
+                leftTopButton.dropView.isHidden = true
+                leftTopButton.height.constant = 0
+                leftTopButton.isSelected = !leftTopButton.isSelected
+                leftTopButton.isOpen = !leftTopButton.isOpen
+            }
             topViewHideCheck = true
             UIView.animate(withDuration: 0.2 ,animations: {
                 self.topView.alpha = 0.0
@@ -101,7 +107,8 @@ extension ListViewController: UITabBarControllerDelegate {
         view.addSubview(leftTopButton)
         leftTopButton.delegate = self
         leftTopButton.translatesAutoresizingMaskIntoConstraints = false
-        leftTopButton.trailingAnchor.constraint(equalTo: topUIView.trailingAnchor,constant: -30).isActive = true
+        leftTopButton.leadingAnchor.constraint(equalTo: alertBadgeImageView.trailingAnchor,constant: 1).isActive = true
+        leftTopButton.trailingAnchor.constraint(equalTo: topUIView.trailingAnchor,constant: -20).isActive = true
         leftTopButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         leftTopButton.centerYAnchor.constraint(equalTo: topUIView.centerYAnchor).isActive = true
         leftTopButton.setImage(UIImage(named: "icon-small"), for: .normal)

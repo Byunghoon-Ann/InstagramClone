@@ -29,7 +29,8 @@ class ChattingListViewController : UIViewController {
         label.textAlignment = .center
         label.textColor = .black
         label.backgroundColor = .white
-        label.text = "페스타 찾기에서 친구를 추가해 대화를 나눠보세요!"
+        label.numberOfLines = 2
+        label.text = "페스타 찾기에서 친구를 \n 추가해 대화를 나눠보세요!"
         return label
     }()
     
@@ -52,7 +53,7 @@ class ChattingListViewController : UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        loadFollowList()
     }
     
     func loadFollowList() {
@@ -67,12 +68,14 @@ class ChattingListViewController : UIViewController {
                     guard let followList = followList?.documents else { return }
                     
                     if followList.isEmpty {
+                        self.tableView.isHidden = true
                         self.alertLabel.isHidden = false
                     } else {
                         for i in followList {
                             guard let userData = FollowData(document: i) else { return }
                             self.userData.append(userData)
                             if self.userData.count == followList.count {
+                                self.tableView.isHidden = false
                                 self.tableView.reloadData()
                             }
                         }

@@ -218,7 +218,7 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
    //MARK: 좋아요 기능
    @objc func goodButtonCustom(sender:UIButton) {
       guard let currentUID = CurrentUID.shread.currentUID else { return }
-
+      
       let contentView = sender.superview
       guard let cell = contentView?.superview as? FeedCollectionCell else { return }
       guard let indexPath = postTableView.indexPath(for: cell) else { return }

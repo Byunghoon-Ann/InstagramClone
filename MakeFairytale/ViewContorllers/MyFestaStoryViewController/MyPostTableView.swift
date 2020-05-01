@@ -53,13 +53,6 @@ class MyPostTableView: UIView {
             self.yourData.removeAll()
         }
         didSet {
-            if yourData.isEmpty {
-                firstAlertLabel.isHidden = false
-                tableView.isHidden = true
-            } else {
-                firstAlertLabel.isHidden = true
-                tableView.isHidden = false
-            }
             tableView.reloadData()
         }
     }
@@ -89,7 +82,13 @@ class MyPostTableView: UIView {
 extension MyPostTableView : UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard yourData.count > 0 else { return 0 }
+        
+        guard yourData.count > 0 else {
+            firstAlertLabel.isHidden = false
+            tableView.isHidden = true
+            return 0 }
+        firstAlertLabel.isHidden = true
+        tableView.isHidden = false
         return yourData.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
