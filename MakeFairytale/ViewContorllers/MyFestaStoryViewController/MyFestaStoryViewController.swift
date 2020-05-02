@@ -35,12 +35,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         return collectionView
     }()
     
-    lazy var dateFomatter : DateFormatter = {
-       let dateFomatter = DateFormatter()
-       dateFomatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-       dateFomatter.locale = Locale(identifier: "kr_KR")
-       return dateFomatter
-    }()
+    lazy var dateFomatter = DateCalculation.shread.dateFomatter
     
     lazy var alertLabel : UILabel = {
         let label = UILabel()
@@ -79,6 +74,9 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         setupCustomTabBar()
         setupPageCollectionView()
         myProfileName.text = yourName
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(moveFollowList(_:)))
+        horizontalStackView.addGestureRecognizer(tapGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,6 +115,8 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         guard let vc = UIStoryboard.myStoryVC() else { return }
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    
     
     func setupCustomTabBar() {
         self.view.addSubview(customMenuBar)
@@ -173,6 +173,18 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
                 label.text = "0"
             }
             stackView.addArrangedSubview(label)
+        }
+    }
+    
+    @objc func moveFollowList(_ sender: Any) {
+        if let _ = sender as? UITapGestureRecognizer, let currentUID = CurrentUID.shread.currentUID {
+            guard let vc = storyboard?.instantiateViewController(withIdentifier: "FollowListViewController") as? FollowListViewController else { return }
+            if !firstMyView.yourUID.isEmpty || !secondMyview.yourUID.isEmpty {
+                vc.uid = firstMyView.yourUID
+            }else {
+                vc.uid = currentUID
+            }
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

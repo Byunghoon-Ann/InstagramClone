@@ -60,6 +60,8 @@
 		F6900C832455C5B50087380B /* PostImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6900C822455C5B50087380B /* PostImageCollectionView.swift */; };
 		F6900C852455CB140087380B /* PostImageCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6900C842455CB140087380B /* PostImageCollectionCell.xib */; };
 		F6900CAE245AE7920087380B /* PhothAurhorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6900CAD245AE7920087380B /* PhothAurhorizationService.swift */; };
+		F6900CB0245C3B600087380B /* FollowListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6900CAF245C3B600087380B /* FollowListViewController.swift */; };
+		F6900CB2245C3D510087380B /* FollowListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6900CB1245C3D510087380B /* FollowListCell.swift */; };
 		F6904D6123515EBA0044EDE5 /* FirebaseServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6904D6023515EBA0044EDE5 /* FirebaseServices.swift */; };
 		F694C06623F3E73900EA79BB /* MyFestaStoryPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F694C06523F3E73900EA79BB /* MyFestaStoryPageCell.swift */; };
 		F694C06823F5307200EA79BB /* MyViewsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F694C06723F5307200EA79BB /* MyViewsCollectionCell.swift */; };
@@ -148,6 +150,8 @@
 		F6900C822455C5B50087380B /* PostImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCollectionView.swift; sourceTree = "<group>"; };
 		F6900C842455CB140087380B /* PostImageCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostImageCollectionCell.xib; sourceTree = "<group>"; };
 		F6900CAD245AE7920087380B /* PhothAurhorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhothAurhorizationService.swift; sourceTree = "<group>"; };
+		F6900CAF245C3B600087380B /* FollowListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowListViewController.swift; sourceTree = "<group>"; };
+		F6900CB1245C3D510087380B /* FollowListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowListCell.swift; sourceTree = "<group>"; };
 		F6904D6023515EBA0044EDE5 /* FirebaseServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseServices.swift; sourceTree = "<group>"; };
 		F694C06523F3E73900EA79BB /* MyFestaStoryPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFestaStoryPageCell.swift; sourceTree = "<group>"; };
 		F694C06723F5307200EA79BB /* MyViewsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewsCollectionCell.swift; sourceTree = "<group>"; };
@@ -380,6 +384,8 @@
 				F623887E235B0CE3007E88D3 /* ViewPostingController.swift */,
 				F6709FF92345E6DB00BFF3FA /* PlusCommentViewContrller.swift */,
 				F6424A8323F2AAB900FEA09E /* NotificationAlertViewController.swift */,
+				F6900CAF245C3B600087380B /* FollowListViewController.swift */,
+				F6900CB1245C3D510087380B /* FollowListCell.swift */,
 			);
 			path = InfomationViewControllers;
 			sourceTree = "<group>";
@@ -583,6 +589,7 @@
 				F69843EA2452E09B00397483 /* CommenService.swift in Sources */,
 				F6BF5F05242B709100819424 /* DropDownView.swift in Sources */,
 				F6BE19712371687200253278 /* DidChattingCustomView.swift in Sources */,
+				F6900CB0245C3B600087380B /* FollowListViewController.swift in Sources */,
 				F671246A2356405100D3C1AD /* MyFestaStoryMenuView.swift in Sources */,
 				F69843EE245462AA00397483 /* Today.swift in Sources */,
 				F670A01423466C0800BFF3FA /* MyStoryViewController.swift in Sources */,
@@ -602,6 +609,7 @@
 				F69843E8245187B500397483 /* PostAlertControllerService.swift in Sources */,
 				F69843EC24545F5800397483 /* State.swift in Sources */,
 				F6E54FB0244C511900D7F9FD /* UICollectionViewExtension.swift in Sources */,
+				F6900CB2245C3D510087380B /* FollowListCell.swift in Sources */,
 				F6BE19742371695800253278 /* DidChattingCustomCell.swift in Sources */,
 				F63901422357154800ACA7A3 /* MyViews.swift in Sources */,
 				F6900C832455C5B50087380B /* PostImageCollectionView.swift in Sources */,

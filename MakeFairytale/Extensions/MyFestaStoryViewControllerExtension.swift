@@ -45,7 +45,8 @@ extension MyFestaStoryViewController {
                                         "uid":secondUID,
                                         "nickName":nickName,
                                         "profileImageURL":profile,
-                                        "follow":true
+                                        "follow":true,
+                                        "data":checkDate
                                     ])
                                 
                                 followerRef
@@ -56,7 +57,8 @@ extension MyFestaStoryViewController {
                                         "uid":currentUID,
                                         "nickName":nickName,
                                         "profileImageURL":profile,
-                                        "follower":true
+                                        "follower":true,
+                                        "date":checkDate
                                     ]) { error in
                                         if let _error = error { print("\(_error.localizedDescription)")}
                                         self.followNotfication(myName,
@@ -96,7 +98,8 @@ extension MyFestaStoryViewController {
                                                 "uid":secondUID,
                                                 "nickName":nickName,
                                                 "profileImageURL":profile,
-                                                "follow":true
+                                                "follow":true,
+                                                "date":checkDate
                                             ]) { error in
                                                 if let _error = error { print("\(_error.localizedDescription)")}
                                                 self.followNotfication(myName,

@@ -54,7 +54,6 @@ class FirebaseServices {
                 for i in 0..<contents.count {
                     
                     if contents[i] == "like" {
-                      
                         if likeCheck == true {
                             self.notificationControl(uid,
                                                      "좋아요",
@@ -128,7 +127,7 @@ class FirebaseServices {
         }
         if documentID != "newPost" {
             DispatchQueue.main.async {
-                badge.isHidden = false
+                badge.isHidden = true
             }
         }
     }

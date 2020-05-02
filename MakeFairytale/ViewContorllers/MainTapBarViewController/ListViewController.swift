@@ -142,12 +142,13 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
    
    func newPostCheck() {
       guard let currentUID = CurrentUID.shread.currentUID else { return }
-      if State.shread.checkNotificationCheck == true {
-         alertBadgeImageView.isHidden = false
+      if State.shread.checkNotificationCheck == true || State.shread.autoRefreshingCheck == true {
+         State.shread.autoRefreshingCheck = false
+         State.shread.checkNotificationCheck = false
          userRef
             .document(currentUID)
             .updateData(["newPost":false]) { error in
-               if let _error = error { print("\(_error.localizedDescription)")}
+               if let _error = error { print("newPostCheck Error!:\(_error.localizedDescription)")}
                self.loadFesta()
          }
       }

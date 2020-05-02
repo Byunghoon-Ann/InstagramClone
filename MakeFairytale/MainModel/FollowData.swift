@@ -12,6 +12,7 @@ struct FollowData {
     var userName: String
     var userThumbnail: String
     var userUID: String
+    var date: String
 }
 
 extension FollowData: DocumentSerializable {
@@ -28,8 +29,9 @@ extension FollowData: DocumentSerializable {
     private init?( dictionary: [String:Any]) {
         guard let followID = dictionary["uid"] as? String,
             let profileURL = dictionary["profileImageURL"] as? String,
-            let followName = dictionary["nickName"] as? String else {return nil }
-        self.init(userName:followName,userThumbnail:profileURL,userUID:followID)
+            let followName = dictionary["nickName"] as? String,
+            let date = dictionary["date"] as? String else {return nil }
+        self.init(userName:followName,userThumbnail:profileURL,userUID:followID,date:date)
         
     }
     
@@ -42,8 +44,8 @@ extension FollowData: DocumentSerializable {
         self.init(documentID: document.documentID, dictionary: data)
     }
     
-    public init(userUID:String, userName:String,userThumbnail:String) {
-        self.init(userName: userName, userThumbnail: userThumbnail, userUID:  userUID)
+    public init(userUID:String, userName:String,userThumbnail:String,date:String) {
+        self.init(userName: userName, userThumbnail: userThumbnail, userUID:  userUID,date:date)
     }
     
     
@@ -51,7 +53,8 @@ extension FollowData: DocumentSerializable {
         return [
             "uid":userUID,
             "nickName": userName,
-            "profileImageURL": userThumbnail
+            "profileImageURL": userThumbnail,
+            "date":date
         ]
     }
 }
