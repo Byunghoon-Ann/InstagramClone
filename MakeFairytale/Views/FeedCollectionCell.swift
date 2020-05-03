@@ -114,7 +114,8 @@ class FeedCollectionCell: UITableViewCell, PostImageCollectionViewDelegate {
     }
     
     @IBAction func moveChatVC(_ sender: Any) {
-        CurrentUID.shread.yourUID = festaData?.userUID
+        let userUID = festaData?.userUID ?? ""
+        CurrentUID.shread.yourUID = userUID
     }
     
 //    @IBAction func likeButtonAction(_ sender: UIButton) {

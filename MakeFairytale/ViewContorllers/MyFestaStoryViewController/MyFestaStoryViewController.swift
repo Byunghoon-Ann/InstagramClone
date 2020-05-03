@@ -2,10 +2,9 @@
 //  MyFestaStoryViewController.swift
 //  MakeFairytale
 //
-//  Created by ByungHoon Ann on 2019/10/15.
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
-//MARK: 코드 출처 : 이동건의 이유있는 코드 https://baked-corn.tistory.com/111 에서 발췌 & 수정
+
 import UIKit
 import SDWebImage
 import Firebase
@@ -55,6 +54,9 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     var thirdMyView = DidChattingCustomView()
     var myUID : String?
     var yourName: String = ""
+    var yourUID: String {
+        return CurrentUID.shread.yourUID
+    }
     var followingCheck : [String] = [] {
         willSet {
             self.followingCheck.removeAll()
@@ -73,14 +75,15 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         countLabelSetUp(guideCountLabelStackView, true)
         setupCustomTabBar()
         setupPageCollectionView()
-        myProfileName.text = yourName
         
+        myProfileName.text = yourName
+        myProfileImage.layer.cornerRadius = myProfileImage.bounds.height/2
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(moveFollowList(_:)))
         horizontalStackView.addGestureRecognizer(tapGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if firstMyView.yourUID == "" || firstMyView.yourUID == CurrentUID.shread.currentUID {
+        if CurrentUID.shread.yourUID.isEmpty {
             checkFollowButton.isHidden = true
         } else {
             checkFollow()
@@ -89,16 +92,15 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         loadFollowCount()
         viewUserProfile(FakeBarButton, fixMyInfomation,
                         myProfileName, myProfileImage,
-                        horizontalStackView) {
-                            print("load Success")
-        }
-        myProfileImage.layer.cornerRadius = myProfileImage.bounds.height/2
+                        horizontalStackView) { print("load Success") }
+        
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         FakeBarButton.isHidden = true
         fixMyInfomation.isHidden = false
+        CurrentUID.shread.yourUID = ""
     }
     
     //MARK: Following,UnFollow Button
@@ -116,8 +118,6 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    
-    
     func setupCustomTabBar() {
         self.view.addSubview(customMenuBar)
         customMenuBar.delegate = self
@@ -130,6 +130,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     }
     
     func setupPageCollectionView() {
+        pageCollectionView.backgroundColor = .white
         pageCollectionView.delegate = self
         pageCollectionView.dataSource = self
         pageCollectionView.showsHorizontalScrollIndicator = false
@@ -179,8 +180,9 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     @objc func moveFollowList(_ sender: Any) {
         if let _ = sender as? UITapGestureRecognizer, let currentUID = CurrentUID.shread.currentUID {
             guard let vc = storyboard?.instantiateViewController(withIdentifier: "FollowListViewController") as? FollowListViewController else { return }
-            if !firstMyView.yourUID.isEmpty || !secondMyview.yourUID.isEmpty {
-                vc.uid = firstMyView.yourUID
+             let yourUID = CurrentUID.shread.yourUID
+            if !yourUID.isEmpty || !yourUID.isEmpty {
+                vc.uid = yourUID
             }else {
                 vc.uid = currentUID
             }
@@ -274,13 +276,13 @@ extension MyFestaStoryViewController {
                          completion : @escaping () -> Void) {
         guard let currentUID = CurrentUID.shread.currentUID else { return }
         
-        if !firstMyView.yourUID.isEmpty, !secondMyview.yourUID.isEmpty {
+        if !yourUID.isEmpty, !yourUID.isEmpty {
             backButton.isHidden = false
             fixProfileButton.isUserInteractionEnabled = false
             fixProfileButton.isHidden = true
             
             userRef
-                .document("\(firstMyView.yourUID)")
+                .document("\(yourUID)")
                 .getDocument() { userData, error in
                     
                     if let error = error { print("profileLoadError! \(error.localizedDescription)") }
@@ -293,7 +295,7 @@ extension MyFestaStoryViewController {
                     profileImageView.sd_setImage(with: URL(string: userThumbnail))
             }
             
-            postRef.order(by: firstMyView.yourUID).getDocuments { [weak self] query, error in
+            postRef.order(by: yourUID).getDocuments { [weak self] query, error in
                 guard let self = self else { return  }
                 if let error = error { print("\(error.localizedDescription)") }
                 if query?.isEmpty == true {
@@ -365,8 +367,8 @@ extension MyFestaStoryViewController {
     
     func checkFollow() {
         guard let currentUID = CurrentUID.shread.currentUID else { return }
-        let secondUID = secondMyview.yourUID
-        let followingRef = Firestore.firestore().followingRef(currentUID).document(secondUID)
+        
+        let followingRef = Firestore.firestore().followingRef(currentUID).document(yourUID)
         followingRef
             .getDocument { snapshot, error in
                 guard let snapshot = snapshot?.data() else{

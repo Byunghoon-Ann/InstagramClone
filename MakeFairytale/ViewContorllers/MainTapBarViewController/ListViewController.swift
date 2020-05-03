@@ -5,7 +5,6 @@
 //  Created by ByungHoon Ann on 03/10/2019.
 //  Copyright © 2019 ByungHoon Ann. All rights reserved.
 //
-//MARK: TapBarIndex = 0, ViewController
 import UIKit
 import UserNotifications
 import Firebase
@@ -177,8 +176,7 @@ extension ListViewController : UICollectionViewDelegate,UICollectionViewDelegate
       guard let currentUID = CurrentUID.shread.currentUID else { return }
 
       vc.firstMyView.myUID = currentUID
-      vc.secondMyview.yourUID = following[indexPath.row].userUID
-      vc.firstMyView.yourUID = following[indexPath.row].userUID
+      CurrentUID.shread.yourUID = following[indexPath.row].userUID
       vc.yourName = following[indexPath.row].userName
       navigationController?.pushViewController(vc, animated: true)
    }
@@ -251,6 +249,5 @@ extension ListViewController : UITableViewDataSource , UITableViewDelegate{
       CommonService.shread.orderSelect = .option
       presentAlert(.actionSheet)
    }
-   
 }
 

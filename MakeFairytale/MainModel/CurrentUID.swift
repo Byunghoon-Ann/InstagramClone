@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 final class CurrentUID {
     static let shread = CurrentUID()
-    var yourUID: String?
+    var yourUID = ""
     var currentUID: String? {
         willSet{
             guard let currentUID = Auth.auth().currentUser?.uid else { return }

@@ -36,6 +36,7 @@ class MarkViewController : UIViewController {
         initRefresh()
         view.backgroundColor = .white
         tableView.backgroundColor = .white
+       
         view.addSubview(alertLabel)
         alertLabel.isHidden = true
         alertLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -44,9 +45,20 @@ class MarkViewController : UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadGoodMarkPost {
+        loadGoodMarkPost { [weak self] in
+            guard let self = self else { return }
+            
             self.activityIndicatior.stopAnimating()
             self.activityIndicatior.isHidden = true
+            
+            switch self.goodPost.isEmpty {
+            case  true :
+                self.alertLabel.isHidden = false
+                self.tableView.isHidden = true
+            case false:
+                self.alertLabel.isHidden = true
+                self.tableView.isHidden = false
+            }
         }
     }
     

@@ -69,17 +69,14 @@ class AlbumViewController : UIViewController, PhothAurhorizationStatus{
     var count = 0
     var urlString: [String] = []
     var follows: [String] = []
-   
+    var myProfile: MyProfile? {
+        FirebaseServices.shread.myProfile
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         commentInputText.delegate = self
         commentInputText.backgroundColor = .white
-        
-        
-       
-        let tapEndEditing = UITapGestureRecognizer(target: self, action: #selector(selectProfileImg))
-        postingContentView.addGestureRecognizer(tapEndEditing)
-        itemsSelectedButton.addTarget(self, action: #selector(didSelectButtonClicked(_:)), for: .touchUpInside)
         sendingPostIndicator.isHidden = true
     }
     
@@ -93,118 +90,56 @@ class AlbumViewController : UIViewController, PhothAurhorizationStatus{
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        mMode = .view
+        commentInputText.text = "입력할 내용"
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
     
-    @objc func selectProfileImg(_ gesture: UITapGestureRecognizer) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         commentInputText.resignFirstResponder()
     }
     
-    @objc func didSelectButtonClicked(_ sender: UIButton) {
-        switch sender.isSelected {
-        case true:
-            dictionarySelectedIndecPath.removeAll()
-            selectedImages.removeAll()
-            urlString.removeAll()
-            selectedAssetIndex.removeAll()
-            sender.isSelected = false
-            mMode = .view
-        case false:
-            sender.isSelected = true
-            mMode = .select
+    @IBAction func didSelectButtonClicked(_ sender: Any) {
+        if let _sender = sender as? UIButton {
+            switch _sender.isSelected {
+            case true:
+                mMode = .view
+                _sender.isSelected = false
+                dictionarySelectedIndecPath.removeAll()
+                selectedImages.removeAll()
+                urlString.removeAll()
+                selectedAssetIndex.removeAll()
+            case false:
+                _sender.isSelected = true
+                mMode = .select
+            }
         }
     }
     
     @IBAction func setPost(_ sender: Any) {
-        let checkToday = dateFomatter.string(from: today)
-        guard let postingText = commentInputText.text else {return}
-        guard let currentUID = currentUID else { return }
-        guard let email = currentUID.email else  { return }
-        let dateKR = dateFomatter.string(from: today)
+        guard let postingText = commentInputText.text else { return }
         
-        sendingPostIndicator.isHidden = false
-        sendingPostIndicator.startAnimating()
-        
-        let storageRef = fireStorageRef
-            .child("\(currentUID.uid)")
-            .child("postingText")
-        
-        for i in 0..<selectedImages.count {
-            count += 1
-            guard let imageData = selectedImages[i].jpegData(compressionQuality: 0.5) else { return }
-            self.images.append(imageData)
-        }
-        
-        if self.images.count == selectedImages.count  {
-            let postingTextAddress = "\(postingText.count)" + checkToday
-            for j in 0 ..< self.images.count {
-                storageRef
-                    .child(postingTextAddress)
-                    .child("\(j)")
-                    .putData(images[j], metadata: nil) { mata,error in
-                        
-                        if let error = error { print("\(error.localizedDescription)") }
-                        
-                        storageRef
-                            .child(postingTextAddress)
-                            .child("\(j)")
-                            .downloadURL { (down, error) in
-                                
-                                if let error = error { print("\(error.localizedDescription)") }
-                                
-                                if let url = down?.absoluteString {
-                                    self.urlString.append(url)
-                                }
-                                
-                                if self.urlString.count == self.selectedImages.count {
-                                    userRef
-                                        .document(currentUID.uid)
-                                        .getDocument { (snapshot, error) in
-                                            if let error = error { print("\(error.localizedDescription)")}
-                                           
-                                            if let userData = snapshot?.data() {
-                                                guard let profileimage = userData["profileImageURL"] as? String else { return }
-                                                guard let nickName = userData["nickName"] as? String else { return }
-                                                self.followPostAlert(self.follows)
-                                                
-                                                postRef
-                                                    .addDocument(data: [currentUID.uid:[
-                                                        "uid":currentUID.uid,
-                                                        "profileImageURL":profileimage,
-                                                        "postComment":postingText,
-                                                        "email":email,
-                                                        "postImageURL":self.urlString,
-                                                        "goodMark":false,
-                                                        "nickName":nickName,
-                                                        "date":"\(dateKR)"]]) { error in
-                                                            if let error = error { print("\(error.localizedDescription)")}
-                                                            self.sendingPostIndicator.stopAnimating()
-                                                            self.sendingPostIndicator.isHidden = true
-                                                            State.shread.autoRefreshingCheck = true
-                                                            self.tabBarController?.selectedIndex = 0
-                                                }    }
-                                    }
-                                }
-                        }
-                }
-            }
-        }
-    }
-    
-    func followPostAlert(_ follows:[String]) {
-        if !follows.isEmpty {
-            for i in 0..<follows.count {
-                Firestore.firestore().alertContentsCenter("post", follows[i])
-            }
-        }
-    }
-    
-    func followListLoad() {
-        follows.removeAll()
-        if FirebaseServices.shread.following.count > 0 {
-            for i in 0..<FirebaseServices.shread.following.count {
-                follows.append(FirebaseServices.shread.following[i].userUID)
-            }
+        readyUploadRequest(postingText,
+                           selectedImages,
+                           sendingPostIndicator ) { [weak self ] in
+                            guard let self = self else { return  }
+                            
+                            let dateKR = self.dateFomatter.string(from: self.today)
+                            let checkToday = self.dateFomatter.string(from: self.today)
+                            
+                            guard let currentUID = currentUID,
+                                let email = currentUID.email,
+                                let myProfile = self.myProfile else { return }
+                            
+                            let storageRef = fireStorageRef.child("\(currentUID.uid)").child("postingText")
+                            self.uploadPostData(postingText,
+                                                checkToday,
+                                                dateKR,
+                                                currentUID,
+                                                email,
+                                                myProfile,
+                                                storageRef,
+                                                self.sendingPostIndicator)
         }
     }
 }
@@ -221,9 +156,9 @@ extension AlbumViewController: UICollectionViewDataSource {
         OperationQueue.main.addOperation {
             self.imageManager.requestImage(for: asset,
                                            targetSize: self.TcgSize,
-                                       contentMode: .aspectFill,
-                                       options: nil) { image, _ in
-                                        cell.configure(with: image)
+                                           contentMode: .aspectFill,
+                                           options: nil) { image, _ in
+                                            cell.configure(with: image)
             }
         }
         return cell
@@ -272,22 +207,10 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDelegat
         }
     }
     
-    func searchIndex(_ seletedIndex:[Int],_ indexPath:Int) -> Int {
-        var index = -1
-        for i in 0 ... seletedIndex.count {
-            if seletedIndex[i] == indexPath {
-                index = i
-                return index
-            }
-        }
-        return index
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if selectedAssetIndex.count >= 1, commentInputText.text.count >= 1 {
             setPostingButton.isUserInteractionEnabled = true
             setPostingButton.alpha = 1.0
-            
         }else {
             setPostingButton.isUserInteractionEnabled = false
             setPostingButton.alpha = 0.6
@@ -306,8 +229,8 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDelegat
                 if selectedAssetIndex.count == 0 {
                     setPostingButton.isUserInteractionEnabled = false
                     setPostingButton.alpha = 0.6
-                    alertImageCountLabel.text = " 선택 없음"
-                }else {
+                    alertImageCountLabel.text = "선택 없음"
+                } else {
                     setPostingButton.isUserInteractionEnabled = true
                     setPostingButton.alpha = 1.0
                     alertImageCountLabel.text = "\(selectedAssetIndex.count)개 선택"

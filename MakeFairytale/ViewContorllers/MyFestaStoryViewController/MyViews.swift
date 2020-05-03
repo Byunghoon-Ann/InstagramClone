@@ -64,7 +64,10 @@ class MyViews : UIView {
         }
     }
     var myUID : String = ""
-    var yourUID : String = ""
+    var yourUID : String {
+        return CurrentUID.shread.yourUID
+    }
+    
     func customCollection() {
         
         collectionView.delegate = self

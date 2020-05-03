@@ -11,7 +11,6 @@ import Firebase
 
 fileprivate let followerRef = Firestore.firestore().follower
 fileprivate let notifiRef = Firestore.firestore().collection("NotificationCenter")
-
 extension MyFestaStoryViewController {
     func followingCheckButton(_ followButton: UIButton,
                               _ dateFomatter: DateFormatter,
@@ -21,9 +20,9 @@ extension MyFestaStoryViewController {
         let checkDate = dateFomatter.string(from: Today.shread.today)
         let secondUID = secondView.yourUID
         guard let myName = FirebaseServices.shread.myProfile?.nickName else { return }
-        
-        if !secondUID.isEmpty {
-            let yourRef = Firestore.getOtherRef("user",secondUID)
+        let yourUID = CurrentUID.shread.yourUID
+        if !yourUID.isEmpty {
+            let yourRef = Firestore.getOtherRef("user",yourUID) //se
             let yourfollowRef = Firestore.getOtherRef("Follow", currentUID).collection("FollowList")
             
             yourRef.getDocument { [weak self] userData, error in
@@ -31,8 +30,7 @@ extension MyFestaStoryViewController {
                     guard let userData = userData?.data() else { return }
                     let profile = userData["profileImageURL"] as? String ?? ""
                     let nickName = userData["nickName"] as? String ?? ""
-                    
-                    let myUrlkey = yourfollowRef.document(secondUID).documentID
+                let myUrlkey = yourfollowRef.document(yourUID).documentID
                     
                     yourfollowRef.getDocuments { (snapshot, error) in
                             guard let snapshot = snapshot?.documents else {return}
@@ -40,9 +38,9 @@ extension MyFestaStoryViewController {
                             if snapshot.isEmpty {
                                 followButton.isSelected = true
                                 yourfollowRef
-                                    .document("\(secondUID)")
+                                    .document("\(yourUID)")
                                     .setData([
-                                        "uid":secondUID,
+                                        "uid":yourUID,
                                         "nickName":nickName,
                                         "profileImageURL":profile,
                                         "follow":true,
@@ -50,7 +48,7 @@ extension MyFestaStoryViewController {
                                     ])
                                 
                                 followerRef
-                                    .document(secondUID)
+                                    .document(yourUID)
                                     .collection("FollowerList")
                                     .document(currentUID)
                                     .setData([
@@ -64,7 +62,7 @@ extension MyFestaStoryViewController {
                                         self.followNotfication(myName,
                                                                nickName,
                                                                currentUID,
-                                                               secondUID,
+                                                               self.yourUID, //
                                                                checkDate,
                                                                myUrlkey,
                                                                follow: true)
@@ -79,13 +77,13 @@ extension MyFestaStoryViewController {
                                         followButton.isSelected = false
                                         
                                         yourfollowRef
-                                            .document("\(secondUID)")
+                                            .document("\(yourUID)")
                                             .delete()
                                         
                                         self.followNotfication(myName,
                                                                nickName,
                                                                currentUID,
-                                                               secondUID,
+                                                               yourUID,
                                                                checkDate,
                                                                myUrlkey,
                                                                follow: false)
@@ -93,9 +91,9 @@ extension MyFestaStoryViewController {
                                     } else {
                                         followButton.isSelected = true
                                         yourfollowRef
-                                            .document("\(secondUID)")
+                                            .document("\(yourUID)")
                                             .setData([
-                                                "uid":secondUID,
+                                                "uid":yourUID,
                                                 "nickName":nickName,
                                                 "profileImageURL":profile,
                                                 "follow":true,
@@ -105,7 +103,7 @@ extension MyFestaStoryViewController {
                                                 self.followNotfication(myName,
                                                                        nickName,
                                                                        currentUID,
-                                                                       secondUID,
+                                                                       yourUID, //
                                                                        checkDate,
                                                                        myUrlkey,
                                                                        follow: true)
@@ -120,11 +118,13 @@ extension MyFestaStoryViewController {
     
     func loadFollowCount() {
         guard let currentUID = CurrentUID.shread.currentUID else { return }
+    
         let myFollwingRef = Firestore.firestore().followingRef(currentUID)
         let myFollowerRef = Firestore.firestore().followerRef(currentUID)
-        if secondMyview.yourUID != "" {
-            let followingRef = Firestore.firestore().followingRef(secondMyview.yourUID)
-            let followerRef = Firestore.firestore().followerRef(secondMyview.yourUID)
+
+        if !yourUID.isEmpty {
+            let followingRef = Firestore.firestore().followingRef(yourUID) //se
+            let followerRef = Firestore.firestore().followerRef(yourUID) // se
             followingRef
                 .getDocuments { snapshot,error in
                     

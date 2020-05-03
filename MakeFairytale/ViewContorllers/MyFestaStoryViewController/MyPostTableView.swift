@@ -57,7 +57,9 @@ class MyPostTableView: UIView {
         }
     }
     
-    var yourUID = ""
+    var yourUID: String {
+        return CurrentUID.shread.yourUID
+    }
     
     func customCollection() {
         tableView.delegate = self

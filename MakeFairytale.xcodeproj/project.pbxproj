@@ -56,6 +56,7 @@
 		F67463D823F54AFE0082F5F6 /* YourMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463D723F54AFE0082F5F6 /* YourMessageCell.swift */; };
 		F67463DA23F54C510082F5F6 /* ChattingListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463D923F54C510082F5F6 /* ChattingListViewCell.swift */; };
 		F67463DD23F54CE20082F5F6 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67463DC23F54CE10082F5F6 /* ChatModel.swift */; };
+		F68B16F8245EDBA5007D1E56 /* MarkViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B16F7245EDBA5007D1E56 /* MarkViewControllerExtension.swift */; };
 		F6900C812455A3780087380B /* AnimationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6900C802455A3780087380B /* AnimationControl.swift */; };
 		F6900C832455C5B50087380B /* PostImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6900C822455C5B50087380B /* PostImageCollectionView.swift */; };
 		F6900C852455CB140087380B /* PostImageCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6900C842455CB140087380B /* PostImageCollectionCell.xib */; };
@@ -146,6 +147,7 @@
 		F67463D723F54AFE0082F5F6 /* YourMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourMessageCell.swift; sourceTree = "<group>"; };
 		F67463D923F54C510082F5F6 /* ChattingListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingListViewCell.swift; sourceTree = "<group>"; };
 		F67463DC23F54CE10082F5F6 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		F68B16F7245EDBA5007D1E56 /* MarkViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkViewControllerExtension.swift; sourceTree = "<group>"; };
 		F6900C802455A3780087380B /* AnimationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationControl.swift; sourceTree = "<group>"; };
 		F6900C822455C5B50087380B /* PostImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCollectionView.swift; sourceTree = "<group>"; };
 		F6900C842455CB140087380B /* PostImageCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostImageCollectionCell.xib; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 		F62B3C5423EC1BD6007ED262 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F6900CB1245C3D510087380B /* FollowListCell.swift */,
 				F62B3C5523EC1C02007ED262 /* ListFollwingCell.swift */,
 				F6D5BE4C234F2BB300970043 /* FeedCollectionCell.swift */,
 				F62B3C5923EC25AD007ED262 /* SearchCell.swift */,
@@ -265,6 +268,7 @@
 				F67463D323F53E100082F5F6 /* MyFestaStoryViewControllerExtension.swift */,
 				F643613F23EDDC24004D26D4 /* UIViewControllerExtension.swift */,
 				F6E54F802449A8A700D7F9FD /* FirebaseExtension.swift */,
+				F68B16F7245EDBA5007D1E56 /* MarkViewControllerExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -385,7 +389,6 @@
 				F6709FF92345E6DB00BFF3FA /* PlusCommentViewContrller.swift */,
 				F6424A8323F2AAB900FEA09E /* NotificationAlertViewController.swift */,
 				F6900CAF245C3B600087380B /* FollowListViewController.swift */,
-				F6900CB1245C3D510087380B /* FollowListCell.swift */,
 			);
 			path = InfomationViewControllers;
 			sourceTree = "<group>";
@@ -578,6 +581,7 @@
 				F67463D423F53E100082F5F6 /* MyFestaStoryViewControllerExtension.swift in Sources */,
 				F6900CAE245AE7920087380B /* PhothAurhorizationService.swift in Sources */,
 				F627EF2D2355BF1300508ED3 /* MyFestaStoryViewController.swift in Sources */,
+				F68B16F8245EDBA5007D1E56 /* MarkViewControllerExtension.swift in Sources */,
 				F63B60A623FAF56800B6559D /* DidChatMembersCell.swift in Sources */,
 				F6709FF423448F3800BFF3FA /* LoginViewController.swift in Sources */,
 				F69843F02454634D00397483 /* CurrentUID.swift in Sources */,

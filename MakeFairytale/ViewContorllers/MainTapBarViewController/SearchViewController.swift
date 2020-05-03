@@ -15,16 +15,9 @@ class SearchViewController : UIViewController ,UISearchBarDelegate {
     
     var searchImageArray: [Posts] = [] {
         didSet {
-            searchImageArray.sort { firstItem, secondItem in
-                let firstDate = dateFomatter.date(from: firstItem.postDate) ?? self.today
-                let secondDate = dateFomatter.date(from: secondItem.postDate) ?? self.today
-                
-                if  firstDate > secondDate {
-                    return true
-                } else {
-                    return false
-                }
-            }
+            DateCalculation.shread.requestSort(&searchImageArray,
+                                                       dateFomatter,
+                                                       Today.shread.today)
             filterData = searchImageArray
         }
     }
@@ -62,7 +55,7 @@ class SearchViewController : UIViewController ,UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filterData = searchText.isEmpty ? searchImageArray : searchImageArray.filter { (item: Posts) -> Bool in
+        filterData = searchText.isEmpty ? searchImageArray : searchImageArray.filter { item in
             return item.userComment.range(of: searchText,
                                           options: .caseInsensitive,
                                           range: nil,locale: nil) != nil

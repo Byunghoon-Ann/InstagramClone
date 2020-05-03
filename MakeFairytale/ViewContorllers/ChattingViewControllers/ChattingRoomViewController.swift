@@ -60,7 +60,7 @@ class ChattingRoomViewController : UIViewController {
     @objc func createRoom() {
         guard let chatText = textField.text else {return}
         guard let currentUID = CurrentUID.shread.currentUID else { return }
-        guard let yourUID = CurrentUID.shread.yourUID else { return }
+         let yourUID = CurrentUID.shread.yourUID
         
         let createRoomInfo : Dictionary<String,Any> =  [
             "users":[currentUID:true,
@@ -133,7 +133,7 @@ class ChattingRoomViewController : UIViewController {
     //MARK:챗방중복생성방지 함수
     func checkChatRoom() {
         guard let currentUID = CurrentUID.shread.currentUID else  { return }
-        guard let yourUID = CurrentUID.shread.yourUID else { return }
+         let yourUID = CurrentUID.shread.yourUID
         chatRoomRef
             .queryOrdered(byChild: "users/"+currentUID)
             .queryEqual(toValue: true)
@@ -156,7 +156,7 @@ class ChattingRoomViewController : UIViewController {
     
     //MARK:사용자 정보 불러오기
     func getYourInfo() {
-        guard let yourUID = CurrentUID.shread.yourUID else { return }
+         let yourUID = CurrentUID.shread.yourUID
 
         firestoreRef
             .collection("user")
