@@ -51,8 +51,7 @@ class MyPostTableView: UIView {
     var yourData : [Posts] = [] {
         willSet {
             self.yourData.removeAll()
-        }
-        didSet {
+        } didSet {
             tableView.reloadData()
         }
     }

@@ -35,6 +35,8 @@ class DidChattingCustomView: UIView {
     override init(frame: CGRect) {
         super.init(frame:frame)
         setUpCustomMyChatList()
+        self.backgroundColor = .white
+        
         firstAlertLabel.isHidden = true
         self.addSubview(firstAlertLabel)
         firstAlertLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true

@@ -146,7 +146,8 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
          State.shread.checkNotificationCheck = false
          userRef
             .document(currentUID)
-            .updateData(["newPost":false]) { error in
+            .updateData(["newPost":false]) { [weak self] error in
+               guard let self = self else { return }
                if let _error = error { print("newPostCheck Error!:\(_error.localizedDescription)")}
                self.loadFesta()
          }

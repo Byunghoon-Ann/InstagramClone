@@ -72,6 +72,7 @@ class FollowListViewController: UIViewController {
             tableView.reloadData()
         }
     }
+    
     @IBAction func backButton(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }

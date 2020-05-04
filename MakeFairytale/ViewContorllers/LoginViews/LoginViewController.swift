@@ -9,7 +9,7 @@ import Firebase
 import UIKit
 
 fileprivate let ref = Database.database().reference()
-
+fileprivate let authRef = Auth.auth()
 class LoginViewController: UIViewController{
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
@@ -30,6 +30,7 @@ class LoginViewController: UIViewController{
         emailTextField.layer.cornerRadius = 15
         passwordTextField.layer.borderWidth = 1
         passwordTextField.layer.cornerRadius = 15
+        
     }
     
     //MARK: 로그인 기록이 있을 경우 자동 로그인
@@ -90,9 +91,12 @@ class LoginViewController: UIViewController{
     
     //MARK:비밀번호, 이메일 찾기 버튼
     @IBAction func findIdPw(_ sender: UIButton) {
-        let alert = UIAlertController(title: "이메일, 비밀번호 찾기", message: "찾고자 하시는 항목을 선택해 주세요", preferredStyle: .alert)
+        let alert = UIAlertController(title: "이메일, 비밀번호 찾기",
+                                      message: "찾고자 하시는 항목을 선택해 주세요",
+                                      preferredStyle: .alert)
         
-        let pwAction = UIAlertAction(title: "이메일(Email)", style: .default) { (_) in
+        let pwAction = UIAlertAction(title: "이메일(Email)", style: .default) { [weak self] _ in
+            guard let self = self else { return }
             let msg = "가입하실 때 사용하신 이메일을 입력해주세요"
             let pwAlert = UIAlertController(title: "비밀번호 찾기",
                                             message: msg,
@@ -102,9 +106,9 @@ class LoginViewController: UIViewController{
                                        style: .cancel)
             
             let okAction = UIAlertAction(title: "인증",
-                                         style: .default) { (_) in
-                                            let firestoreRef = Firestore.firestore()
+                                         style: .default) { _ in
                                             
+                                            let firestoreRef = Firestore.firestore()
                                             firestoreRef
                                                 .collectionGroup("user")
                                                 .getDocuments { (users, error) in
@@ -117,8 +121,7 @@ class LoginViewController: UIViewController{
                                                                 guard let email = document["email"] as? String else { return}
                                                                 if email == pwAlert.textFields?[0].text {
                                                                     guard let text = pwAlert.textFields?[0].text else { return }
-                                                                    Auth
-                                                                        .auth()
+                                                                    authRef
                                                                         .sendPasswordReset(withEmail: text) { error in
                                                                             if let error = error {
                                                                                 print("\(error.localizedDescription)")}

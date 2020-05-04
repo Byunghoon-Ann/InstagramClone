@@ -33,9 +33,6 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         collectionView.isPagingEnabled = true
         return collectionView
     }()
-    
-    lazy var dateFomatter = DateCalculation.shread.dateFomatter
-    
     lazy var alertLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +43,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         label.textAlignment = .center
         return label
     }()
+    lazy var dateFomatter = DateCalculation.shread.dateFomatter
     
     var myData: MyProfile?
     var customMenuBar = MyFestaStoryMenuView()
@@ -71,6 +69,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        pageCollectionView.backgroundColor = .white
         countLabelSetUp(horizontalStackView, false)
         countLabelSetUp(guideCountLabelStackView, true)
         setupCustomTabBar()
@@ -119,7 +118,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     }
     
     func setupCustomTabBar() {
-        self.view.addSubview(customMenuBar)
+        view.addSubview(customMenuBar)
         customMenuBar.delegate = self
         customMenuBar.translatesAutoresizingMaskIntoConstraints = false
         customMenuBar.indicatorViewWidthConstraint.constant = view.frame.width / 3
@@ -367,7 +366,6 @@ extension MyFestaStoryViewController {
     
     func checkFollow() {
         guard let currentUID = CurrentUID.shread.currentUID else { return }
-        
         let followingRef = Firestore.firestore().followingRef(currentUID).document(yourUID)
         followingRef
             .getDocument { snapshot, error in

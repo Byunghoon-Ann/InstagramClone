@@ -9,7 +9,7 @@
 import UIKit
 //MARK: pageCollectionView의 셀
 class MyFestaStoryPageCell : UICollectionViewCell {
-    var label: UILabel = {
+    lazy var label: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .center

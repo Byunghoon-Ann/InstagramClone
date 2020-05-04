@@ -36,6 +36,5 @@ class ChatModel : Mappable {
             timeStamp <- map["timeStamp"]
             readUsers <- map["readUsers"]
         }
-        
     }
 }

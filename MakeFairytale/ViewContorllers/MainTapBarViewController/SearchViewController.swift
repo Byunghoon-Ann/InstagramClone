@@ -32,6 +32,7 @@ class SearchViewController : UIViewController ,UISearchBarDelegate {
 
         searchCollectionView.isHidden = true
         searchBar.searchTextField.backgroundColor = .white
+        searchBar.searchTextField.textColor = .black
         searchBar.barTintColor = .systemOrange
         festaPostLoadIndicator.startAnimating()
         
@@ -48,6 +49,11 @@ class SearchViewController : UIViewController ,UISearchBarDelegate {
         searchBar.delegate = self
         searchCollectionView.delegate = self
         searchCollectionView.dataSource = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        searchBar.searchTextField.resignFirstResponder()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

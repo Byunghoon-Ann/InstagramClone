@@ -35,6 +35,10 @@ class ChattingRoomViewController : UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = .white
+        textField.backgroundColor = .white
+        textField.layer.borderColor = UIColor.gray.cgColor
+        textField.layer.borderWidth = 0.5
         textField.isUserInteractionEnabled = true
         sendButton.isUserInteractionEnabled = true
         sendButton.addTarget(self, action: #selector(createRoom), for: .touchUpInside)

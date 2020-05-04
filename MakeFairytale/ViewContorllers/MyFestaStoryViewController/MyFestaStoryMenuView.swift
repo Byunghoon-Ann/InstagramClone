@@ -51,11 +51,8 @@ class MyFestaStoryMenuView : UIView{
         customTabBarCollectionView.dataSource = self
         customTabBarCollectionView.backgroundColor = .white
         customTabBarCollectionView.showsHorizontalScrollIndicator = false
-        customTabBarCollectionView.register(UINib(nibName:"MyFestaStoryViewCell" ,
-                                                  bundle: nil), forCellWithReuseIdentifier: "MyFestaStoryViewCell")
+        customTabBarCollectionView.registerCell(MyFestaStoryViewCell.self)
         customTabBarCollectionView.isScrollEnabled = false
-        let indexPath = IndexPath(item: 0, section: 0)
-        customTabBarCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
     }
     
     var indicatorViewLeadingConstraint:NSLayoutConstraint!

@@ -27,6 +27,8 @@ class DidChattingCustomCell : UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = .white
+        self.contentView.backgroundColor = .white
         profileImageview.layer.cornerRadius = profileImageview.frame.height/2
         addSubview(alertLabel)
         alertLabel.isHidden = true

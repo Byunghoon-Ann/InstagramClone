@@ -96,7 +96,7 @@ class MyPostTableViewCell : UITableViewCell, UIScrollViewDelegate, PostImageColl
         collectionView.leadingAnchor.constraint(equalTo: postImageContentView.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: postImageContentView.trailingAnchor).isActive = true
     }
-
+    
     func pageControlCurrentPageIndex(_ path: Int) {
         pageControl.currentPage = path
     }

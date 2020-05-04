@@ -69,7 +69,8 @@ class PlusCommentViewContrller : UIViewController {
         commentTableView.delegate = self
         commentTableView.backgroundColor = .white
         plusCommentTextField.delegate = self
-        
+        plusCommentTextField.layer.borderWidth = 0.5
+        plusCommentTextField.layer.borderColor = UIColor.gray.cgColor
         commentTableView.layer.borderWidth = 0.3
         commentTableView.layer.borderColor = UIColor.gray.cgColor
         profileImgView.layer.cornerRadius = profileImgView.frame.height/2
@@ -184,6 +185,7 @@ extension PlusCommentViewContrller : UITableViewDelegate {
 extension PlusCommentViewContrller: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
         if textField.text == "댓글입력칸" {
             textField.text = ""
         }

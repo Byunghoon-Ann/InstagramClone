@@ -72,7 +72,9 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         pageControl.numberOfPages = post.userPostImage.count
         hideRepleList.delegate = self
         hideRepleList.dataSource = self
-       
+        repleTextField.layer.borderWidth = 0.5
+        repleTextField.layer.borderColor = UIColor.gray.cgColor
+        
         hideRepleList.registerCell(ViewPostingRepleCell.self)
         
         checkViewCount()
@@ -100,7 +102,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
     
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.nsKeyboardConstrait.constant = keyboardSize.height + 20
+            nsKeyboardConstrait.constant = keyboardSize.height - 10
         }
         UIView.animate(withDuration: 0, animations: {
             self.view.layoutIfNeeded()
