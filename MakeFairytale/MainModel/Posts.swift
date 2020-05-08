@@ -43,13 +43,16 @@ extension Posts {
                           _ viewCheck: QuerySnapshot?,completion: @escaping(Posts) -> Void) {
         
         if let data = data {
-            
+            let blockList = FirebaseServices.shread.blockList
             for (_,j) in data {
+                let uid = j["uid"] as? String ?? ""
+                let block = blockList.contains(uid)
                 
                 var viewCount = 0
                 var likeCount = 0
                 var like = false
-                let uid = j["uid"] as? String ?? ""
+                
+                
                 let postComment = j["postComment"] as? String ?? ""
                 let postImageURL = j["postImageURL"] as? [String] ?? [""]
                 let date = j["date"] as? String ?? ""
@@ -78,6 +81,9 @@ extension Posts {
                     like = false
                 }
                
+                
+                if block == false {
+                   
                 userRef
                     .document(uid)
                     .getDocument { userData, _ in
@@ -94,6 +100,10 @@ extension Posts {
                                      viewCount: viewCount,
                                      likeCount: likeCount,
                                      urlkey: dataID))
+                    }
+                } else {
+                    print("tttrue")
+                    FirebaseServices.shread.blockCount += 1
                 }
             }
         }

@@ -11,6 +11,8 @@ import UIKit
 enum SelectedType: String {
     case option = "안내"
     case logout = "로그아웃"
+    case block = "차단"
+    case report = "신고"
 }
 
  class CommonService {

@@ -28,8 +28,8 @@ class MyStoryViewController : UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         textFieldBorderCustom(userNameTextField,
-        userPassword,
-        userEmail)
+                              userPassword,
+                              userEmail)
         firebaseFetch()
         
         userPassword.isSecureTextEntry = true

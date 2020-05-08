@@ -44,7 +44,7 @@ extension MyFestaStoryViewController {
                                         "nickName":nickName,
                                         "profileImageURL":profile,
                                         "follow":true,
-                                        "data":checkDate
+                                        "date":checkDate
                                     ])
                                 
                                 followerRef

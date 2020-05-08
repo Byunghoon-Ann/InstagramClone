@@ -82,10 +82,11 @@ class AlbumViewController : UIViewController, PhothAurhorizationStatus{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        guard let currendUID = CurrentUID.shread.currentUID else { return }
+        phothAurhorizationStatus()
+        checkPostAgree(currendUID)
         mMode = .view
         PHPhotoLibrary.shared().register(self)
-        phothAurhorizationStatus()
-        followListLoad()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -289,11 +290,76 @@ extension AlbumViewController: PHPhotoLibraryChangeObserver {
         guard let fetchResult = fetchResult else { return }
         OperationQueue.main.addOperation {
             self.imageManager.requestImage(for: fetchResult.object(at: 0),
-                                      targetSize: self.TcgSize,
-                                      contentMode: .aspectFit,
-                                      options: nil) { image, _ in
-                                        self.selectedImg.image = image
+                                           targetSize: self.TcgSize,
+                                           contentMode: .aspectFit,
+                                           options: nil) { image, _ in
+                                            self.selectedImg.image = image
             }
         }
     }
 }
+
+
+extension AlbumViewController {
+    func postUploadAlertMessage(_ currentUID: String) {
+        let msg = "음란물/비속어/욕설/선동/광고/URL과 관련된 사진이나 글은 게재할 수 없습니다. 이를 무시하고 게시될 경우 24시간 내 무통보 삭제 및 계정이용이 중지될 수 있습니다. 게시물을 작성하실려면 동의를 눌러주세요."
+        let today = DateCalculation.shread.dateFomatter.string(from: Today.shread.today)
+        let alert = UIAlertController(title: "안내", message: msg, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "동의", style: .default)  { _ in
+            Firestore
+                .firestore()
+                .collection("PostAgree")
+                .document(currentUID).setData(["uid":currentUID,
+                                               "agree":true,
+                                               "date":today]) { error in
+                                                if let _error = error {
+                                                    print("error: \(_error.localizedDescription)")
+                                                }
+                                                
+                                                self.followListLoad()
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "비동의", style: .default) { _ in
+            let cancelmsg = "동의를 하지 않으면 게시물 작성을 하실 수 없습니다."
+            let alert = UIAlertController(title: "제한 안내", message: cancelmsg, preferredStyle: .alert)
+            let ok = UIAlertAction(title: "확인", style: .default) {  _ in
+                Firestore
+                    .firestore()
+                    .collection("PostAgree")
+                    .document(currentUID).setData(["uid":currentUID,
+                                                   "agree":false,
+                                                   "date":today]) { error in
+                                                    if let _error = error {
+                                                        print("error: \(_error.localizedDescription)")
+                                                    }
+                                                    self.tabBarController?.selectedIndex = 0
+                }
+                
+            }
+            alert.addAction(ok)
+            self.present(alert,animated: true)
+        }
+        alert.addAction(cancel)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
+    func checkPostAgree(_ currentUID: String) {
+        Firestore.firestore().collection("PostAgree").document(currentUID).getDocument { snapshot, error in
+            guard let snapshot = snapshot?.data() else {
+                self.postUploadAlertMessage(currentUID)
+                return
+            }
+            
+            let uid = snapshot["uid"] as? String ?? ""
+            let agree = snapshot["agree"] as? Bool ?? false
+            if uid == currentUID, agree == true {
+                self.followListLoad()
+            } else {
+                self.postUploadAlertMessage(currentUID)
+            }
+        }
+    }
+}
+

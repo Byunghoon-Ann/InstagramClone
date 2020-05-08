@@ -18,7 +18,7 @@ extension ListViewController: UITabBarControllerDelegate {
             self.following = FirebaseServices.shread.following
             self.festaData = FirebaseServices.shread.myPostData
             self.myProfileData = FirebaseServices.shread.myProfile
-            if !FirebaseServices.shread.followString.isEmpty || !self.festaData.isEmpty {
+            if !self.festaData.isEmpty {
                 self.postTableView.isHidden = false
                 self.firstAlertLabel.isHidden = true
             } else {

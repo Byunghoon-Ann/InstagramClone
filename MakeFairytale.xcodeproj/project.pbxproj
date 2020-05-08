@@ -40,6 +40,7 @@
 		F6424A8823F2AF3E00FEA09E /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6424A8723F2AF3E00FEA09E /* NotificationData.swift */; };
 		F643614023EDDC25004D26D4 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F643613F23EDDC24004D26D4 /* UIViewControllerExtension.swift */; };
 		F643614223EEC4CF004D26D4 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F643614123EEC4CF004D26D4 /* Mode.swift */; };
+		F647D33D246278A4009A605E /* StringFilterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647D33C246278A4009A605E /* StringFilterService.swift */; };
 		F6709FF223448E7D00BFF3FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6709FF123448E7D00BFF3FA /* GoogleService-Info.plist */; };
 		F6709FF423448F3800BFF3FA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6709FF323448F3800BFF3FA /* LoginViewController.swift */; };
 		F6709FF62344913A00BFF3FA /* NewSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6709FF52344913A00BFF3FA /* NewSignInViewController.swift */; };
@@ -131,6 +132,7 @@
 		F6424A8723F2AF3E00FEA09E /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		F643613F23EDDC24004D26D4 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		F643614123EEC4CF004D26D4 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
+		F647D33C246278A4009A605E /* StringFilterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringFilterService.swift; sourceTree = "<group>"; };
 		F6709FF123448E7D00BFF3FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F6709FF323448F3800BFF3FA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F6709FF52344913A00BFF3FA /* NewSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignInViewController.swift; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				F6E54FAB244C4BFB00D7F9FD /* Reusable.swift */,
 				F6E54F7E2449A72F00D7F9FD /* LocalCollection.swift */,
 				F69843E7245187B500397483 /* PostAlertControllerService.swift */,
+				F647D33C246278A4009A605E /* StringFilterService.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -606,6 +609,7 @@
 				F643614023EDDC25004D26D4 /* UIViewControllerExtension.swift in Sources */,
 				F6709FF62344913A00BFF3FA /* NewSignInViewController.swift in Sources */,
 				F6C2B9BE23F979E9001B20C0 /* PlusCommentCell.swift in Sources */,
+				F647D33D246278A4009A605E /* StringFilterService.swift in Sources */,
 				F670A00E23466BAA00BFF3FA /* SearchViewController.swift in Sources */,
 				F60B8713236059F800110F31 /* MyPostTableView.swift in Sources */,
 				F6D5BE4E234F2BB300970043 /* FeedCollectionCell.swift in Sources */,

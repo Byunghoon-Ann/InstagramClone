@@ -121,9 +121,19 @@ extension ListViewController: AlertPresentable {
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
+        let reportAction = AlertActionComponent(title: "신고", style: .destructive) { _ in
+            CommonService.shread.orderSelect = .report
+            self.presentAlert(.alert)
+        }
+       
+        let blockAction = AlertActionComponent(title: "차단", style: .destructive) { action in
+            CommonService.shread.orderSelect = .block
+            self.presentAlert(.alert)
+        }
+    
         let cancelAction = AlertActionComponent(title: "취소", handler: nil)
 
-        let alertComponents = AlertComponents(title: "안내", actions: [detailAlert,messageAlert,cancelAction])
+        let alertComponents = AlertComponents(title: "안내", actions: [reportAction,blockAction,detailAlert,messageAlert,cancelAction])
         
         if festaData[indexPath.row].userUID == currentUID {
             let myComponentss = AlertComponents(title: "안내", actions: [detailAlert,deleteAction,cancelAction])
@@ -148,12 +158,56 @@ extension ListViewController: AlertPresentable {
         return AlertComponents(title: "로그아웃", actions: [logoutAction,cancel])
     }
     
+    func blockAlert() -> AlertComponents {
+        let message = "차단을 하시면 해당 유저에 관련된 모든 것을 두번 다시 볼 수 없게 됩니다. 차단하시겠습니까?"
+        
+        let okAction = AlertActionComponent(title: "차단(Block)", style: .destructive) { _ in
+            guard let currentUID = CurrentUID.shread.currentUID else { return }
+            guard let indexPath = AnimationControl.shread.indexPath else { return }
+            let userUID = self.festaData[indexPath.row].userUID
+            Firestore.firestore().collection("BlockList")
+                .document(currentUID).setData(["uid":userUID]) { error in
+                    Firestore.firestore().followerRef(currentUID).document(userUID).delete() {  error in
+                        Firestore.firestore().followingRef(currentUID).document(userUID).delete() { error in
+                            self.loadFesta()
+                        }
+                    }
+
+            }
+        }
+        
+        let cancel = AlertActionComponent(title: "취소", style: .cancel, handler: nil)
+        let alert = AlertComponents(title: "차단", message: message, actions: [cancel,okAction])
+       
+        return alert
+    }
+    
+    func reportAction() -> AlertComponents {
+        let okAction = AlertActionComponent(title: "신고", style: .destructive) { _ in
+//            guard let currentUID = CurrentUID.shread.currentUID else { return }
+//            guard let indexPath = AnimationControl.shread.indexPath else { return }
+//            let data = self.festaData[indexPath.row]
+//            Firestore.firestore().collection("ReportList").document(data.userUID).collection(currentUID).addDocument(data: ["reportType":"","urlKey":data.urlkey,"reporter":currentUID])
+        }
+        
+        let cancel = AlertActionComponent(title: "취소", style: .cancel,handler: nil)
+        
+        
+        let alert = AlertComponents(title: "신고", message: "신고하시겠습니까?", actions: [cancel,okAction])
+        
+        return alert
+    }
+    
     func selectAlertType(by orderSelect: SelectedType) -> AlertComponents {
         switch orderSelect {
         case .option:
             return optionAction(.option, postTableView)
         case .logout:
             return logoutAction()
+        case .block:
+            return blockAlert()
+        case .report:
+            return reportAction()
         }
     }
 

@@ -23,7 +23,6 @@ class FirebaseServices {
     
     lazy var dateformatter = DateCalculation.shread.dateFomatter
     lazy var today = Today.shread.today
-    var followString : [String] = []
     var followPostCount: Int?
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var following : [FollowData] = []
@@ -193,7 +192,29 @@ class FirebaseServices {
         }
     }
     
+    var blockList = [String]()
+    func loadBlockList(completion: @escaping () -> Void) {
+        blockList.removeAll()
+        guard let currentUID = CurrentUID.shread.currentUID else { return }
+        firestoreRef.collection("BlockList").document(currentUID).getDocument { snapshot, error in
+            guard let _snapshot = snapshot?.data() else { completion()
+                return }
+           
+            for i in 0..<_snapshot.count {
+                guard let userUID = _snapshot["uid"] as? String else {
+                    completion()
+                    return
+                }
+                self.blockList.append(userUID)
+                if i == _snapshot.count {
+                    completion()
+                }
+            }
+            
+        }
+    }
     func fecthMyFollowPosting(completion : @escaping () -> Void) {
+        loadBlockList { }
         guard let currentUID = CurrentUID.shread.currentUID else { return }
         following.removeAll()
         myPostData.removeAll()
@@ -325,10 +346,11 @@ class FirebaseServices {
         }
     }
     
+    var blockCount = 0
     //MARK: SearchViewController Loading Post func
     func loadSearchFeedPost(completion : @escaping () -> Void) {
+        blockCount = 0
         guard let currentUID = CurrentUID.shread.currentUID else { return }
-
         posts.removeAll()
         postRef
             .getDocuments { [weak self] querySnapshot, error in
@@ -341,6 +363,8 @@ class FirebaseServices {
                         completion()
                     } else {
                         for document in snapshot {
+                            
+                           
                             let docID = document.documentID
                             guard let data = document.data() as? [String:[String:Any]] else { return }
                             let likeurl = Firestore.firestore().goodMark(docID)
@@ -359,11 +383,12 @@ class FirebaseServices {
                                                         likeCount,
                                                         viewCheck) { data in
                                                             self.posts.append(data)
-                                                            if self.posts.count == snapshot.count {
-                                                           
+                                                             print(self.blockCount,"sddsds")
+                                                            if self.posts.count == snapshot.count - self.blockCount {
                                                                 completion()
                                                             }
                                         }
+                                    }
                                     }
                                 }
                             }
@@ -371,7 +396,7 @@ class FirebaseServices {
                     }
                 }
         }
-    }
+    
     
     func loadProfile(completion : @escaping () -> Void) {
         guard let currentUID = CurrentUID.shread.currentUID else { return }
@@ -391,13 +416,15 @@ class FirebaseServices {
                 }
         }
     }
-    
+    var chatBlockCount = 0
     func getChatRoomLists(completion : @escaping () -> Void) {
+        chatBlockCount = 0
         guard let currentUID = CurrentUID.shread.currentUID else { return }
-
+        
         if currentUID.isEmpty {
             return
         } else {
+            
             chatRoomRef
                 .queryOrdered(byChild: "users/"+currentUID)
                 .queryEqual(toValue: true)
@@ -409,9 +436,21 @@ class FirebaseServices {
                         
                         if let chatRoomdic = id.value as? [String:AnyObject] {
                             guard let chatModel = ChatModel(JSON: chatRoomdic) else { return }
-                            self.chatModel.append(chatModel)
-                            
-                            if snapshot.count == self.chatModel.count {
+                            var check = false
+                            for (i,_) in chatModel.users {
+                                let d = self.blockList.contains(i)
+                                if d == true {
+                                    check = false
+                                    self.chatBlockCount += 1
+                                    continue
+                                } else {
+                                    check = true
+                                }
+                            }
+                            if check == true {
+                                self.chatModel.append(chatModel)
+                            }
+                            if snapshot.count == self.chatModel.count + self.chatBlockCount {
                                 completion()
                             }
                         }
