@@ -17,6 +17,7 @@ enum CheckMode {
 class FollowListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    
     lazy var alertLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 5
@@ -27,6 +28,7 @@ class FollowListViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
     var uid = ""
 
     var followingData = [FollowData]()
@@ -84,14 +86,20 @@ extension FollowListViewController: UITableViewDelegate,UITableViewDataSource {
         case .follower:
             guard !followerData.isEmpty else {
                 tableView.isHidden = true
+                alertLabel.isHidden = false
                 return 0
             }
+            tableView.isHidden = false
+            alertLabel.isHidden = true
             return followerData.count
         case .following:
             guard !followingData.isEmpty else {
                 tableView.isHidden = true
+                alertLabel.isHidden = false
                 return 0
             }
+            tableView.isHidden = false
+            alertLabel.isHidden = true
             return followingData.count
         }
     }

@@ -23,15 +23,21 @@ class FirebaseServices {
     
     lazy var dateformatter = DateCalculation.shread.dateFomatter
     lazy var today = Today.shread.today
+    var blockCount = 0
+    var chatBlockCount = 0
     var followPostCount: Int?
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var following : [FollowData] = []
     var posts : [Posts] = []
     var searchPost: [SearchData] = []
     var myPostData: [Posts] = []
     var chatModel : [ChatModel] = []
     var myProfile: MyProfile?
-   
+    let pushMessage = ["누군가 당신의 게시글에 좋아요를 눌렀습니다.",
+                       "누군가 당신을 팔로우합니다.",
+                       "누군가 당신의 게시글에 댓글을 남겼습니다.",
+                       "누군가 당신에게 메세지를 보냈습니다.",
+                       "팔로우 중 한명이 새로운 게시글을 올렸습니다."]
+    
     var repleDatas : [RepleData] = [] {
         didSet {
             DateCalculation.shread.requestRepleSort(&repleDatas,dateformatter,today)
@@ -39,10 +45,12 @@ class FirebaseServices {
     }
     
     func snapshotListenerCheckEvent(_ uid: String, _ badge: UIImageView, _ contents: [String]) {
+        let pushMsg = pushMessage
         userRef
             .document(uid)
-            .addSnapshotListener(includeMetadataChanges: true) { snapshot, error in
-                if let error = error { print(error.localizedDescription) }
+            .addSnapshotListener(includeMetadataChanges: true) { [weak self] snapshot, error in
+                guard let self = self else { return }
+                if let _error = error { print(_error.localizedDescription) }
                 
                 guard let userData = snapshot?.data() else { return }
                 let likeCheck = userData["like"] as? Bool ?? false
@@ -54,50 +62,23 @@ class FirebaseServices {
                     
                     if contents[i] == "like" {
                         if likeCheck == true {
-                            self.notificationControl(uid,
-                                                     "좋아요",
-                                                     "누군가 당신의 게시글에 좋아요를 눌렀습니다.",
-                                                     "like",
-                                                     badge,
-                                                     "like-message")
-                            
+                            self.notificationControl(uid,"좋아요",pushMsg[0], "like",badge, "like")
                         }
                     } else if contents[i] == "follow" {
                         if followCheck == true {
-                            self.notificationControl(uid,
-                                                     "팔로우",
-                                                     "누군가 당신을 팔로우합니다.",
-                                                     "follow",
-                                                     badge,
-                                                     "follow-message")
+                            self.notificationControl(uid,"팔로우", pushMsg[1],"follow",badge,"follow")
                         }
                     } else if contents[i] == "reple" {
                         if repleCheck == true {
-                            self.notificationControl(uid,
-                                                     "댓글",
-                                                     "누군가 당신의 게시글에 댓글을 남겼습니다.",
-                                                     "reple",
-                                                     badge,
-                                                     "reple-message")
+                            self.notificationControl(uid,"댓글",pushMsg[2],"reple",badge,"reple")
                         }
                     } else if contents[i] == "chatting" {
                         if chatCheck == true {
-                            self.notificationControl(uid,
-                                                     "대화",
-                                                     "누군가 당신에게 메세지를 보냈습니다.",
-                                                     "chatting",
-                                                     badge,
-                                                     "chatting-message")
+                            self.notificationControl(uid,"대화",pushMsg[3],"chatting",  badge,"chatting")
                         }
                     } else if contents[i] == "newPost" {
-                        
                         if postCheck == true {
-                            self.notificationControl(uid,
-                                                     "새 글",
-                                                     "팔로우 중 한명이 새로운 게시글을 올렸습니다.",
-                                                     "newPost",
-                                                     badge,
-                                                     "newPost-message")
+                            self.notificationControl(uid,"새 글", pushMsg[4], "newPost",  badge,"newPost")
                         } else {
                             State.shread.checkNotificationCheck  = false
                         }
@@ -109,14 +90,13 @@ class FirebaseServices {
     func notificationControl(_ uid: String,_ title:String, _ body: String, _ documentID: String, _ badge: UIImageView, _ categoryIdentifier: String) {
         let center = UNUserNotificationCenter.current()
         let content = UNMutableNotificationContent()
-        
         let badgeCurrent = Int(truncating: content.badge ?? NSNumber(value: 0)) + 1
+        
         content.body = body
         content.badge = NSNumber(value:badgeCurrent + 1)
-    
         content.title = title
         content.sound = UNNotificationSound.default
-        content.categoryIdentifier = categoryIdentifier
+        content.categoryIdentifier = categoryIdentifier+"-message"
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let requeset = UNNotificationRequest(identifier: documentID, content: content, trigger: trigger)
         center.add(requeset) { error in
@@ -157,7 +137,6 @@ class FirebaseServices {
                                         guard let repleData = RepleData(document: i) else { return }
                                         self.repleDatas.append(repleData)
                                     }
-                                    
                                     completion()
                             }
                         }
@@ -346,7 +325,7 @@ class FirebaseServices {
         }
     }
     
-    var blockCount = 0
+   
     //MARK: SearchViewController Loading Post func
     func loadSearchFeedPost(completion : @escaping () -> Void) {
         blockCount = 0
@@ -416,7 +395,7 @@ class FirebaseServices {
                 }
         }
     }
-    var chatBlockCount = 0
+
     func getChatRoomLists(completion : @escaping () -> Void) {
         chatBlockCount = 0
         guard let currentUID = CurrentUID.shread.currentUID else { return }

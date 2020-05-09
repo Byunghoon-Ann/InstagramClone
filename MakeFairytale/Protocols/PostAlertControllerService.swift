@@ -151,6 +151,7 @@ extension ListViewController: AlertPresentable {
                 try Auth.auth().signOut()
                 guard let vc = UIStoryboard.loginVC() else { return }
                 self.navigationController?.pushViewController(vc, animated: true)
+                CommonService.shread.orderSelect = .option
             } catch let error {
                 print("error : \(error.localizedDescription)")
             }
@@ -169,6 +170,8 @@ extension ListViewController: AlertPresentable {
                 .document(currentUID).setData(["uid":userUID]) { error in
                     Firestore.firestore().followerRef(currentUID).document(userUID).delete() {  error in
                         Firestore.firestore().followingRef(currentUID).document(userUID).delete() { error in
+                            CommonService.shread.orderSelect = .option
+
                             self.loadFesta()
                         }
                     }
@@ -184,6 +187,8 @@ extension ListViewController: AlertPresentable {
     
     func reportAction() -> AlertComponents {
         let okAction = AlertActionComponent(title: "신고", style: .destructive) { _ in
+//            CommonService.shread.orderSelect = .option
+
 //            guard let currentUID = CurrentUID.shread.currentUID else { return }
 //            guard let indexPath = AnimationControl.shread.indexPath else { return }
 //            let data = self.festaData[indexPath.row]
@@ -191,7 +196,6 @@ extension ListViewController: AlertPresentable {
         }
         
         let cancel = AlertActionComponent(title: "취소", style: .cancel,handler: nil)
-        
         
         let alert = AlertComponents(title: "신고", message: "신고하시겠습니까?", actions: [cancel,okAction])
         

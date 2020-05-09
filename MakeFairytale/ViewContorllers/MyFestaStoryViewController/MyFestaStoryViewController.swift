@@ -51,7 +51,6 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     var secondMyview = MyPostTableView()
     var thirdMyView = DidChattingCustomView()
     var myUID : String?
-    var yourName: String = ""
     var yourUID: String {
         return CurrentUID.shread.yourUID
     }
@@ -70,13 +69,13 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         pageCollectionView.backgroundColor = .white
+        myProfileImage.layer.cornerRadius = myProfileImage.bounds.height/2
+
         countLabelSetUp(horizontalStackView, false)
         countLabelSetUp(guideCountLabelStackView, true)
         setupCustomTabBar()
         setupPageCollectionView()
         
-        myProfileName.text = yourName
-        myProfileImage.layer.cornerRadius = myProfileImage.bounds.height/2
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(moveFollowList(_:)))
         horizontalStackView.addGestureRecognizer(tapGesture)
     }
@@ -92,14 +91,6 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
         viewUserProfile(FakeBarButton, fixMyInfomation,
                         myProfileName, myProfileImage,
                         horizontalStackView) { print("load Success") }
-        
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        FakeBarButton.isHidden = true
-        fixMyInfomation.isHidden = false
-        CurrentUID.shread.yourUID = ""
     }
     
     //MARK: Following,UnFollow Button
@@ -108,6 +99,11 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     }
     
     @IBAction func FakeBarButton(_ sender: Any) {
+        FakeBarButton.isHidden = true
+        fixMyInfomation.isHidden = false
+        CurrentUID.shread.yourUID = ""
+        CurrentUID.shread.profileURL = nil
+        CurrentUID.shread.nickName = nil
         navigationController?.popViewController(animated: true)
     }
     
@@ -160,7 +156,7 @@ MyViewsDelegate, MyPostTableViewDelegate, DidChattingCustomViewDelegate{
     }
     
     func countLabelSetUp(_ stackView: UIStackView, _  guide: Bool) {
-        let guideText = ["게시물","팔로우","팔로잉"]
+        let guideText = ["게시물","팔로워","팔로잉"]
         for i in 0..<3 {
             let label = UILabel()
             label.textAlignment = .center
@@ -271,28 +267,20 @@ extension MyFestaStoryViewController {
     }
     
     //MARK:- 사용자 혹은 타인의 프로필 조회시 발생하는 구별기능
-    func viewUserProfile(_ backButton: UIButton, _ fixProfileButton: UIButton, _ profileName: UILabel, _ profileImageView: UIImageView, _ stackView: UIStackView,
-                         completion : @escaping () -> Void) {
+    func viewUserProfile(_ backButton: UIButton, _ fixProfileButton: UIButton, _ profileName: UILabel,
+                         _ profileImageView: UIImageView, _ stackView: UIStackView, completion : @escaping () -> Void) {
         guard let currentUID = CurrentUID.shread.currentUID else { return }
         
-        if !yourUID.isEmpty, !yourUID.isEmpty {
+        firstMyView.myPosts.removeAll()
+        if !yourUID.isEmpty {
+            guard let nickName = CurrentUID.shread.nickName,
+                let profileURL = CurrentUID.shread.profileURL else { return }
             backButton.isHidden = false
             fixProfileButton.isUserInteractionEnabled = false
             fixProfileButton.isHidden = true
             
-            userRef
-                .document("\(yourUID)")
-                .getDocument() { userData, error in
-                    
-                    if let error = error { print("profileLoadError! \(error.localizedDescription)") }
-                    
-                    guard let userData = userData?.data() else { return }
-                    let userThumbnail = userData["profileImageURL"] as? String ?? ""
-                    let nickName = userData["nickName"] as? String ?? ""
-                    
-                    profileName.text = nickName
-                    profileImageView.sd_setImage(with: URL(string: userThumbnail))
-            }
+            profileName.text = nickName
+            profileImageView.sd_setImage(with: URL(string: profileURL))
             
             postRef.order(by: yourUID).getDocuments { [weak self] query, error in
                 guard let self = self else { return  }
@@ -345,7 +333,7 @@ extension MyFestaStoryViewController {
                             followCountLabel.text = "\(firstMyView.myPosts.count)"
                         }
                     }
-                }else {
+                } else {
                     continue
                 }
             }
@@ -371,7 +359,8 @@ extension MyFestaStoryViewController {
             .getDocument { snapshot, error in
                 guard let snapshot = snapshot?.data() else{
                     self.checkFollowButton.isSelected = false
-                    return }
+                    return
+                }
                 
                 guard let follow = snapshot["follow"] as? Bool else {
                     self.checkFollowButton.isSelected = false

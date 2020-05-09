@@ -528,7 +528,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="SearchCell" translatesAutoresizingMaskIntoConstraints="NO" id="qLH-0D-qyu" customClass="SearchCell" customModule="FestaGram" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" reuseIdentifier="SearchCell" translatesAutoresizingMaskIntoConstraints="NO" id="qLH-0D-qyu" customClass="SearchCell" customModule="FestaGram" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="130" height="131"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Stk-zC-DvH">
@@ -610,7 +610,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Msw-Lo-xIZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="492.75362318840581" y="-263.16964285714283"/>
+            <point key="canvasLocation" x="-271" y="-289"/>
         </scene>
         <!--페스타그램-->
         <scene sceneID="I8f-bF-aoZ">
@@ -1156,7 +1156,22 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6BU-7L-I7t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1428.985507246377" y="-263.31521739130437"/>
+            <point key="canvasLocation" x="557" y="-289"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="7aM-ns-Y4k">
+            <objects>
+                <viewController id="vPm-gE-gTr" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sDz-va-e41">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="paM-FW-Qoj"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WLt-eE-2PH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1304" y="-289"/>
         </scene>
         <!--View Posting Controller-->
         <scene sceneID="SIT-UY-Kj5">
@@ -1814,9 +1829,8 @@
                                     <outlet property="delegate" destination="oI5-n4-dCD" id="blc-or-WGu"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tIY-jF-W63">
-                                <rect key="frame" x="20" y="48" width="59" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tIY-jF-W63">
+                                <rect key="frame" x="20" y="2" width="59" height="33"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="대화기록">
@@ -1826,17 +1840,30 @@
                                     <action selector="backButton:" destination="oI5-n4-dCD" eventType="touchUpInside" id="Ip3-IP-45u"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="23e-fQ-vaQ">
+                                <rect key="frame" x="365" y="4" width="29" height="29"/>
+                                <state key="normal" image="icon-small"/>
+                                <connections>
+                                    <action selector="chatRoomOptionButton:" destination="oI5-n4-dCD" eventType="touchUpInside" id="Fgs-vv-gmJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="23e-fQ-vaQ" firstAttribute="top" secondItem="e0p-7V-chc" secondAttribute="top" constant="4" id="BgZ-TK-kNA"/>
                             <constraint firstItem="e0p-7V-chc" firstAttribute="trailing" secondItem="640-CQ-fTO" secondAttribute="trailing" constant="20" id="CYk-MD-x3D"/>
+                            <constraint firstItem="tIY-jF-W63" firstAttribute="leading" secondItem="e0p-7V-chc" secondAttribute="leading" constant="20" id="Iwx-rq-7li"/>
+                            <constraint firstItem="Flc-gh-Lko" firstAttribute="top" secondItem="23e-fQ-vaQ" secondAttribute="bottom" constant="3" id="M6t-aG-5Z1"/>
                             <constraint firstItem="e0p-7V-chc" firstAttribute="trailing" secondItem="Flc-gh-Lko" secondAttribute="trailing" id="RBX-XV-Ou2"/>
                             <constraint firstItem="Kwo-wE-JZB" firstAttribute="leading" secondItem="e0p-7V-chc" secondAttribute="leading" constant="20" id="Xhu-SQ-q8Q"/>
                             <constraint firstItem="Flc-gh-Lko" firstAttribute="top" secondItem="e0p-7V-chc" secondAttribute="top" constant="36" id="YsV-15-2Yl"/>
+                            <constraint firstItem="tIY-jF-W63" firstAttribute="top" secondItem="e0p-7V-chc" secondAttribute="top" constant="2" id="aYZ-hZ-Lmp"/>
                             <constraint firstItem="e0p-7V-chc" firstAttribute="bottom" secondItem="640-CQ-fTO" secondAttribute="bottom" constant="5" id="fvh-Y0-sIJ"/>
                             <constraint firstItem="Kwo-wE-JZB" firstAttribute="centerY" secondItem="640-CQ-fTO" secondAttribute="centerY" id="gAC-Oy-4CC"/>
                             <constraint firstItem="640-CQ-fTO" firstAttribute="top" secondItem="Flc-gh-Lko" secondAttribute="bottom" constant="7" id="s2o-Lb-1zP"/>
+                            <constraint firstItem="23e-fQ-vaQ" firstAttribute="centerY" secondItem="tIY-jF-W63" secondAttribute="centerY" id="sFD-an-R41"/>
                             <constraint firstItem="Flc-gh-Lko" firstAttribute="leading" secondItem="e0p-7V-chc" secondAttribute="leading" id="tGG-bT-ub2"/>
+                            <constraint firstItem="e0p-7V-chc" firstAttribute="trailing" secondItem="23e-fQ-vaQ" secondAttribute="trailing" constant="20" id="xjS-zi-QEe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="e0p-7V-chc"/>
                     </view>
@@ -2655,6 +2682,7 @@
         <image name="editSelected@40x40" width="40" height="40"/>
         <image name="homeDeselected@40x40" width="40" height="40"/>
         <image name="homeSelected@40x40" width="40" height="40"/>
+        <image name="icon-small" width="29" height="29"/>
         <image name="likeAfter" width="512" height="512"/>
         <image name="likeAfterTab@40x40" width="40" height="40"/>
         <image name="likeBefore" width="512" height="512"/>

@@ -52,7 +52,7 @@ class LoginViewController: UIViewController{
                             self.navigationController?.pushViewController(vc, animated: true)
                         } else {
                             self.agreeUsingAppMessage(currentUID: currentUID) {
-                               CurrentUID.shread.currentUID = currentUID
+                                CurrentUID.shread.currentUID = currentUID
                                 self.activityIndicatorView.stopAnimating()
                             }
                         }
@@ -90,22 +90,27 @@ class LoginViewController: UIViewController{
                             let uid = user.uid
                             self.activityIndicatorView.startAnimating()
                             self.agreeUsingAppMessage(currentUID: uid) {
-//                                guard let startView = self.storyboard?.instantiateViewController(withIdentifier: "tab") as? UITabBarController else { return }
-//                                self.navigationController?.pushViewController(startView, animated: true)
+
                                 CurrentUID.shread.currentUID = uid
                                 self.activityIndicatorView.stopAnimating()
                             }
-                            
-                            
                         }
         }
     }
-        
+    
     
     //MARK:회원가입 화면 이동 BUtton
     @IBAction func newSignBtn (_ sender : UIButton) {
-        guard let vc = UIStoryboard.newSignInVC() else { return }
-        navigationController?.pushViewController(vc, animated: true)
+        if Auth.auth().currentUser != nil {
+            let msg = "이용기록이 있고 계정이 존재하기에 새로운 계정 생성은 불가능합니다 비밀번호를 잊어버리셨다면 비밀번호 찾기를 이용해주세요."
+            let alert = UIAlertController(title: "안내", message: msg, preferredStyle: .alert)
+            let ok = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(ok)
+            present(alert,animated: true)
+        } else {
+            guard let vc = UIStoryboard.newSignInVC() else { return }
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     //MARK:비밀번호, 이메일 찾기 버튼
@@ -176,7 +181,7 @@ extension LoginViewController : UITextFieldDelegate {
     func alertUsingMessage(_ currentUID: String) {
          guard let startView = self.storyboard?.instantiateViewController(withIdentifier: "tab") as? UITabBarController else { return }
         let today = DateCalculation.shread.dateFomatter.string(from: Today.shread.today)
-        let message = "어플리케이션 이용 중 광고 유도/선동/비속어/욕설/음란물/URL형식의 내용을 포함한 글이나 사진 대화문은 게재할 수 없으며 이를 무시하고 게재될 경우나 신고조치를 당하여 위의 제재사항에 포함된 경우 24시간 이내에 무통보 삭제 및 계정이용이 중지됩니다. 위의 제재사항을 이해하였으며 앱을 이용하시려면 동의를 눌러주세요."
+        let message = "어플리케이션 이용 중 광고 폭력/아동,동물 및 모든 학대/선동/비속어/욕설/음란물/URL형식의 내용을 포함한 글이나 사진 대화문은 게재할 수 없으며 이를 무시하고 게재될 경우나 신고조치를 당하여 위의 제재사항에 포함된 경우 24시간 이내에 무통보 삭제 및 계정이용이 중지됩니다. 위의 제재사항을 이해하였으며 앱을 이용하시려면 동의를 눌러주세요."
         let alert = UIAlertController(title: "주의사항", message: message, preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "동의", style: .default) { _ in
@@ -207,13 +212,11 @@ extension LoginViewController : UITextFieldDelegate {
         self.present(alert,animated: true)
     }
 
-    
     func agreeUsingAppMessage(currentUID: String, completion: @escaping () -> Void)  {
         guard let startView = self.storyboard?.instantiateViewController(withIdentifier: "tab") as? UITabBarController else { return }
         Firestore.firestore()
             .collection("UsingAgreeUser")
             .document(currentUID).getDocument { snapshot, error in
-                print(44444)
                 guard let snapshot = snapshot?.data() else {
                     self.alertUsingMessage(currentUID)
                     completion()
@@ -228,12 +231,7 @@ extension LoginViewController : UITextFieldDelegate {
                     self.alertUsingMessage(currentUID)
                     completion()
                 }
-                
         }
     }
-    
-
-
-
 }
 

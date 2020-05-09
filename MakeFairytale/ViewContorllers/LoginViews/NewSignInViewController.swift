@@ -21,7 +21,6 @@ class NewSignInViewController : UIViewController {
     @IBOutlet weak var checkPasswordSignField: UITextField! //패스워드 재확인 필드
    
     var pickerController = UIImagePickerController()
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +33,7 @@ class NewSignInViewController : UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        alertUsingMessage()
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismisskeyboard))
         view.addGestureRecognizer(tap)
     }
@@ -77,6 +77,8 @@ class NewSignInViewController : UIViewController {
     }
     
     @IBAction func creatUser(_ sender : UIButton) {
+        if CurrentUID.shread.usingAgree == true {
+
         activityIndicatorView.isHidden = false
         activityIndicatorView.startAnimating()
         guard let emailFieldText = emailSignFelid.text else { return }
@@ -141,6 +143,9 @@ class NewSignInViewController : UIViewController {
                 }
             }
         }
+        } else {
+            alertUsingMessage()
+        }
     }
     
     @IBAction func creatCancel(_ sender : UIButton) {
@@ -166,6 +171,34 @@ extension NewSignInViewController : UIImagePickerControllerDelegate,UINavigation
         present(ImagePicker,animated:  true)
         
     }
+}
+
+extension NewSignInViewController {
+    func alertUsingMessage() {
+        if CurrentUID.shread.usingAgree == false {
+            let message = "어플리케이션 이용 중 광고 폭력/아동,동물 및 모든 학대/선동/비속어/욕설/음란물/URL형식의 내용을 포함한 글이나 사진, 대화문, 프로필 사진은 게재할 수 없으며 이를 무시하고 게재 될 경우나 신고 조치를 당하여 위의 제재사항에 포함된 경우 24시간 이내에 무통보 삭제 및 계정이용이 중지됩니다. 위의 제재사항을 이해하였으며 앱을 이용하시려면 동의를 눌러주세요."
+            let alert = UIAlertController(title: "주의사항", message: message, preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "동의", style: .default) { _ in
+                CurrentUID.shread.usingAgree = true
+            }
+            
+            let cancel = UIAlertAction(title: "비동의", style: .cancel) { _ in
+                CurrentUID.shread.usingAgree = false
+                let msg = "동의 하지 않으면 회원가입이 마무리 되지 않습니다."
+                let alert = UIAlertController(title: "안내", message: msg, preferredStyle: .alert)
+                let ok = UIAlertAction(title: "확인", style: .cancel)
+                
+                alert.addAction(ok)
+                self.present(alert,animated: true)
+            }
+            
+            alert.addAction(okAction)
+            alert.addAction(cancel)
+            self.present(alert,animated: true)
+        }
+    }
+
 }
 
 extension String {

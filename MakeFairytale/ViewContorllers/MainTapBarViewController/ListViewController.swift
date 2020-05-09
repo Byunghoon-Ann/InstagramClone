@@ -178,7 +178,8 @@ extension ListViewController : UICollectionViewDelegate,UICollectionViewDelegate
 
       vc.firstMyView.myUID = currentUID
       CurrentUID.shread.yourUID = following[indexPath.row].userUID
-      vc.yourName = following[indexPath.row].userName
+      CurrentUID.shread.profileURL = following[indexPath.row].userThumbnail
+      CurrentUID.shread.nickName = following[indexPath.row].userName
       navigationController?.pushViewController(vc, animated: true)
    }
    
