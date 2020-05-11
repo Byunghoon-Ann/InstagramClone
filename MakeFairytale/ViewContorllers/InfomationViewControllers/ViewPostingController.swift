@@ -14,7 +14,8 @@ import Firebase
 fileprivate let currentUID = Auth.auth().currentUser?.uid
 fileprivate let postRef = Firestore.firestore().posts
 
-class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCollectionViewDelegate{
+class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCollectionViewDelegate, AlertPresentable {
+    
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var pageControl: UIPageControl!
@@ -49,6 +50,9 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
     
     lazy var dateFomatter = DateCalculation.shread.dateFomatter
     lazy var today = Today.shread.today
+    var optionAlertComponents: AlertComponents {
+        return selectAlertType(by: CommonService.shread.orderSelect)
+    }
     
     let calendar = Calendar(identifier: .gregorian)
     var post: Posts?
@@ -188,6 +192,10 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         viewRepleActionCustom()
     }
     
+    @IBAction func optionButton(_ sender: Any) {
+        presentAlert(.actionSheet)
+    }
+    
     func viewPostingData () {
         guard let post = post else { return }
         profileImageView.sd_setImage(with: URL(string: post.userProfileImage))
@@ -202,7 +210,6 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         if likeCountLabel.text == "-1 좋아요" {
             likeCountLabel.text = "0 좋아요"
         }
-        
         
         mySelfProfileImageView.sd_setImage(with: URL(string: post.userProfileImage))
         collectionView.postURLs = post.userPostImage

@@ -13,6 +13,7 @@
 		F60B8713236059F800110F31 /* MyPostTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B8711236059F700110F31 /* MyPostTableView.swift */; };
 		F60B8714236059F800110F31 /* MyPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F60B8712236059F700110F31 /* MyPostTableViewCell.xib */; };
 		F60B871623605E3200110F31 /* MyPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60B871523605E3200110F31 /* MyPostTableViewCell.swift */; };
+		F60CACE92469239A00B5DA16 /* ViewPostingControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60CACE82469239A00B5DA16 /* ViewPostingControllerExtension.swift */; };
 		F60EF53623F6AFD60041EA86 /* UITableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60EF53523F6AFD60041EA86 /* UITableViewCellExtension.swift */; };
 		F623887F235B0CE3007E88D3 /* ViewPostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F623887E235B0CE3007E88D3 /* ViewPostingController.swift */; };
 		F627EF2D2355BF1300508ED3 /* MyFestaStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F627EF2C2355BF1300508ED3 /* MyFestaStoryViewController.swift */; };
@@ -105,6 +106,7 @@
 		F60B8711236059F700110F31 /* MyPostTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableView.swift; sourceTree = "<group>"; };
 		F60B8712236059F700110F31 /* MyPostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPostTableViewCell.xib; sourceTree = "<group>"; };
 		F60B871523605E3200110F31 /* MyPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableViewCell.swift; sourceTree = "<group>"; };
+		F60CACE82469239A00B5DA16 /* ViewPostingControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPostingControllerExtension.swift; sourceTree = "<group>"; };
 		F60EF53523F6AFD60041EA86 /* UITableViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellExtension.swift; sourceTree = "<group>"; };
 		F623887E235B0CE3007E88D3 /* ViewPostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPostingController.swift; sourceTree = "<group>"; };
 		F627EF2C2355BF1300508ED3 /* MyFestaStoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFestaStoryViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
@@ -271,6 +273,7 @@
 				F643613F23EDDC24004D26D4 /* UIViewControllerExtension.swift */,
 				F6E54F802449A8A700D7F9FD /* FirebaseExtension.swift */,
 				F68B16F7245EDBA5007D1E56 /* MarkViewControllerExtension.swift */,
+				F60CACE82469239A00B5DA16 /* ViewPostingControllerExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -636,6 +639,7 @@
 				F62B3C5623EC1C02007ED262 /* ListFollwingCell.swift in Sources */,
 				F67463DD23F54CE20082F5F6 /* ChatModel.swift in Sources */,
 				F6DE31D0236AF06200039BF1 /* DidChatMembersList.swift in Sources */,
+				F60CACE92469239A00B5DA16 /* ViewPostingControllerExtension.swift in Sources */,
 				F632F8AD23E345D900591D3C /* YourData.swift in Sources */,
 				F632F8B123E3466D00591D3C /* RepleData.swift in Sources */,
 				F632F8AB23E345C200591D3C /* ChattingData.swift in Sources */,

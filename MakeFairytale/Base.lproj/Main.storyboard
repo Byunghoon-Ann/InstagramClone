@@ -1484,6 +1484,14 @@
                                     <constraint firstAttribute="height" constant="41" id="k37-Ja-fix"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDL-KR-Gps">
+                                <rect key="frame" x="374" y="17" width="20" height="22"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="option@20x20"/>
+                                <connections>
+                                    <action selector="optionButton:" destination="yak-kb-uVm" eventType="touchUpInside" id="NES-P0-4QP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -1493,6 +1501,8 @@
                             <constraint firstItem="nRC-hH-N22" firstAttribute="leading" secondItem="hbp-mT-ahL" secondAttribute="leading" id="POS-T4-sas"/>
                             <constraint firstItem="aRG-zK-1Uz" firstAttribute="top" relation="lessThanOrEqual" secondItem="hbp-mT-ahL" secondAttribute="top" constant="777" id="T1S-to-nPb"/>
                             <constraint firstItem="hbp-mT-ahL" firstAttribute="trailing" secondItem="bCR-gC-OoU" secondAttribute="trailing" constant="244" id="iJm-RD-32e"/>
+                            <constraint firstItem="hbp-mT-ahL" firstAttribute="trailing" secondItem="rDL-KR-Gps" secondAttribute="trailing" constant="20" id="kXX-s9-FgE"/>
+                            <constraint firstItem="rDL-KR-Gps" firstAttribute="centerY" secondItem="bCR-gC-OoU" secondAttribute="centerY" id="o4b-Yx-33S"/>
                             <constraint firstItem="bCR-gC-OoU" firstAttribute="leading" secondItem="hbp-mT-ahL" secondAttribute="leading" constant="20" id="oni-uz-Zft"/>
                             <constraint firstItem="hbp-mT-ahL" firstAttribute="trailing" secondItem="nRC-hH-N22" secondAttribute="trailing" id="sBM-0H-P7L"/>
                             <constraint firstItem="nRC-hH-N22" firstAttribute="top" secondItem="bCR-gC-OoU" secondAttribute="bottom" constant="8" id="sSd-id-Eej"/>
