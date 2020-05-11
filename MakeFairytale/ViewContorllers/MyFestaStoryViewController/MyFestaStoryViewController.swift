@@ -272,7 +272,8 @@ extension MyFestaStoryViewController {
         guard let currentUID = CurrentUID.shread.currentUID else { return }
         
         firstMyView.myPosts.removeAll()
-        if !yourUID.isEmpty {
+        if !yourUID.isEmpty, yourUID != CurrentUID.shread.currentUID {
+            print(yourUID)
             guard let nickName = CurrentUID.shread.nickName,
                 let profileURL = CurrentUID.shread.profileURL else { return }
             backButton.isHidden = false
@@ -323,6 +324,9 @@ extension MyFestaStoryViewController {
                 }
             }
         } else {
+            if yourUID == currentUID {
+                FakeBarButton.isHidden = false
+            }
             firstMyView.myPosts.removeAll()
             for i in 0..<FirebaseServices.shread.myPostData.count {
                 if FirebaseServices.shread.myPostData[i].userUID == currentUID {

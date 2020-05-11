@@ -124,8 +124,9 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         guard let currentUID = currentUID else { return }
         guard let vc = UIStoryboard.myFestaStoryVC() else { return }
         vc.firstMyView.myUID = currentUID
+        CurrentUID.shread.nickName = post.userName
+        CurrentUID.shread.profileURL = post.userProfileImage
         CurrentUID.shread.yourUID = post.userUID
-        
         navigationController?.pushViewController(vc, animated: true)
     }
     

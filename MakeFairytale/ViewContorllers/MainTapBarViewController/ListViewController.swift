@@ -141,9 +141,10 @@ final class ListViewController: UIViewController, UIGestureRecognizerDelegate, U
    
    func newPostCheck() {
       guard let currentUID = CurrentUID.shread.currentUID else { return }
-      if State.shread.checkNotificationCheck == true || State.shread.autoRefreshingCheck == true {
-         State.shread.autoRefreshingCheck = false
-         State.shread.checkNotificationCheck = false
+      let stateCheck = State.shread
+      if stateCheck.checkNotificationCheck == true || stateCheck.autoRefreshingCheck == true {
+         stateCheck.autoRefreshingCheck = false
+         stateCheck.checkNotificationCheck = false
          userRef
             .document(currentUID)
             .updateData(["newPost":false]) { [weak self] error in

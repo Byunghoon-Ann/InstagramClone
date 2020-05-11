@@ -52,6 +52,7 @@ class ChattingRoomViewController : UIViewController,AlertPresentable {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -169,8 +170,7 @@ class ChattingRoomViewController : UIViewController,AlertPresentable {
     
     //MARK:사용자 정보 불러오기
     func getYourInfo() {
-         let yourUID = CurrentUID.shread.yourUID
-
+        let yourUID = CurrentUID.shread.yourUID
         firestoreRef
             .collection("user")
             .document("\(yourUID)")
@@ -181,7 +181,7 @@ class ChattingRoomViewController : UIViewController,AlertPresentable {
                 let profile = yourData["profileImageURL"] as? String
                 let data = YourData(userName: nickname, userThumbnail: profile)
                 self.userModel = data
-            self.getMessageList()
+                self.getMessageList()
         }
         
     }
@@ -351,7 +351,9 @@ extension ChattingRoomViewController {
             CommonService.shread.orderSelect = .option
             print("차단")
         }
-        let cancel = AlertActionComponent(title: "취소", style: .cancel, handler: nil)
+        let cancel = AlertActionComponent(title: "취소", style: .cancel) { _ in
+            CommonService.shread.orderSelect = .option
+        }
         let alert = AlertComponents(title: "차단", message: blockMessage, actions:[okAction,cancel])
         return alert
     }
@@ -363,7 +365,9 @@ extension ChattingRoomViewController {
             CommonService.shread.orderSelect = .option
              print("나가기")
         }
-        let cancel = AlertActionComponent(title: "취소", style: .cancel, handler: nil)
+        let cancel = AlertActionComponent(title: "취소", style: .cancel) { _ in
+            CommonService.shread.orderSelect = .option
+        }
         let alert = AlertComponents(title: "차단", message: outMessage, actions:[okAction,cancel])
         return alert
     }
@@ -373,10 +377,11 @@ extension ChattingRoomViewController {
         let okAction = AlertActionComponent(title: "신고", style: .destructive) { _ in
             //FIXME: 신고기능
             CommonService.shread.orderSelect = .option
-
              print("신고")
         }
-        let cancel = AlertActionComponent(title: "취소", style: .cancel, handler: nil)
+        let cancel = AlertActionComponent(title: "취소", style: .cancel) { _ in
+            CommonService.shread.orderSelect = .option
+        }
         let alert = AlertComponents(title: "차단", message: reportMessage, actions:[okAction,cancel])
         return alert
     }

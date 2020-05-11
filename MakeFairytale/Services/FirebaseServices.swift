@@ -342,7 +342,6 @@ class FirebaseServices {
                         completion()
                     } else {
                         for document in snapshot {
-                            
                            
                             let docID = document.documentID
                             guard let data = document.data() as? [String:[String:Any]] else { return }
@@ -362,7 +361,6 @@ class FirebaseServices {
                                                         likeCount,
                                                         viewCheck) { data in
                                                             self.posts.append(data)
-                                                             print(self.blockCount,"sddsds")
                                                             if self.posts.count == snapshot.count - self.blockCount {
                                                                 completion()
                                                             }
