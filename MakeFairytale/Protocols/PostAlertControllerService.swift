@@ -187,12 +187,12 @@ extension ListViewController: AlertPresentable {
     
     func reportAction() -> AlertComponents {
         let okAction = AlertActionComponent(title: "신고", style: .destructive) { _ in
-//            CommonService.shread.orderSelect = .option
+            CommonService.shread.orderSelect = .option
 
-//            guard let currentUID = CurrentUID.shread.currentUID else { return }
-//            guard let indexPath = AnimationControl.shread.indexPath else { return }
-//            let data = self.festaData[indexPath.row]
-//            Firestore.firestore().collection("ReportList").document(data.userUID).collection(currentUID).addDocument(data: ["reportType":"","urlKey":data.urlkey,"reporter":currentUID])
+            guard let currentUID = CurrentUID.shread.currentUID else { return }
+            guard let indexPath = AnimationControl.shread.indexPath else { return }
+            let data = self.festaData[indexPath.row]
+            Firestore.firestore().collection("ReportList").document(data.userUID).collection(currentUID).addDocument(data: ["reportType":"","urlKey":data.urlkey,"reporter":currentUID])
         }
         
         let cancel = AlertActionComponent(title: "취소", style: .cancel,handler: nil)
