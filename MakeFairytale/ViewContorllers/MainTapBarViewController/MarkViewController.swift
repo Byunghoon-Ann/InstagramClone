@@ -16,7 +16,11 @@ class MarkViewController : UIViewController {
     @IBOutlet weak var activityIndicatior: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     
-    var goodPost: [Posts] = []
+    var goodPost: [Posts] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     var alertLabel : UILabel = {
         let label = UILabel()
@@ -64,6 +68,7 @@ class MarkViewController : UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        
         count = 0
     }
 }
@@ -112,8 +117,8 @@ extension MarkViewController {
                     let viewUrl = Firestore.firestore().viewCount(postID)
                     
                     likeUrl.document(currentUID).getDocument {snapshot, error in
-                        viewUrl.getDocuments { viewCheck, error in
-                            likeUrl.getDocuments { likeCheck,error  in
+                        likeUrl.getDocuments { viewCheck, error in
+                            viewUrl.getDocuments { likeCheck,error  in
                                 Posts.cleanData(allSnapshot.count,
                                                 i.data() as? [String:[String:Any]] ,
                                                 postID,
@@ -128,7 +133,6 @@ extension MarkViewController {
                                                         self.goodPost.append(data)
                                                     }
                                                     if allSnapshot.count == self.count {
-                                                        self.tableView.reloadData()
                                                         completion()
                                                     }
                                 }

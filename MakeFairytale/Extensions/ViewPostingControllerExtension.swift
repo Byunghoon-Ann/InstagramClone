@@ -87,17 +87,17 @@ extension ViewPostingController {
     }
     
     func outAction() -> AlertComponents {
-        
-        let outMessage = "대화방을 나가면 대화 기록이 없어집니다. 나가시겠습니까?"
-        let okAction = AlertActionComponent(title: "나가기", style: .destructive) { _ in
-            //FIXME: 나가기 기능
-            CommonService.shread.orderSelect = .option
-            print("나가기")
-        }
+        let msg = "수정 화면으로 이동하시겠습니까?"
         let cancel = AlertActionComponent(title: "취소", style: .cancel) { _ in
             CommonService.shread.orderSelect = .option
         }
-        let alert = AlertComponents(title: "차단", message: outMessage, actions:[okAction,cancel])
+        let okAction = AlertActionComponent(title: "이동", style: .default) { _ in
+            CommonService.shread.orderSelect = .option
+            guard let vc = UIStoryboard.albumVC() else { return }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+        let alert = AlertComponents(title: "수정",message: msg , actions:[okAction,cancel])
         return alert
     }
     
@@ -110,7 +110,6 @@ extension ViewPostingController {
         
         let reportMessage = "신고를 하시면 24시간 내에 신고된 컨텐츠의 내용을 확인한 후 제재가 결정됩니다."
         let okAction = AlertActionComponent(title: "신고", style: .destructive) { [weak self] _ in
-            //FIXME: 신고기능
             guard let self = self else { return }
             let alert = UIAlertController(title: "신고사유", message: "신고 사유를 정해주세요", preferredStyle: .alert)
             let unsafe = UIAlertAction(title: "부적절한 콘텐츠", style: .default) { _ in

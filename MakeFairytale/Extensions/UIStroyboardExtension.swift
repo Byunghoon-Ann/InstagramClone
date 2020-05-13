@@ -56,4 +56,8 @@ extension UIStoryboard {
     static func chattingRoomVC() -> ChattingRoomViewController? {
         return UIStoryboard.instantiate(by: .main)
     }
+    
+    static func albumVC() -> AlbumViewController? {
+        return UIStoryboard.instantiate(by: .main)
+    }
 }

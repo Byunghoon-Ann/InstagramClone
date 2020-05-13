@@ -151,20 +151,24 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         }
     }
     
-   @IBAction func likeAction(_ sender: UIButton) {
+    @IBAction func likeAction(_ sender: UIButton) {
         guard let _post = post else { return }
+    
         guard let currentUID = currentUID else { return }
         let today = dateFomatter.string(from: self.today)
         
+        
         if sender.isSelected == false {
             sender.isSelected = true
-            likeCountLabel.text = "\(_post.likeCount + 1) 좋아요"
             post?.likeCount += 1
+            likeCountLabel.text = "\(_post.likeCount + 1) 좋아요"
+            
         }else {
             sender.isSelected = false
-            likeCountLabel.text = "\(_post.likeCount - 1 ) 좋아요"
             post?.likeCount -= 1
+            likeCountLabel.text = "\(_post.likeCount - 1 ) 좋아요"
         }
+
         DispatchQueue.main.async {
             self.likeButtonAction(today, _post, currentUID) { }
         }
@@ -198,6 +202,7 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
     
     func viewPostingData () {
         guard let post = post else { return }
+    
         profileImageView.sd_setImage(with: URL(string: post.userProfileImage))
         userName[0].text = post.userName
         userName[1].text = post.userName
@@ -206,7 +211,8 @@ class ViewPostingController : UIViewController ,UITextFieldDelegate, PostImageCo
         goodMark.isSelected = post.goodMark
         
         likeCountLabel.text = post.goodMark ? "\(post.likeCount) 좋아요":"\(post.likeCount - 1) 좋아요"
-        
+    
+        print(post.goodMark,post.userUID,post.likeCount)
         if likeCountLabel.text == "-1 좋아요" {
             likeCountLabel.text = "0 좋아요"
         }
